@@ -1,0 +1,6 @@
+# Maven aliases
+alias mcp='mvn clean package'
+alias mci='mvn clean install'
+alias cmcp='clear;mvn clean package'
+alias mjet='mvn jetty:run'
+alias mvndepenceies='mvn dependency:tree -Dverbose'

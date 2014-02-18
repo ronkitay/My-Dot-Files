@@ -20,6 +20,8 @@ alias tf='tail -f'
 # Usefull Commands
 alias dirsize='du -h -d 1 .'
 alias trimfile='cp /dev/null'
+# listwritable - lists writable files excluding programming related files like maven's target directory, intellij files and Mac files
+alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml"'
 function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
 function sendfile { [[ $# != 3 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)sendFile <file> <subject> <recepient>$(tput sgr0)\n" && return 1; uuencode $1 $1 | mail -s $2 $3; }
 
