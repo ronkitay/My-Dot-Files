@@ -1,0 +1,10 @@
+# Git related aliases
+alias gstatus='git status'
+alias gadd='git add' 
+alias gdiff='git diff' 
+alias grevert='git reset HEAD' 
+alias stash='git stash'
+alias unstash='git stash pop'
+alias gpull='git pull --rebase'
+function gcommit { git commit -m "$*"; }
+alias gpush='git pushb'
