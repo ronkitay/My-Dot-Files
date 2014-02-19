@@ -1,15 +1,14 @@
 # Usefull Commands
-function printHeader { printf "\n$(tput bold)$(tput setaf 2)$*$(tput sgr0)\n\n";}
+function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ============$(tput sgr0)\n\n";}
 function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================================$(tput sgr0)\n\n";}
 
 # Git aliases
-alias gstatus='printHeader ============ Git Status ===========;git status; printFooter'
-alias gadd='printHeader ============ Git Add ===========;git add; printFooter'
+alias gstatus='printHeader Git Status ;git status; printFooter'
+function gadd { printHeader Git Add ;git add $*; printFooter; }
 alias gdiff='git diff'
 alias grevert='git reset HEAD'
-alias stash='printHeader ============ Git Stash ===========;git stash; printFooter'
-alias unstash='printHeader ============ Git Unstash ===========;git stash pop; printFooter'
-alias gpull='printHeader ============ Git Pull \(rebase\)  ===========;git pull --rebase; printFooter'
-function gcommit { printHeader ============ Git Commit \($*\) ===========;git commit -m "$*"; printFooter; }
-alias gpush='printHeader ============ Git Push \(Branch only\) ===========;git pushb; printFooter'
-
+alias stash='printHeader Git Stash ;git stash; printFooter'
+alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
+alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
+function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
+alias gpush='printHeader Git Push \(Branch only\) ;git pushb; printFooter'
