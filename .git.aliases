@@ -6,7 +6,8 @@ function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================
 alias gstatus='printHeader Git Status ;git status; printFooter'
 function gadd { printHeader Git Add ;git add $*; printFooter; }
 alias gdiff='git diff'
-alias grevert='git reset HEAD'
+alias gunstage='git reset HEAD'
+function grevert { printHeader Git Revert \(checkout -- \); git checkout -- $*; printFooter; }
 alias stash='printHeader Git Stash ;git stash; printFooter'
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
