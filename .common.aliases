@@ -5,24 +5,40 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias ll='ls -la'
+#A# h;History
 alias h='history'
+#A# psu;Current User's processes
 alias psu='ps -efu ${LOGNAME}'
+#A# g;grep
 alias g='egrep --color'
+#A# gi;grep (Case insensitive)
 alias gi='egrep --color -i'
+#A# xg;xargs grep
 alias xg='xargs egrep --color'
+#A# xgi;xargs grep (Case insensitive)
 alias xgi='xargs egrep --color -i'
+#A# fnf;Find files
 alias fnf='find . -type f'
+#A# fnf;Find directories
 alias fnd='find . -type d'
+#A# fgrp;Find all files and grep on them
 alias fgrp='find . -type f | xargs egrep --no-messages --color'
+#A# fgrpi;Find all files and grep on them (Case insensitive)
 alias fgrpi='find . -type f | xargs egrep --no-messages --color -i'
+#A# tf;Tail with follow (tail -f)
 alias tf='tail -f'
 
 # Usefull Commands
+#A# dirsize;Calculates the size of the current directory
 alias dirsize='du -h -d 1 .'
+#A# trimfile;Empties a file (good for truncating logs)
 alias trimfile='cp /dev/null'
-# listwritable - lists writable files excluding programming related files like maven's target directory, intellij files and Mac files
+#A# listwritable;lists writable files excluding programming related files like maven's target directory, intellij files and Mac files
 alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml"'
+#A# cdd;Changes dir to the first directory in the tree which partially matches the name
 function cdd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdd <regex>$(tput sgr0)\n" && return 1; dir=$(find . -type d | egrep "$1" | head -1); cd "${dir}"; }
+#A# mcd;Make and Change directory
 function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
+#A# sendfile;Send a file via eMail
 function sendfile { [[ $# != 3 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)sendFile <file> <subject> <recepient>$(tput sgr0)\n" && return 1; uuencode $1 $1 | mail -s $2 $3; }
 

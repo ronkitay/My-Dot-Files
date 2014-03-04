@@ -3,13 +3,22 @@ function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ====
 function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================================$(tput sgr0)\n\n";}
 
 # Git aliases
+#A# gstatus;Git status
 alias gstatus='printHeader Git Status ;git status; printFooter'
+#A# gadd;Git status
 function gadd { printHeader Git Add ;git add $*; printFooter; }
 alias gdiff='git diff'
+#A# gunstage;Unstages file(s) (git reset HEAD)
 alias gunstage='git reset HEAD'
+#A# grevert;Revert file(s) (git checkout --)
 function grevert { printHeader Git Revert \(checkout -- \); git checkout -- $*; printFooter; }
+#A# stash;git stash
 alias stash='printHeader Git Stash ;git stash; printFooter'
+#A# unstash;git stash pop
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
+#A# gpull;git pull --rebase
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
+#A# gcommit;git commit
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
+#A# gpush;git pushb (branch only)
 alias gpush='printHeader Git Push \(Branch only\) ;git pushb; printFooter'

@@ -6,3 +6,5 @@ export LSCOLORS=CxFxxxxxBxxxxxxxxxxxxx
 
 source ${HOME}/.aliases
 
+export PATH=${HOME}/.scripts:${PATH}
+

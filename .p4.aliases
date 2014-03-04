@@ -1,7 +1,11 @@
 # Perforce (P4) Aliases
+#A# p4sync;perforce sync
 alias p4sync='p4 sync ./... '
+#A# p4refresh;perforce sync -f
 alias p4refresh='p4 sync -f ./... '
+#A# p4edit;p4 edit
 alias p4edit='p4 edit '
+#A# p4def;shows the default changelist
 alias p4def='p4 change -o'
-# p4pend - shows the pending changes for the current user based on ${LOGNAME}
+##A p4pend;shows the pending changes for the current user based on ${LOGNAME}
 alias p4pend='p4 changes -u ${LOGNAME} -s pending ./...'
