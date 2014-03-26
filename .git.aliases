@@ -20,5 +20,5 @@ alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
 #A# gcommit;git commit
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
-#A# gpush;git pushb (branch only)
-alias gpush='printHeader Git Push \(Branch only\) ;git pushb; printFooter'
+#A# gpush;git push (branch only)
+alias gpush='printHeader Git Push \(Branch only\) ;git push --tags origin HEAD; printFooter'
