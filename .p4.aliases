@@ -7,5 +7,8 @@ alias p4refresh='p4 sync -f ./... '
 alias p4edit='p4 edit '
 #A# p4def;shows the default changelist
 alias p4def='p4 change -o'
-##A p4pend;shows the pending changes for the current user based on ${LOGNAME}
+#A# p4pend;shows the pending changes for the current user based on ${LOGNAME}
 alias p4pend='p4 changes -u ${LOGNAME} -s pending ./...'
+
+#A# p4view;shows the content of a file based on its depot path 
+function p4view { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)p4view <depot-path>$(tput sgr0)\n" && return 1; p4 print $1 | less; }

@@ -16,7 +16,7 @@ function grevert { printHeader Git Revert \(checkout -- \); git checkout -- $*; 
 alias stash='printHeader Git Stash ;git stash; printFooter'
 #A# unstash;git stash pop
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
-#A# gpull;git pull --rebase
+#A# gpull;git ~EMP~pull~NORM~ --rebase
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
 #A# gcommit;git commit
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
