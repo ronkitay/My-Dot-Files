@@ -1,0 +1,59 @@
+#!/bin/bash
+
+. .commons
+
+LOGIN_REMINDER_FILE=${HOME}/loginReminder
+
+function Usage() 
+{
+	SCRIPT=`basename $0`
+	printf "Usage:\n"
+	printf "\t${BRIGHT}${SCRIPT} -d${NORMAL}\t\t\t- Remove the reminder if it exists\n"
+	printf "\t${BRIGHT}${SCRIPT} -v${NORMAL}\t\t\t- View the reminder if it exists\n"
+	printf "\t${BRIGHT}${SCRIPT} -s <reminder-message> ${NORMAL}\t- Sets the reminder\n"
+	printf "\t${BRIGHT}${GREEN}E.g.: ${NORMAL}${BRIGHT}${SCRIPT} -s 'Hello World!'${NORMAL}\n"
+	printf "\n"
+        exit 1
+}
+
+function RemoveReminder()
+{
+	[[ -f ${LOGIN_REMINDER_FILE} ]] && {
+		printf "${BRIGHT}${GREEN}Removed login reminder${NORMAL}\n"
+		rm ${LOGIN_REMINDER_FILE}
+	} || {
+		printf "${BRIGHT}${RED}There is no login reminder!${NORMAL}\n"
+	}
+}
+
+function ViewReminder()
+{
+	[[ -f ${LOGIN_REMINDER_FILE} ]] && {
+		printf "\n${BRIGHT}Reminder: ${GREEN}"
+		cat ${LOGIN_REMINDER_FILE}
+		printf "${NORMAL}\n\n"
+	} || {
+		printf "${BRIGHT}${RED}There is no login reminder!${NORMAL}\n"
+	}
+}
+
+function SetReminder()
+{
+	[[ $1 == "" ]] && printf "${BRIGHT}${RED}Missing reminder${NORMAL}\n" && Usage
+
+	echo $1 > ${LOGIN_REMINDER_FILE}
+
+	printf "${BRIGHT}${GREEN}Login reminder set succesfully${NORMAL}\n"
+}
+
+[[ $# -eq 0 ]] && Usage
+
+[[ $1 == "-d" ]] && RemoveReminder
+
+[[ $1 == "-v" ]] && ViewReminder
+
+[[ $1 == "-s" ]] && SetReminder "$2"
+
+
+
+
