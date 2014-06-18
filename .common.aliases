@@ -27,6 +27,8 @@ alias fgrp='find . -type f | xargs egrep --no-messages --color'
 alias fgrpi='find . -type f | xargs egrep --no-messages --color -i'
 #A# tf;Tail with follow (tail -f)
 alias tf='tail -f'
+#A# rless;Less with color support (less -R)
+alias rless='less -R'
 
 # Usefull Commands
 #A# dirsize;Calculates the size of the current directory

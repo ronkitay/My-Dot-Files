@@ -3,4 +3,5 @@ source ${ALIASES_BASE_DIR}/.common.aliases
 source ${ALIASES_BASE_DIR}/.mvn.aliases
 source ${ALIASES_BASE_DIR}/.git.aliases
 source ${ALIASES_BASE_DIR}/.p4.aliases
+source ${ALIASES_BASE_DIR}/.java.aliases
 
