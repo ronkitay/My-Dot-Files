@@ -1,0 +1,10 @@
+OS=`uname -s`
+
+#A# epoc;Converts dates from "epoch" format to human format
+if [ "${OS}" = "Linux" ] ; then
+	function epoc() { [[ $# == 0 ]] && SECONDS_SINCE_EPOCH=$(date +%s); [[ "$1" == "-h" ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold) epoc [<seconds-since-epoch|milli-seconds-since-epoch>]$(tput sgr0)\n$(tput bold)$(tput setaf 2)Examples:$(tput sgr0)\n\t$(tput bold)epoc 1404382131$(tput sgr0)\n\t$(tput bold) epoc 1404305405000\n" && return 1; [[ $# == 1 ]] && SECONDS_SINCE_EPOCH=$1; [[ $(printf ${SECONDS_SINCE_EPOCH} | wc -c) -gt 10 ]] && let SECONDS_SINCE_EPOCH=${SECONDS_SINCE_EPOCH}/1000; printf "\n$(tput bold)$(tput bold)$(tput setaf 2)%-20s\t| %-35s\t| %-35s$(tput sgr0)\n" "Seconds Since Epoch" "Time (Local)" "Time (GMT)"; printf "%-20s\t| %-35s\t| %-35s\n\n" ${SECONDS_SINCE_EPOCH} "$(date -d @${SECONDS_SINCE_EPOCH} '+%d-%h-%Y %H:%M:%S %Z (%:z)')" "$(export TZ=GMT; date -d @${SECONDS_SINCE_EPOCH} '+%d-%h-%Y %H:%M:%S %Z (%:z)')" ; }
+else
+	function epoc() { [[ $# == 0 ]] && SECONDS_SINCE_EPOCH=$(date +%s); [[ "$1" == "-h" ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold) epoc [<seconds-since-epoch|milli-seconds-since-epoch>]$(tput sgr0)\n$(tput bold)$(tput setaf 2)Examples:$(tput sgr0)\n\t$(tput bold)epoc 1404382131$(tput sgr0)\n\t$(tput bold)epoc 1404305405000\n" && return 1; [[ $# == 1 ]] && SECONDS_SINCE_EPOCH=$1; [[ $(printf ${SECONDS_SINCE_EPOCH} | wc -c) -gt 10 ]] && let SECONDS_SINCE_EPOCH=${SECONDS_SINCE_EPOCH}/1000; printf "\n$(tput bold)$(tput bold)$(tput setaf 2)%-20s\t| %-35s\t| %-35s$(tput sgr0)\n" "Seconds Since Epoch" "Time (Local)" "Time (GMT)"; printf "%-20s\t| %-35s\t| %-35s\n\n" ${SECONDS_SINCE_EPOCH} "$(date -r ${SECONDS_SINCE_EPOCH} '+%d-%h-%Y %H:%M:%S %Z (%z)' | sed 's/(+\([0-9][0-9]\)/(+\1:/')" "$(export TZ=GMT; date -r ${SECONDS_SINCE_EPOCH} '+%d-%h-%Y %H:%M:%S %Z (%z)' | sed 's/(+\([0-9][0-9]\)/(+\1:/')" ; }
+
+fi
+

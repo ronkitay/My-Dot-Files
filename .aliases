@@ -1,7 +1,9 @@
 ALIASES_BASE_DIR=${HOME}
+ALIASES_BASE_DIR=/Users/rkitay/Projects/Personal/My-Dot-Files
 source ${ALIASES_BASE_DIR}/.common.aliases
 source ${ALIASES_BASE_DIR}/.mvn.aliases
 source ${ALIASES_BASE_DIR}/.git.aliases
 source ${ALIASES_BASE_DIR}/.p4.aliases
 source ${ALIASES_BASE_DIR}/.java.aliases
+source ${ALIASES_BASE_DIR}/.util.aliases
 
