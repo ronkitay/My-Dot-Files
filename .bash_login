@@ -1,0 +1,40 @@
+# ~/.bash_login - used for interactive flows
+[[ -r ~/.bashrc ]] && . ~/.bashrc
+
+#################################################
+##                  GIT SETTINGS               ##
+#################################################
+
+function git-branch-name {
+	git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3-
+}
+function git-branch-prompt {
+	local branch=`git-branch-name`
+	if [ $branch ]; then printf " [%s]" $branch; fi
+}
+
+#################################################
+##               PERSONAL SETTINGS             ##
+#################################################
+
+export PS1="\u@\h [\A]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\] \[\033[0;36m\]\w\[\033[0m\]> "
+
+#################################################
+##              TERMINAL SETTINGS              ##
+#################################################
+export PROMPT_COMMAND='echo -ne "\033]0;`basename ${PWD}`\007"'
+export EDITOR=vi
+
+#################################################
+##                COLOR SETTINGS               ##
+#################################################
+export CLICOLOR=1
+export LSCOLORS=CxFxxxxxBxxxxxxxxxxxxx
+
+#################################################
+##                PERSONAL REMINDER            ##
+#################################################
+[[ -f ${HOME}/loginReminder ]] && {
+	REMINDER=$(cat ${HOME}/loginReminder)
+	printf "\n$(tput bold)Reminder: $(tput setaf 2)${REMINDER}$(tput sgr0)\n\n"
+}
