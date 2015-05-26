@@ -1,0 +1,1 @@
+alias cwd='pwd | tr "\n" " " | pbcopy'

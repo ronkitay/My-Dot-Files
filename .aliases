@@ -5,4 +5,6 @@ source ${ALIASES_BASE_DIR}/.git.aliases
 source ${ALIASES_BASE_DIR}/.p4.aliases
 source ${ALIASES_BASE_DIR}/.java.aliases
 source ${ALIASES_BASE_DIR}/.util.aliases
+source ${ALIASES_BASE_DIR}/.mac.aliases
+
 

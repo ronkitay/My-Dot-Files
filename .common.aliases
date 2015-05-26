@@ -30,6 +30,9 @@ alias tf='tail -f'
 #A# rless;Less with color support (less -R)
 alias rless='less -R'
 
+#A# clearformatting;Clears formatting of everything piped to it
+alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''
+
 # Usefull Commands
 #A# dirsize;Calculates the size of the current directory
 alias dirsize='du -h -d 1 .'
