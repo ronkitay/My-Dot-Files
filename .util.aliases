@@ -16,3 +16,6 @@ fi
 
 #A# title;Sets or resets the terminals title
 function title { [[ $# == 0 ]] && { printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title -r$(tput sgr0)\t# Resets the title\n"; printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title <title>$(tput sgr0)\t# Sets the tile\n"; printf "$(tput bold)$(tput setaf 2) e.g.:$(tput sgr0) $(tput bold)title this is awesome!$(tput sgr0)\n"; return 1; }; [[ $# == 1 && $1 == "-r" ]] && export PROMPT_COMMAND='echo -ne "\033]0;`basename ${PWD}`\007"' && return 0; TITLE=$*; export PROMPT_COMMAND='echo -ne "\033]0;$TITLE\007"'; }
+
+#A# cdfile;Changes dir to the directory a file is located in
+function cdfile { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdfile <file>$(tput sgr0)\n" && return 1; dir=$(echo $1 | sed 's/\(.*\/\).*/\1/'); cd $dir; }
