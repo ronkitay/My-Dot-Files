@@ -1,0 +1,8 @@
+# Name (35 Chars)                     | Description (Unlimited - but keep less than 100 to make it readable)
+######################################|###########################################################################################
+Undo/Revert/Rollback git LAST commit|git reset --soft HEAD~1
+Undo/Revert/Rollback any git commit|git revert <commit-id> # Will revert the requested commit and commit it (but will not push!) ~NL~git revert -n <commit-id> # Will revert the requested commit and stage it (but will not commit!)
+Debug HTTP Client|org.apache.http.wire=DEBUG
+Remote Debug Arguments|-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=XXX
+Shutdown/powerdown Linux machine|poweroff
+git cherry-pick|git cherry-pick -n <commit-id>~NL~   -n => No Commit~NL~  <commit-id> ==> E.g. 8474a1fe9386307234509903351852a2a9b11da7
