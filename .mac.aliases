@@ -1,1 +1,2 @@
 alias cwd='pwd | tr "\n" " " | pbcopy'
+alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp Wi-Fi'
