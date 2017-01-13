@@ -29,6 +29,7 @@ alias fgrpi='find . -type f | xargs egrep --no-messages --color -i'
 alias tf='tail -f'
 #A# rless;Less with color support (less -R)
 alias rless='less -R'
+alias untar='tar zxvf'
 
 #A# clearformatting;Clears formatting of everything piped to it
 alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''

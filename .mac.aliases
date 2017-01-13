@@ -1,2 +1,3 @@
 alias cwd='pwd | tr "\n" " " | pbcopy'
+alias togglewifi='networksetup -getairportpower en0 | grep "On" && networksetup -setairportpower en0 off || networksetup -setairportpower en0 on'
 alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp Wi-Fi'
