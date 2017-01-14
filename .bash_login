@@ -1,6 +1,8 @@
 # ~/.bash_login - used for interactive flows
 [[ -r ~/.bashrc ]] && . ~/.bashrc
 
+export HISTTIMEFORMAT='[%F] [%T]  '
+
 #################################################
 ##                  GIT SETTINGS               ##
 #################################################
