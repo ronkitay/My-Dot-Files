@@ -3,6 +3,10 @@ function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ====
 function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================================$(tput sgr0)\n\n";}
 
 # Git aliases
+#A# gcm; Git Checkout Master
+alias gcm='printHeader "Git Checkout => Master" ;git checkout master; printFooter'
+#A# gcheckout; Git Checkout ...
+function gcheckout { printHeader "Git Checkout ($*)" ; git checkout $*; printFooter; }
 #A# gstatus;Git status
 alias gstatus='printHeader Git Status ;git status; printFooter'
 #A# glog;Git log (pretty)
@@ -14,10 +18,14 @@ alias gdiff='git diff'
 alias gunstage='git reset HEAD'
 #A# grevert;Revert file(s) (git checkout --)
 function grevert { printHeader Git Revert \(checkout -- \); git checkout -- $*; printFooter; }
-#A# stash;git stash
-alias stash='printHeader Git Stash ;git stash; printFooter'
+#A# stash;git stash save
+function stash { printHeader Git Stash \($*\) ;git stash save "$*"; printFooter; }
 #A# unstash;git stash pop
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
+#A# stashlist;git stash list
+alias stashlist='printHeader Git stash list;git stash list; printFooter'
+#A# stashshow;git stash show
+alias stashshow='printHeader Git stash show;git stash show; printFooter'
 #A# gpull;git ~EMP~pull~NORM~ --rebase
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
 #A# gcommit;git commit
