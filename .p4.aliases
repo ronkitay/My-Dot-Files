@@ -1,4 +1,7 @@
-# Perforce (P4) Aliases
+## Perforce (P4) Aliases
+
+alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml|\.perforce|afiedt.buf"'
+
 #A# p4sync;perforce sync
 alias p4sync='p4 sync ./... '
 #A# p4refresh;perforce sync -f
