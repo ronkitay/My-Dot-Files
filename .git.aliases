@@ -3,6 +3,45 @@ function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ====
 function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================================$(tput sgr0)\n\n";}
 
 # Git aliases
+
+function branches {
+    branches_here ""
+}
+
+function branches_here {
+    context="$1"
+    for dir in `ls -d *  2> /dev/null`; do 
+        if [[ -d ${dir} ]]; then
+            cd $dir
+            current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
+            if [[ $? != 0 ]]; then
+                branches_here "${context}${dir}/"
+                context="$1"
+            else
+                current_repo="$(tput setaf 7)$(basename `pwd`)"
+                current_branch=$((git branch 2> /dev/null) | grep \* | cut -c3-)
+                if [[ ${current_branch} == "master" ]]; then
+                    current_branch="$(tput bold)$(tput setaf 2)${current_branch}$(tput sgr0)"
+                else
+                    current_branch="$(tput bold)$(tput setaf 4)${current_branch}$(tput sgr0)"
+                fi
+                printf "$(tput bold)"        
+                if [[ ${context} != "" ]]; then
+                    printf "$(tput setaf 5)${context}"
+                    context_length=${#context}
+                    let padding=45-${context_length}
+                    printf "%-${padding}s $(tput sgr0) \t==> %s\n" ${current_repo} "${current_branch}"
+                else
+                    printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${current_branch}"
+                fi
+                
+            fi
+            cd ..
+        fi
+    done 
+}
+
+
 #A# gcm; Git Checkout Master
 alias gcm='printHeader "Git Checkout => Master" ;git checkout master; printFooter'
 #A# gcheckout; Git Checkout ...
@@ -27,7 +66,7 @@ alias stashlist='printHeader Git stash list;git stash list; printFooter'
 #A# stashshow;git stash show
 alias stashshow='printHeader Git stash show;git stash show; printFooter'
 #A# gpull;git ~EMP~pull~NORM~ --rebase
-alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase; printFooter'
+alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase origin `git-branch-name`; printFooter'
 #A# gcommit;git commit
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
 #A# gpush;git push (branch only)
