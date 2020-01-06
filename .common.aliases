@@ -36,7 +36,7 @@ alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''
 
 # Usefull Commands
 #A# dirsize;Calculates the size of the current directory
-alias dirsize='du -h -d 1 .'
+alias dirsize='du -h -d 1 . | sort -h'
 #A# trimfile;Empties a file (good for truncating logs)
 alias trimfile='cp /dev/null'
 #A# listwritable;lists writable files excluding programming related files like maven's target directory, intellij files and Mac files
