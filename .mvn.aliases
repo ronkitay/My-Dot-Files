@@ -12,3 +12,33 @@ alias mvndependencies='mvn dependency:tree -Dverbose'
 alias cdmod='while [[ ! -f pom.xml && $(pwd) != "/" ]] ; do cd ..; done'
 
 
+function maven_clean_all() {
+    maven_clean_here ""
+}
+
+function maven_clean_here() {
+    context="$1"
+    for dir in `ls -d *  2> /dev/null`; do 
+        if [[ -d ${dir} ]]; then
+            cd $dir
+            current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
+            if [[ $? != 0 ]]; then
+                branches_here "${context}${dir}/"
+                context="$1"
+            else
+                current_repo="$(tput setaf 7)$(basename `pwd`)"
+                printf "$(tput bold)"        
+                if [[ ${context} != "" ]]; then
+                    printf "$(tput setaf 5)${context}"
+                    context_length=${#context}
+                    let padding=45-${context_length}
+                    printf "%-${padding}s $(tput sgr0) \t==> %s\n" ${current_repo}"
+                else
+                    printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo}"
+                fi
+                mvn clean
+            fi
+            cd ..
+        fi
+    done 
+}
