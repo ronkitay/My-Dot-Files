@@ -4,18 +4,18 @@ function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================
 
 # Git aliases
 
-function branches {
-    branches_here ""
+function repobranches {
+    show_branches_here ""
 }
 
-function branches_here {
+function show_branches_here {
     context="$1"
     for dir in `ls -d *  2> /dev/null`; do 
         if [[ -d ${dir} ]]; then
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
             if [[ $? != 0 ]]; then
-                branches_here "${context}${dir}/"
+                show_branches_here "${context}${dir}/"
                 context="$1"
             else
                 current_repo="$(tput setaf 7)$(basename `pwd`)"
@@ -39,6 +39,95 @@ function branches_here {
             cd ..
         fi
     done 
+}
+
+function repostatus {
+    show_repostatus_here ""
+}
+
+function show_repostatus_here {
+    context="$1"
+    for dir in `ls -d *  2> /dev/null`; do 
+        if [[ -d ${dir} ]]; then
+            cd $dir
+            current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
+            if [[ $? != 0 ]]; then
+                show_repostatus_here "${context}${dir}/"
+                context="$1"
+            else
+                current_repo="$(tput setaf 7)$(basename `pwd`)"
+                git remote update > /dev/null  2>&1
+                repo_status=$(git status -uno | grep 'Your branch')
+                current_branch=$((git branch 2> /dev/null) | grep \* | cut -c3-)
+                if [[ ${repo_status} == "" ]]; then
+                    repo_status="No diff from remote"
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 2)${repo_status}$(tput sgr0)"
+                elif [[ ${repo_status} == "Your branch is up to date with"* ]]; then
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 2)${repo_status}$(tput sgr0)"
+                else
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 4)${repo_status}$(tput sgr0)"
+                fi
+                printf "$(tput bold)"        
+                if [[ ${context} != "" ]]; then
+                    printf "$(tput setaf 5)${context}"
+                    context_length=${#context}
+                    let padding=45-${context_length}
+                    printf "%-${padding}s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
+                else
+                    printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
+                fi
+                
+            fi
+            cd ..
+        fi
+    done 
+}
+
+
+function reposync {
+    syncrepos_here ""
+}
+
+function syncrepos_here {
+    context="$1"
+    for dir in `ls -d *  2> /dev/null`; do 
+        if [[ -d ${dir} ]]; then
+            cd $dir
+            current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
+            if [[ $? != 0 ]]; then
+                syncrepos_here "${context}${dir}/"
+                context="$1"
+            else
+                current_repo="$(tput setaf 7)$(basename `pwd`)"
+                git pull --rebase origin `git-branch-name` > /dev/null  2>&1
+                repo_status=$(git status -uno | grep 'Your branch')
+                current_branch=$((git branch 2> /dev/null) | grep \* | cut -c3-)
+                if [[ ${repo_status} == "" ]]; then
+                    repo_status="No diff from remote"
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 2)${repo_status}$(tput sgr0)"
+                elif [[ ${repo_status} == "Your branch is up to date with"* ]]; then
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 2)${repo_status}$(tput sgr0)"
+                else
+                    repo_status="$(tput bold)${current_branch}: $(tput setaf 4)${repo_status}$(tput sgr0)"
+                fi
+                printf "$(tput bold)"        
+                if [[ ${context} != "" ]]; then
+                    printf "$(tput setaf 5)${context}"
+                    context_length=${#context}
+                    let padding=45-${context_length}
+                    printf "%-${padding}s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
+                else
+                    printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
+                fi
+                
+            fi
+            cd ..
+        fi
+    done 
+}
+
+function git-branch-name {
+	git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3-
 }
 
 
