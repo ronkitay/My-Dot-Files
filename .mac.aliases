@@ -1,3 +1,6 @@
 alias cwd='pwd | tr "\n" " " | pbcopy'
 alias togglewifi='networksetup -getairportpower en0 | grep "On" && networksetup -setairportpower en0 off || networksetup -setairportpower en0 on'
 alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp Wi-Fi'
+alias untar='tar zxvf'
+
+alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''
