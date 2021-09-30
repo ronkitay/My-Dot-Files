@@ -42,3 +42,5 @@ function maven_clean_here() {
         fi
     done 
 }
+
+alias mdep='mvn dependency:tree -Dverbose'

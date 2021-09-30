@@ -47,4 +47,3 @@ function cdd { [[ $# == 0 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput 
 function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
 #A# sendfile;Send a file via eMail
 function sendfile { [[ $# != 3 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)sendFile <file> <subject> <recepient>$(tput sgr0)\n" && return 1; uuencode $1 $1 | mail -s $2 $3; }
-

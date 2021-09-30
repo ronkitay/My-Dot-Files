@@ -1,8 +1,4 @@
-#################################################
-##             csitools integration            ##
-#################################################
-
-csitools --check
+source ${HOME}/.bindkey.settings
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -88,34 +84,7 @@ HIST_STAMPS="[%F] [%T]"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git virtualenv fzf )
 
-## FZF plugin configs
-
-export FZF_COMPLETION_TRIGGER='//'
-
-export FZF_BASE=/usr/local/bin/fzf
-
-
-export FZF_DEFAULT_COMMAND='fd'
-
-export FZF_DEFAULT_OPTS="-m --border --layout=reverse --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-    *)            fzf "$@" ;;
-  esac
-}
-
-_fzf_complete_grevert() {
-  _fzf_complete --multi --reverse --prompt="revert> " -- "$@" < <(git status | egrep "deleted|modified" | awk '{$1=""; print $NF}')
-}
-
-_fzf_complete_gadd() {
-  _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(git st --short | awk '{print($NF)}')
-}
+source ${HOME}/.fzf.settings
 
 source $ZSH/oh-my-zsh.sh
 
@@ -145,21 +114,7 @@ export EDITOR='vim'
 #
 # Example aliases
 
-bindkey "[D" backward-word
-bindkey "[C" forward-word
-
 source ${HOME}/.aliases
-
-#################################################
-##               PERFORCE SETTINGS             ##
-#################################################
-
-export P4USER=rkitay
-export P4DIFF=/usr/bin/diff
-#export P4PORT="rsh:crackpipe ssh -2 -a -c blowfish -l p4ssh -q -x p4p.munich.corp.akamai.com /bin/true"
-# export P4PORT="rsh:crackpipe ssh -2 -a -l p4ssh -q -x perforce.akamai.com /bin/true"
-export P4PORT="rsh:ssh -2 -a -l p4source -q -x p4p.telaviv.corp.akamai.com"
-export P4CONFIG=".perforce"
 
 #################################################
 ##               PATH SETTINGS              ##
@@ -176,12 +131,6 @@ export PATH="${PATH}:/usr/local/go/bin"
 
 # Confluent Cloud CLI
 export PATH="${PATH}:/Users/rkitay/tools/confluent-kafka/bin"
-
-#################################
-##             java            ##
-#################################
-# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home"
-# export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0`
 
 #################################
 ##             K8S             ##
@@ -201,8 +150,6 @@ eval "$(jenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-complete -W "envs list cm fm ul pg padawan la-ddc la-dlr nperf ssqa chi sj" csi
 
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 

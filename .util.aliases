@@ -39,3 +39,21 @@ function smart_change_dir_to_child() {
         fi
     fi
 }
+
+function edwhich() {
+  edit `which $1`
+}
+
+# Notes
+
+NOTES_DIR="${HOME}/OneDrive/Notes"
+function gonotes() {
+    cd "${NOTES_DIR}"
+}
+
+function mute() {
+    currentVolume=$(echo $(osascript -e 'get volume settings' | cut -d',' -f1 | cut -d':' -f2)/10 | bc)
+    osascript -e "set Volume 0"
+    sleep 30
+    osascript -e "set Volume ${currentVolume}"
+}
