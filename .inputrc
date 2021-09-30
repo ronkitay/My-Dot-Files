@@ -1,0 +1,12 @@
+## Not needed in ZSH, I'm not sure if needed in bash anymore either
+
+# Make auto completion case insensitive
+set completion-ignore-case On
+
+# Use Alt+Left and Alt+Right to move between words
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+# Use Alt+Left and Alt+Right to move between words in VI (Doesn't work)
+#"\e\e[D": vi-prev-word
+#"\e\e[C": vi-next-word
