@@ -1,0 +1,2 @@
+bindkey "[D" backward-word # Bind `Alt + Left Arrow` to move one word back
+bindkey "[C" forward-word # Bind `Alt + Right Arrow` to move one word forward
