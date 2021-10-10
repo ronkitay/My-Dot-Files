@@ -1,4 +1,5 @@
 source ${HOME}/.bindkey.settings
+source ${HOME}/.fzf.settings
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -7,12 +8,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$PATH:$HOME/utils/apache-maven-3.5.4/bin/mvn
-
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/rkitay/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -84,8 +81,6 @@ HIST_STAMPS="[%F] [%T]"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git virtualenv fzf )
 
-source ${HOME}/.fzf.settings
-
 source $ZSH/oh-my-zsh.sh
 
 SHARE_HISTORY=off
@@ -113,40 +108,6 @@ export EDITOR='vim'
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-
-source ${HOME}/.aliases
-
-#################################################
-##               PATH SETTINGS              ##
-#################################################
-
-# Add my scripts to the path
-export PATH="${HOME}/.scripts:${PATH}"
-
-# Add Maven to the path
-export PATH="${PATH}:/Users/rkitay/utils/apache-maven-3.5.4/bin"
-
-# Put Go in the path
-export PATH="${PATH}:/usr/local/go/bin"
-
-# Confluent Cloud CLI
-export PATH="${PATH}:/Users/rkitay/tools/confluent-kafka/bin"
-
-#################################
-##             K8S             ##
-#################################
-
-# Taken from: https://kubernetes.io/docs/reference/kubectl/cheatsheet/ 
-source <(kubectl completion zsh)
-
-source <(helm completion zsh)
-
-#################################
-##             jenv            ##
-#################################
-
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
