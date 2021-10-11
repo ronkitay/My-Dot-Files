@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. .commons
+
+printf "Running on ${BRIGHT}${BLUE}`pwd`${NORMAL} ... "
+
+LINE_COUNT=$(find . -type f | egrep '\.java$|\.scala$' | xargs cat | sed 's/^[ \t{}]*$/IGNOREME_EMPTY_OR_BRACKETS/' | sed 's/^[ \t]*\*/IGNOREME_BLOCKCOMMENT/' | sed 's/^[ \t]*\/\//IGNOREME_LINECOMMENT/' | sed 's/^[ \t]*\/\*/IGNOREME_BLCOKCOMMENTSTART/' | sed 's/[ \t]*import /IGNOREME_IMPORT/' | sed 's/[ \t]*package /IGNOREME_PACKAGE/' | grep -v '^IGNOREME' | wc -l)
+
+printf "\tFound ${BRIGHT}${GREEN}%d${NORMAL} lines of code\n\n" ${LINE_COUNT}

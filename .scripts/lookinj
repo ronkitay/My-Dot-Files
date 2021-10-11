@@ -1,0 +1,37 @@
+#!/bin/tcsh -f
+
+if ( $#argv < 2 ) then
+        printf "Scans all the classes in JARs in the specified directory for usage of the specified string\n"
+        printf "Usage: $0 <dir> [<jar-file-pattern>] <string-to-search-for>\n"
+        printf "Example: $0 . Exception\n"
+        printf 'Example: '$0' $JAVA_HOME/lib "equals"\n'
+        exit 1
+endif
+
+set DIR = "$1"
+set FILTER="*.jar"
+if ($#argv == 3) then
+	set FILTER="$2"
+endif
+
+shift
+
+set STRING = "$2"
+
+foreach J ( `find $DIR -name "$FILTER"` )
+        printf $J 
+        printf ":\n"
+	foreach C (`jar tvf $J | awk '{print $(NF)}' | grep ".class"`)
+		printf "."
+		set className=`echo $C | sed 's/.class//'`
+		set res=`javap -classpath $J -c -private $className | grep "$STRING" | sed 's/$/;/'`
+		set outputsize = `echo $res|wc -c`
+		if ( $outputsize > 1 )  then
+			printf "\nMatch found in [$J\!$className]\n "
+			printf  "$res\n" | tr ';' '\n' | grep --color "$STRING"
+		endif
+	end
+	printf "\n"
+end
+
+printf "\n"

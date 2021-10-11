@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+#################################
+# Requires 'switchaudio-osx': 
+# brew install switchaudio-osx
+#################################
+
+source $(csitools -m)/aliases/.common.aliases
+
+SwitchAudioSource -s "Plantronics DA70" -t output
+SwitchAudioSource -s "Plantronics DA70" -t input
+
+printf "${BRIGHT}${GREEN}Moving to Plantronics Headset${NORMAL}\n"
