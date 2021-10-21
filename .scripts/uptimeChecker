@@ -2,13 +2,13 @@ UP_DAYS=$(uptime | egrep -o 'up \d+ days' | egrep -o '\d+')
 WARN_DAYS=7
 ALERT_DAYS=14
 CRITICAL_DAYS=21
-if [[ ${UP_DAYS} -gt ${CRITICAL_DAYS} ]]; then
+if [[ ${UP_DAYS} -ge ${CRITICAL_DAYS} ]]; then
     echo "${BRIGHT}${RED}Your computer has been up for ${YELLOW}${UP_DAYS}${RED} days - restart now!!!${NORMAL}"
 else
-    if [[ ${UP_DAYS} -gt ${ALERT_DAYS} ]]; then
+    if [[ ${UP_DAYS} -ge ${ALERT_DAYS} ]]; then
         echo "${BRIGHT}${YELLOW}Your computer has been up for ${RED}${UP_DAYS}${YELLOW} days - you should restart it!${NORMAL}"
     else
-        if [[ ${UP_DAYS} -gt ${WARN_DAYS} ]]; then
+        if [[ ${UP_DAYS} -ge ${WARN_DAYS} ]]; then
             echo "${BRIGHT}${CYAN}Your computer has been up for ${RED}${UP_DAYS}${CYAN} days - consider restarting${NORMAL}"
         fi
     fi
