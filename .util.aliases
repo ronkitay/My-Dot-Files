@@ -55,6 +55,24 @@ function smart_change_dir_to_child() {
     fi
 }
 
+complete -W "$(ls ${SOME_DIR})" go_some_dir
+function go_some_dir() {
+    rgb R G B
+    cd ${SOME_DIR}
+    smart_change_dir_to_child $*
+}
+
+complete -W "$(ls ${SOME_ROOT_DIR})" go_some_root_dir
+function go_some_root_dir() 
+{
+    cd ${SOME_ROOT_DIR}
+    if [[ $# -gt 0 ]]; then
+        smart_change_dir_to_child $*
+    else
+        ls -la
+    fi
+}
+
 function edwhich() {
   edit `which $1`
 }
