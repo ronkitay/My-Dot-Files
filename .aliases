@@ -1,4 +1,4 @@
-ALIASES_BASE_DIR=${HOME}
+ALIASES_BASE_DIR=$(dirname $0:A)
 source ${ALIASES_BASE_DIR}/.common.aliases
 source ${ALIASES_BASE_DIR}/.git.aliases
 source ${ALIASES_BASE_DIR}/.iterm.aliases
