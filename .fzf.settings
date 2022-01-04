@@ -24,5 +24,5 @@ _fzf_complete_grevert() {
 }
 
 _fzf_complete_gadd() {
-  _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(git st --short | awk '{print($NF)}')
+  _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(git status --short | awk '{print($NF)}')
 }
