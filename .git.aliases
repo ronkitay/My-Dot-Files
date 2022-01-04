@@ -160,3 +160,6 @@ alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase origin `git-bra
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
 #A# gpush;git push (branch only)
 alias gpush='printHeader Git Push \(Branch only\) ;git push --tags origin HEAD; printFooter'
+
+#A# cdroot; Jumps to Git Repo root
+alias cdroot='cd $(git rev-parse --show-toplevel)'
