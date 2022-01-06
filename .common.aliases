@@ -19,7 +19,9 @@ alias xg='xargs egrep --color'
 alias xgi='xargs egrep --color -i'
 #A# fnf;Find files
 alias fnf='find . -type f'
-#A# fnf;Find directories
+#A# fnsrc;Find Source Files
+alias fnsrc='find . -type f -not -path "*/.git/*" -not -path "*/.idea/*"  -not -path "*/target/*" -not -path "*/build/*"'
+#A# fnd;Find directories
 alias fnd='find . -type d'
 #A# fgrp;Find all files and grep on them
 alias fgrp='find . -type f | xargs egrep --no-messages --color'
