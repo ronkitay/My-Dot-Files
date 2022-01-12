@@ -4,3 +4,5 @@ alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp
 alias untar='tar zxvf'
 
 alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''
+
+alias jpp='json_pp'
