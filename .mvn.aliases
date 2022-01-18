@@ -8,10 +8,6 @@ alias mjet='mvn jetty:run'
 #A# mvndependencies;Shows maven dependency tree for the current project
 alias mvndependencies='mvn dependency:tree -Dverbose'
 
-#A# cdmod;Goes to the root of the current module (Where a pom.xml can be found)
-alias cdmod='while [[ ! -f pom.xml && $(pwd) != "/" ]] ; do cd ..; done'
-
-
 function maven_clean_all() {
     maven_clean_here ""
 }
