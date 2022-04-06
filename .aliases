@@ -3,6 +3,7 @@ source ${ALIASES_BASE_DIR}/.common.aliases
 source ${ALIASES_BASE_DIR}/.git.aliases
 source ${ALIASES_BASE_DIR}/.iterm.aliases
 source ${ALIASES_BASE_DIR}/.java.aliases
+source ${ALIASES_BASE_DIR}/.k8s.aliases
 source ${ALIASES_BASE_DIR}/.mac.aliases
 source ${ALIASES_BASE_DIR}/.mvn.aliases
 source ${ALIASES_BASE_DIR}/.p4.aliases

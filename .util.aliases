@@ -81,3 +81,57 @@ function mute() {
     sleep 30
     osascript -e "set Volume ${currentVolume}"
 }
+
+PERSONAL_HOME=${HOME}/Personal
+DOT_FILES_HOME=${PERSONAL_HOME}/My-Dot-Files
+DOCKER_IMAGES_HOME=${PERSONAL_HOME}/docker-images
+HELLO_WORLD_HOME=${PERSONAL_HOME}/hello-world
+
+source ${DOT_FILES_HOME}/.define.colors
+${DOT_FILES_HOME}/.scripts/uptimeChecker
+
+complete -W "$(ls ${PERSONAL_HOME})" gopersonal
+function gopersonal() {
+  rgb 158 100 180
+  cd ${PERSONAL_HOME}
+  smart_change_dir_to_child $*
+}
+
+complete -W "$(ls ${HELLO_WORLD_HOME})" gohelloworld
+function gohelloworld() {
+  rgb 50 0 180
+  cd ${HELLO_WORLD_HOME}
+  smart_change_dir_to_child $*
+}
+
+PATH=${PATH}:${DOT_FILES_HOME}/.scripts
+
+function godotfiles() {
+  rgb 58 200 180
+  cd ${DOT_FILES_HOME}
+}
+
+function godockerimages() {
+  rgb 58 200 180
+  cd ${DOCKER_IMAGES_HOME}
+}
+
+function mongo() {
+  if (($# != 4))
+  then
+    echo "Usage:"
+    echo "mongo <hostname> <db> <username> <password>"
+    echo ""
+  else
+    docker run \
+      --env MONGO_HOSTNAME=$1 \
+      --env MONGO_DB=$2 \
+      --env MONGO_USERNAME=$3 \
+      --env MONGO_PASSWORD=$4 \
+      -t -i --rm mongo-client:1.0.0
+  fi
+}
+
+alias denv='docker run -t -i --rm basic-env:2.0.0'
+
+alias jsqsh='docker run --env WORKSPACE_NAME="jsqsh" -i -t --rm jsqsh:2.0.0'
