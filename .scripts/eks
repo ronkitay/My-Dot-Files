@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if (($# != 4))
+then
+    echo "Usage:"
+    echo "eks <workspace name> <aws profile> <aws region> <eks cluster name>"
+    echo ""
+    exit 1
+fi
+
+WORKSPACE_DIR=$(echo $1 | tr 'A-Z ' 'a-z-')
+docker run \
+    -v ${HOME}/.aws/:/root/.aws \
+    -v ${HOME}/.my-docker-envs/${WORKSPACE_DIR}/.kube:/root/.kube \
+    --env WORKSPACE_NAME="$1" \
+    --env AWS_PROFILE=$2 \
+    --env AWS_REGION=$3 \
+    --env EKS_CLUSTER=$4 \
+    -t -i --rm eks:2.0.0 
