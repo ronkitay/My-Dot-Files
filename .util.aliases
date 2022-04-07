@@ -132,6 +132,4 @@ function mongo() {
   fi
 }
 
-alias denv='docker run -t -i --rm basic-env:2.0.0'
-
 alias jsqsh='docker run --env WORKSPACE_NAME="jsqsh" -i -t --rm jsqsh:2.0.0'

@@ -23,18 +23,4 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='vim'
 
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
-
-# autoload -U select-word-style
-# select-word-style bash
-
-# backward-kill-dir () {
-#     local WORDCHARS=${WORDCHARS/\/}
-#     zle backward-kill-word
-# }
-# zle -N backward-kill-dir
-# bindkey '^[^?' backward-kill-dir
