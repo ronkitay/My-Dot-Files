@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if (($# != 4))
+then
+    echo "Usage:"
+    echo "mongo <hostname> <db> <username> <password>"
+    echo ""
+else
+    AUTO_CLEANUP=y dockerrunit mongo-client:1.0.0 \
+        --env MONGO_HOSTNAME=$1 \
+        --env MONGO_DB=$2 \
+        --env MONGO_USERNAME=$3 \
+        --env MONGO_PASSWORD=$4 
+fi

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export WORKSPACE_NAME=jsqsh 
+dockerrunit jsqsh:2.0.0

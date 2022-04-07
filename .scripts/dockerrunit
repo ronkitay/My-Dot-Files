@@ -32,3 +32,9 @@ docker run \
     --env WORKSPACE_NAME=${WORKSPACE_NAME} \
     ${OTHER_PARAMS} \
     -t -i --rm ${IMAGE}
+
+if [[ "${AUTO_CLEANUP}" == "y" ]];
+then
+    echo "Cleaning up workspace"
+    rm -rf ${WORKSPACE_DIR}
+fi

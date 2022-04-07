@@ -115,21 +115,3 @@ function godockerimages() {
   rgb 58 200 180
   cd ${DOCKER_IMAGES_HOME}
 }
-
-function mongo() {
-  if (($# != 4))
-  then
-    echo "Usage:"
-    echo "mongo <hostname> <db> <username> <password>"
-    echo ""
-  else
-    docker run \
-      --env MONGO_HOSTNAME=$1 \
-      --env MONGO_DB=$2 \
-      --env MONGO_USERNAME=$3 \
-      --env MONGO_PASSWORD=$4 \
-      -t -i --rm mongo-client:1.0.0
-  fi
-}
-
-alias jsqsh='docker run --env WORKSPACE_NAME="jsqsh" -i -t --rm jsqsh:2.0.0'
