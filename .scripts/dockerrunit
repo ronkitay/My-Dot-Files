@@ -1,0 +1,34 @@
+#!/bin/sh
+
+IMAGE=$1
+shift
+
+if [[ -z "${WORKSPACE_NAME}" ]];
+then
+    WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_')-$(date +%s)-${RANDOM}-${RANDOM}
+    WORKSPACE_DIR="${HOME}/.my-docker-envs/${WORKSPACE_NAME}"
+else
+    WORKSPACE_DIR="${HOME}/.my-docker-envs/$(echo ${WORKSPACE_NAME} | tr 'A-Z ' 'a-z-')"
+fi
+
+if [[ -z "${USE_SHARED_STATE}" ]];
+then
+    STATE_DIR="${WORKSPACE_DIR}/.state/"
+else
+    STATE_DIR="${HOME}/.my-docker-envs/.shared.state/"
+fi
+
+OUTPUT_DIR="${WORKSPACE_DIR}/.output/"
+
+mkdir -p ${WORKSPACE_DIR}
+
+OTHER_PARAMS=$(echo $* | sed "s|WORKSPACE_DIR|${WORKSPACE_DIR}|g")
+
+docker run \
+    -e TERM -e COLORTERM -e LC_ALL=C.UTF-8 \
+    --workdir /root/ \
+    -v ${STATE_DIR}:/root/.state/ \
+    -v ${OUTPUT_DIR}:/root/.output/ \
+    --env WORKSPACE_NAME=${WORKSPACE_NAME} \
+    ${OTHER_PARAMS} \
+    -t -i --rm ${IMAGE}

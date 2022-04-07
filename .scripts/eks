@@ -8,12 +8,11 @@ then
     exit 1
 fi
 
-WORKSPACE_DIR=$(echo $1 | tr 'A-Z ' 'a-z-')
-docker run \
+export WORKSPACE_NAME=$(echo $1 | tr ' ' '-')
+
+dockerrunit eks:3.0.0 \
     -v ${HOME}/.aws/:/root/.aws \
-    -v ${HOME}/.my-docker-envs/${WORKSPACE_DIR}/.kube:/root/.kube \
-    --env WORKSPACE_NAME="$1" \
+    -v WORKSPACE_DIR/.kube:/root/.kube \
     --env AWS_PROFILE=$2 \
     --env AWS_REGION=$3 \
-    --env EKS_CLUSTER=$4 \
-    -t -i --rm eks:2.0.0 
+    --env EKS_CLUSTER=$4 

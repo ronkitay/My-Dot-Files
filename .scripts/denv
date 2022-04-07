@@ -1,0 +1,3 @@
+#!/bin/sh
+
+USE_SHARED_STATE=y dockerrunit basic-env:3.0.0 
