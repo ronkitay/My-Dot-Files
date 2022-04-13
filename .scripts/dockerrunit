@@ -33,8 +33,12 @@ docker run \
     ${OTHER_PARAMS} \
     -t -i --rm ${IMAGE}
 
-if [[ "${AUTO_CLEANUP}" == "y" ]];
+let state_files="$(find ${WORKSPACE_DIR} -type f | wc -l)"+0
+
+if [[ ${state_files} -eq 0 ]];
 then
     echo "Cleaning up workspace"
     rm -rf ${WORKSPACE_DIR}
+else
+    echo "Remember - you have ${state_files} left under ${WORKSPACE_DIR}"
 fi
