@@ -1,0 +1,7 @@
+#!/bin/sh
+
+BASE_DIR=$(pwd)
+
+export WORKSPACE_NAME="GO-$(basename ${BASE_DIR})"
+
+USE_SHARED_STATE=y dockerrunit go-env:3.0.0 -v $(pwd):/root/proj/
