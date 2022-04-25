@@ -1,3 +1,5 @@
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 export EDITOR='vim'
 HIST_STAMPS="[%F] [%T]"
 
@@ -27,3 +29,5 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
