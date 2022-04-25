@@ -48,5 +48,8 @@ then
     echo "Cleaning up workspace"
     rm -rf ${WORKSPACE_DIR}
 else
-    echo "Remember - you have ${state_files} files left under ${WORKSPACE_DIR}"
+    if [[ -z "${PERMANENT_WORKSPACE}" ]]; 
+    then
+        echo "Remember - you have ${state_files} files left under ${WORKSPACE_DIR}"
+    fi
 fi
