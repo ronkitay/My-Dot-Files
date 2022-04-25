@@ -11,6 +11,10 @@ else
     WORKSPACE_DIR="${HOME}/.my-docker-envs/$(echo ${WORKSPACE_NAME} | tr 'A-Z ' 'a-z-')"
 fi
 
+if [[ -f "${HOME}/.iterm2/it2profile" ]]; then
+	${HOME}/.iterm2/it2profile -s "${WORKSPACE_NAME}" 
+fi
+
 if [[ -z "${USE_SHARED_STATE}" ]];
 then
     STATE_DIR="${WORKSPACE_DIR}/.state/"
@@ -32,6 +36,10 @@ docker run \
     --env WORKSPACE_NAME=${WORKSPACE_NAME} \
     ${OTHER_PARAMS} \
     -t -i --rm ${IMAGE}
+
+if [[ -f "${HOME}/.iterm2/it2profile" ]]; then
+        ${HOME}/.iterm2/it2profile -s "Default"
+fi
 
 let state_files="$(find ${WORKSPACE_DIR} -type f | wc -l)"+0
 
