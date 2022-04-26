@@ -4,7 +4,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias ll='ls -la'
+alias ll='ls -laF'
 #A# h;History
 alias h='history'
 #A# psu;Current User's processes
