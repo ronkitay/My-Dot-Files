@@ -6,6 +6,7 @@ HIST_STAMPS="[%F] [%T]"
 source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
 
+
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
@@ -15,7 +16,16 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 source $ZSH/oh-my-zsh.sh
 
-source ${HOME}/.aliases
+source ${HOME}/.aliases/.common.aliases
+source ${HOME}/.aliases/.git.aliases
+source ${HOME}/.aliases/.iterm.aliases
+source ${HOME}/.aliases/.java.aliases
+source ${HOME}/.aliases/.k8s.aliases
+source ${HOME}/.aliases/.mac.aliases
+source ${HOME}/.aliases/.mvn.aliases
+source ${HOME}/.aliases/.p4.aliases
+
+source ${HOME}/.aliases/.util.aliases
 
 if [[ -f ${HOME}/.zshrc.local ]]; then
   source ${HOME}/.zshrc.local
@@ -29,5 +39,3 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
