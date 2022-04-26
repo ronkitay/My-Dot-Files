@@ -4,6 +4,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
+alias l='ls -lF'
 alias ll='ls -laF'
 #A# h;History
 alias h='history'
