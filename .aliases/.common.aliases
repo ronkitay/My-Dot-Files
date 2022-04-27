@@ -44,9 +44,5 @@ alias dirsize='du -h -d 1 . | sort -h'
 alias trimfile='cp /dev/null'
 #A# listwritable;lists writable files excluding programming related files like maven's target directory, intellij files and Mac files
 alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml"'
-#A# cdd;Changes dir to the first directory in the tree which partially matches the name
-function cdd { [[ $# == 0 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdd <regex fragments> $(tput sgr0)\n\tE.g. cdd src main impl ==> will cd to a path containing 'src', 'main' and 'impl' in the path\n" && return 1; PATTERN=$(echo $* | sed 's/ /\.\*/g'); dir=$(find . -type d | egrep "$PATTERN" | head -1); cd "${dir}"; }
-#A# mcd;Make and Change directory
-function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
 #A# sendfile;Send a file via eMail
 function sendfile { [[ $# != 3 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)sendFile <file> <subject> <recepient>$(tput sgr0)\n" && return 1; uuencode $1 $1 | mail -s $2 $3; }

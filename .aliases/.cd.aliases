@@ -1,0 +1,28 @@
+
+
+#A# cdd;Changes dir to the first directory in the tree which partially matches the name
+function cdd { [[ $# == 0 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdd <regex fragments> $(tput sgr0)\n\tE.g. cdd src main impl ==> will cd to a path containing 'src', 'main' and 'impl' in the path\n" && return 1; PATTERN=$(echo $* | sed 's/ /\.\*/g'); dir=$(find . -type d | egrep "$PATTERN" | head -1); cd "${dir}"; }
+#A# mcd;Make and Change directory
+function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
+#A# cdfile;Changes dir to the directory a file is located in
+function cdfile { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdfile <file>$(tput sgr0)\n" && return 1; dir=$(echo $1 | sed 's/\(.*\/\).*/\1/'); cd $dir; }
+
+function smart_change_dir_to_child() {
+    if [[ $# -gt 0 ]]; then
+        if [[ -d $1 ]]; then
+            # Directory exists - switching to it"
+            cd $1
+        else
+            # Directory does not exist - applying smart matching
+            PATTERN=$(echo $* | sed 's/ /\.\*/g');
+            MATCHING_DIR=`ls | egrep -i "${PATTERN}" | head -n 1`
+            if [[ -z $MATCHING_DIR ]]; then
+                echo "${BRIGHT}${YELLOW}No subdirectories matching \"${RED}${PATTERN}${YELLOW}\""
+            else   
+                cd ${MATCHING_DIR}
+            fi
+        fi
+    else
+        ls -l | egrep '^d' | awk '{print $NF}'
+    fi
+}
