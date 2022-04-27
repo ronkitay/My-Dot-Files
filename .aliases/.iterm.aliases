@@ -17,3 +17,23 @@ alias tabblue='rgb 30 169 214'
 alias tabred='rgb 214 75 30'
 
 alias 1='tabrand'
+
+#A# title;Sets or resets the terminals title
+function set_tab_title {
+     if [[ $# == 0 ]]; then
+         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title -r$(tput sgr0)\t# Resets the title\n"; 
+         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title <title>$(tput sgr0)\t# Sets the tile\n"; 
+         printf "$(tput bold)$(tput setaf 2) e.g.:$(tput sgr0) $(tput bold)title this is awesome!$(tput sgr0)\n"; 
+         return 1;
+    fi
+    if [[ $# == 1 && $1 == "-r" ]] ; then
+        DISABLE_AUTO_TITLE="false"
+        echo -ne "\e]1;${PWD: -10}\a";
+        return 0;
+    else 
+        TITLE=$*; 
+        echo -ne "\e]1;${TITLE}\a";
+    fi
+}
+
+alias tt='DISABLE_AUTO_TITLE="true" && set_tab_title'
