@@ -42,7 +42,6 @@ if [[ -d "${PERSONAL_HOME}" ]]; then
 
   for dir_name in `ls`; 
   do 
-    echo $dir_name; 
     if [[ -f "${PERSONAL_HOME}/${dir_name}/.go.here" ]];
     then
       BASE_DIR=${PERSONAL_HOME} source ${PERSONAL_HOME}/${dir_name}/.go.here
