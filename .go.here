@@ -1,0 +1,8 @@
+DOT_FILES_HOME=${BASE_DIR}/My-Dot-Files
+
+PATH=${PATH}:${DOT_FILES_HOME}/.scripts
+
+function godotfiles() {
+  rgb 58 200 180
+  cd ${DOT_FILES_HOME}
+}
