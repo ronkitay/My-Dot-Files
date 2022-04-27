@@ -14,65 +14,8 @@ else
 	alias ts='awk '"'"'match($0, /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/) { ts=substr( $0, RSTART, RLENGTH ); if (length(ts)>10) ts=substr(ts,1,10); printf $0" ==> "; system("date -r "ts" \"+%d-%h-%Y %H:%M:%S %Z\"");}'"' | grep --color '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*'"
 fi
 
-#A# title;Sets or resets the terminals title
-function set_tab_title {
-     if [[ $# == 0 ]]; then
-         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title -r$(tput sgr0)\t# Resets the title\n"; 
-         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title <title>$(tput sgr0)\t# Sets the tile\n"; 
-         printf "$(tput bold)$(tput setaf 2) e.g.:$(tput sgr0) $(tput bold)title this is awesome!$(tput sgr0)\n"; 
-         return 1;
-    fi
-    if [[ $# == 1 && $1 == "-r" ]] ; then
-        DISABLE_AUTO_TITLE="false"
-        echo -ne "\e]1;${PWD: -10}\a";
-        return 0;
-    else 
-        TITLE=$*; 
-        echo -ne "\e]1;${TITLE}\a";
-    fi
-}
-
-alias tt='DISABLE_AUTO_TITLE="true" && set_tab_title'
-
-#A# cdfile;Changes dir to the directory a file is located in
-function cdfile { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdfile <file>$(tput sgr0)\n" && return 1; dir=$(echo $1 | sed 's/\(.*\/\).*/\1/'); cd $dir; }
-
-function smart_change_dir_to_child() {
-    if [[ $# -gt 0 ]]; then
-        if [[ -d $1 ]]; then
-            # Directory exists - switching to it"
-            cd $1
-        else
-            # Directory does not exist - applying smart matching
-            PATTERN=$(echo $* | sed 's/ /\.\*/g');
-            MATCHING_DIR=`ls | egrep -i "${PATTERN}" | head -n 1`
-            if [[ -z $MATCHING_DIR ]]; then
-                echo "${BRIGHT}${YELLOW}No subdirectories matching \"${RED}${PATTERN}${YELLOW}\""
-            else   
-                cd ${MATCHING_DIR}
-            fi
-        fi
-    else
-        ls -l | egrep '^d' | awk '{print $NF}'
-    fi
-}
-
-complete -W "$(ls ${SOME_DIR})" _go_some_dir
-function _go_some_dir() {
-    rgb R G B
-    cd ${SOME_DIR}
-    smart_change_dir_to_child $*
-}
-
 function edwhich() {
   edit `which $1`
-}
-
-# Notes
-
-NOTES_DIR="${HOME}/OneDrive/Notes"
-function gonotes() {
-    cd "${NOTES_DIR}"
 }
 
 function mute() {
@@ -80,38 +23,4 @@ function mute() {
     osascript -e "set Volume 0"
     sleep 30
     osascript -e "set Volume ${currentVolume}"
-}
-
-PERSONAL_HOME=${HOME}/Personal
-DOT_FILES_HOME=${PERSONAL_HOME}/My-Dot-Files
-DOCKER_IMAGES_HOME=${PERSONAL_HOME}/docker-images
-HELLO_WORLD_HOME=${PERSONAL_HOME}/hello-world
-
-source ${DOT_FILES_HOME}/.define.colors
-${DOT_FILES_HOME}/.scripts/uptimeChecker
-
-complete -W "$(ls ${PERSONAL_HOME})" gopersonal
-function gopersonal() {
-  rgb 158 100 180
-  cd ${PERSONAL_HOME}
-  smart_change_dir_to_child $*
-}
-
-complete -W "$(ls ${HELLO_WORLD_HOME})" gohelloworld
-function gohelloworld() {
-  rgb 50 0 180
-  cd ${HELLO_WORLD_HOME}
-  smart_change_dir_to_child $*
-}
-
-PATH=${PATH}:${DOT_FILES_HOME}/.scripts
-
-function godotfiles() {
-  rgb 58 200 180
-  cd ${DOT_FILES_HOME}
-}
-
-function godockerimages() {
-  rgb 58 200 180
-  cd ${DOCKER_IMAGES_HOME}
 }
