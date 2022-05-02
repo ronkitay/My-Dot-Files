@@ -47,6 +47,7 @@ if [[ -d "${PERSONAL_HOME}" ]]; then
       BASE_DIR=${PERSONAL_HOME} source ${PERSONAL_HOME}/${dir_name}/.go.here
     fi
   done
+  cd
 fi
 
 NOTES_DIR="${HOME}/OneDrive/Notes"
