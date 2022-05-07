@@ -8,6 +8,7 @@ then
     WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_')-$(date +%s)-${RANDOM}-${RANDOM}
     WORKSPACE_DIR="${HOME}/.my-docker-envs/${WORKSPACE_NAME}"
 else
+    CONTAINER_NAME=" --name ${WORKSPACE_NAME} "
     WORKSPACE_DIR="${HOME}/.my-docker-envs/$(echo ${WORKSPACE_NAME} | tr 'A-Z ' 'a-z-')"
 fi
 
@@ -34,8 +35,8 @@ docker run \
     -v ${STATE_DIR}:/root/.state/ \
     -v ${OUTPUT_DIR}:/root/.output/ \
     --env WORKSPACE_NAME=${WORKSPACE_NAME} \
-    ${OTHER_PARAMS} \
-    -t -i --rm ${IMAGE}
+    ${OTHER_PARAMS} ${CONTAINER_NAME} \
+    -t -i --rm ${IMAGE} 
 
 if [[ -f "${HOME}/.iterm2/it2profile" ]]; then
         ${HOME}/.iterm2/it2profile -s "Default"
