@@ -5,8 +5,8 @@ then
     cd $1
     export WORKSPACE_NAME="$(basename $(pwd))"
     export PERMANENT_WORKSPACE="y"
-    USE_SHARED_STATE=y dockerrunit basic-env:3.0.0 -v $(pwd):/root/proj/
+    USE_SHARED_STATE=y dockerrunit basic-env:0.0.1 -v $(pwd):/root/proj/
 else
-    USE_SHARED_STATE=y dockerrunit basic-env:3.0.0 
+    USE_SHARED_STATE=y dockerrunit basic-env:0.0.1 
 fi
 
