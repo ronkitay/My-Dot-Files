@@ -10,7 +10,7 @@ fi
 
 export WORKSPACE_NAME=$(echo $1 | tr ' ' '-')
 
-dockerrunit eks:0.0.1 \
+dockerrunit eks:$(cat ${HOME}/.my-docker-images.release) \
     -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube \
     --env AWS_PROFILE=$2 \

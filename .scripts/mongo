@@ -6,7 +6,7 @@ then
     echo "mongo <hostname> <db> <username> <password>"
     echo ""
 else
-    AUTO_CLEANUP=y dockerrunit mongo-client:0.0.1 \
+    AUTO_CLEANUP=y dockerrunit mongo-client:$(cat ${HOME}/.my-docker-images.release) \
         --env MONGO_HOSTNAME=$1 \
         --env MONGO_DB=$2 \
         --env MONGO_USERNAME=$3 \

@@ -1,4 +1,4 @@
 #!/bin/sh
 
 export WORKSPACE_NAME=jsqsh 
-dockerrunit jsqsh:0.0.1
+dockerrunit jsqsh:$(cat ${HOME}/.my-docker-images.release)
