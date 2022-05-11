@@ -31,6 +31,7 @@ source ${HOME}/.aliases/.util.aliases
 PERSONAL_HOME=${HOME}/Personal
 
 if [[ -d "${PERSONAL_HOME}" ]]; then
+  GO_BACK=$(pwd)
   cd ${PERSONAL_HOME}
 
   complete -W "$(ls ${PERSONAL_HOME})" gopersonal
@@ -47,7 +48,7 @@ if [[ -d "${PERSONAL_HOME}" ]]; then
       BASE_DIR=${PERSONAL_HOME} source ${PERSONAL_HOME}/${dir_name}/.go.here
     fi
   done
-  cd
+  cd ${GO_BACK}
 fi
 
 NOTES_DIR="${HOME}/OneDrive/Notes"
