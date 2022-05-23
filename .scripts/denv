@@ -4,9 +4,9 @@ if [[ $# == 1 ]];
 then
     cd $1
     export WORKSPACE_NAME="$(basename $(pwd))"
-    export PERMANENT_WORKSPACE="y"
-    USE_SHARED_STATE=y dockerrunit basic-env:$(cat ${HOME}/.my-docker-images.release) -v $(pwd):/root/proj/
+    export NO_STATE_WARNING="y"
+    USE_SHARED_HISTORY=y dockerrunit basic-env:$(cat ${HOME}/.my-docker-images.release) -v $(pwd):/root/proj/
 else
-    USE_SHARED_STATE=y dockerrunit basic-env:$(cat ${HOME}/.my-docker-images.release) 
+    USE_SHARED_HISTORY=y dockerrunit basic-env:$(cat ${HOME}/.my-docker-images.release) 
 fi
 
