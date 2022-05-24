@@ -1,12 +1,14 @@
 #!/bin/sh
 
+IMAGE="python-3.9-env:$(cat ${HOME}/.my-docker-images.release)"
+
 if [[ $# == 1 ]];
 then
     cd $1
     export WORKSPACE_NAME="$(basename $(pwd))"
     export NO_STATE_WARNING="y"
-    USE_SHARED_HISTORY=y dockerrunit python-3.9-env:$(cat ${HOME}/.my-docker-images.release) -v $(pwd):/root/proj/
+    USE_SHARED_HISTORY=y dockerrunit ${IMAGE} -v $(pwd):/root/proj/
 else
-    USE_SHARED_HISTORY=y dockerrunit python-3.9-env:$(cat ${HOME}/.my-docker-images.release) 
+    USE_SHARED_HISTORY=y dockerrunit ${IMAGE} 
 fi
 
