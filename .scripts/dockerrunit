@@ -54,7 +54,7 @@ set_iterm_profile "${WORKSPACE_NAME}"
 
 STATE_DIR="${WORKSPACE_DIR}/.state/"
 
-if [[ "Y" == "${USE_SHARED_HISTORY}" ]];
+if [[ "y" == "${USE_SHARED_HISTORY}" ]];
 then
     HISTORY_DIR="${HOME}/.my-docker-envs/.shared.state/"
 else

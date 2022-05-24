@@ -7,7 +7,7 @@ then
     cd $1
     export WORKSPACE_NAME="$(basename $(pwd))"
     export NO_STATE_WARNING="y"
-    USE_SHARED_HISTORY=y dockerrunit ${IMAGE} -v $(pwd):/root/proj/
+    dockerrunit ${IMAGE} -v $(pwd):/root/proj/
 else
     USE_SHARED_HISTORY=y dockerrunit ${IMAGE} 
 fi
