@@ -6,4 +6,5 @@ complete -W "$(find ${DOT_FILES_HOME} -depth 1 -type d| grep -v '.git' | awk -F 
 function godotfiles() {
   rgb 58 200 180
   cd ${DOT_FILES_HOME}
+  smart_change_dir_to_child $*
 }
