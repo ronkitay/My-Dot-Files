@@ -5,7 +5,7 @@ IMAGE="lua-5.4-env:$(cat ${HOME}/.my-docker-images.release)"
 if [[ $# == 1 ]];
 then
     cd $1
-    export WORKSPACE_NAME="$(basename $(pwd))"
+    export WORKSPACE_NAME="$(basename $(pwd))_lua-5.4-env"
     export NO_STATE_WARNING="y"
     dockerrunit ${IMAGE} -v $(pwd):/root/proj/
 else
