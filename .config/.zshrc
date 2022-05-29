@@ -6,6 +6,7 @@ HIST_STAMPS="[%F] [%T]"
 source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
 
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
