@@ -8,6 +8,11 @@ source ${HOME}/.fzf.settings
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+alias bathelp='bat --plain --language=help'
+function help() {
+    "$@" --help 2>&1 | bathelp
+}
+
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
