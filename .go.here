@@ -2,7 +2,7 @@ DOT_FILES_HOME=${BASE_DIR}/My-Dot-Files
 
 PATH=${PATH}:${DOT_FILES_HOME}/.scripts
 
-complete -W "$(cd ${DOT_FILES_HOME} && fd -t d -H --max-depth 1 -E .git)" godotfiles
+complete -W "$(cd ${DOT_FILES_HOME} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" godotfiles
 function godotfiles() {
   rgb 58 200 180
   cd ${DOT_FILES_HOME}
