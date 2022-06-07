@@ -25,8 +25,8 @@ mkdir -p ${HOME}/.config
 
 link_it 'Bat' "${HOME}/.config/bat" "${BASE_DIR}/bat_configurations"
 link_it 'Bind Key' "${HOME}/.bindkey.settings" "${BASE_DIR}/.bindkey.settings"
-link_it 'FZF Setting' "${HOME}/.fzf.settings" "${BASE_DIR}/.bindkey.settings"
-link_it 'FZF Setting' "${HOME}/.fzf.settings" "${BASE_DIR}/.bindkey.settings"
+link_it 'FZF Setting' "${HOME}/.fzf.settings" "${BASE_DIR}/.fzf.settings"
+link_it 'MAN Setting' "${HOME}/.man.settings" "${BASE_DIR}/.man.settings"
 link_it 'Input RC' "${HOME}/.inputrc" "${BASE_DIR}/.inputrc"
 link_it 'VIM RC' "${HOME}/.vimrc" "${BASE_DIR}/.vimrc"
 link_it 'ZSH RC' "${HOME}/.zshrc" "${BASE_DIR}/.zshrc"

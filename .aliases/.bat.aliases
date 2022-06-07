@@ -1,0 +1,7 @@
+
+#A# bathelp;Redirect help outputs to it to present nicely
+alias bathelp='bat --plain --language=help'
+#A# help;Runs --help on selected commands and formats it with bat
+function help() {
+    "$@" --help 2>&1 | bathelp
+}

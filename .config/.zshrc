@@ -5,13 +5,7 @@ HIST_STAMPS="[%F] [%T]"
 
 source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
-
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-alias bathelp='bat --plain --language=help'
-function help() {
-    "$@" --help 2>&1 | bathelp
-}
+source ${HOME}/.man.settings
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -23,6 +17,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 source $ZSH/oh-my-zsh.sh
 
 source ${HOME}/.aliases/.define.colors
+source ${HOME}/.aliases/.bat.aliases
 source ${HOME}/.aliases/.common.aliases
 source ${HOME}/.aliases/.cd.aliases
 source ${HOME}/.aliases/.git.aliases
