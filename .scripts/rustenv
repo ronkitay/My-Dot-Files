@@ -1,0 +1,7 @@
+#!/bin/sh
+
+BASE_DIR=$(pwd)
+
+export WORKSPACE_NAME="RUST-$(basename ${BASE_DIR})"
+
+USE_SHARED_STATE=y dockerrunit rust-env:$(cat ${HOME}/.my-docker-images.release) -v $(pwd):/root/proj/
