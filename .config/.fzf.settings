@@ -15,6 +15,7 @@ _fzf_comprun() {
 
   case "$command" in
     cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    dattach)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview 'docker ps | head -n 1 && docker ps | egrep {}' ;;
     *)            fzf "$@" ;;
   esac
 }
@@ -28,5 +29,5 @@ _fzf_complete_gadd() {
 }
 
 _fzf_complete_gdiff() {
-  _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(git status --short | awk '{print($NF)}')
+  _fzf_complete --multi --reverse --prompt="diff> " -- "$@" < <(git status --short | awk '{print($NF)}')
 }
