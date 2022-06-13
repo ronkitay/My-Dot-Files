@@ -1,18 +1,24 @@
 #!/bin/sh
 
-if (($# != 4))
+if (($# < 4 || $# > 5))
 then
     echo "Usage:"
-    echo "eks <workspace name> <aws profile> <aws region> <eks cluster name>"
+    echo "eks <workspace name> <aws profile> <aws region> <eks cluster name> [project-partition]"
     echo ""
     exit 1
 fi
 
 export WORKSPACE_NAME=$(echo $1 | tr ' ' '-')
 
+if (($# == 5))
+then
+    PROJECT_DIR=$(cd $5 && pwd)
+    PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj "
+fi
+
 dockerrunit eks:$(cat ${HOME}/.my-docker-images.release) \
     -v ${HOME}/.aws/:/root/.aws \
-    -v WORKSPACE_DIR/.kube:/root/.kube \
+    -v WORKSPACE_DIR/.kube:/root/.kube ${PROJECT_PARTITION} \
     --env AWS_PROFILE=$2 \
     --env AWS_REGION=$3 \
     --env EKS_CLUSTER=$4 
