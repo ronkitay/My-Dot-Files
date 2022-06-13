@@ -1,14 +1,3 @@
 #!/bin/sh
 
-IMAGE="python-3.9-env:$(cat ${HOME}/.my-docker-images.release)"
-
-if [[ $# == 1 ]];
-then
-    cd $1
-    export WORKSPACE_NAME="$(basename $(pwd))"
-    export NO_STATE_WARNING="y"
-    dockerrunit ${IMAGE} -v $(pwd):/root/proj/
-else
-    USE_SHARED_HISTORY=y dockerrunit ${IMAGE} 
-fi
-
+SCRIPT=`basename $0` IMAGE_NAME=python-3.9-env _docker_env_launcher $*

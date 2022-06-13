@@ -1,0 +1,47 @@
+#!/bin/sh
+
+function help {
+    if [[ -z "${SCRIPT}" ]];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} [DIRECTORY] [FLAGS]\n"
+    printf "\n"
+    printf "Examples:\n"
+    printf "\t# Launches an ad-hoc env\n"
+    printf "\t${SCRIPT}\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory\n"
+    printf "\t${SCRIPT} .\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory and maps the Downloads local directory to the containers /junk directory\n"
+    printf "\t${SCRIPT} . -v ~/Downloads:/junk\n"
+    printf "\n"
+    printf "DIRECTORY:\n"
+    printf "\tThe working directory to use on this container\n"
+    printf "\n"
+    printf "FLAGS:\n"
+    printf "\tAny flags valid to be passed on to 'docker run ...'\n"
+    printf "\n"
+    exit 1
+}
+
+if [[ $1 == '-h' ||  $1 == '--help' ]]; 
+then
+    help
+fi
+
+IMAGE="${IMAGE_NAME}:$(cat ${HOME}/.my-docker-images.release)"
+
+if [[ $# > 0 ]];
+then
+    PROJECT_DIR=$(cd $1 && pwd)
+    PROJECT_MOUNT=" -v ${PROJECT_DIR}:/root/proj "
+    export WORKSPACE_NAME="$(basename ${PROJECT_DIR})"
+    export NO_STATE_WARNING="y"
+    shift
+fi
+
+USE_SHARED_HISTORY=y dockerrunit ${IMAGE} ${PROJECT_MOUNT} $*

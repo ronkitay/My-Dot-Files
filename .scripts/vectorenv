@@ -1,0 +1,3 @@
+#!/bin/sh
+
+SCRIPT=`basename $0` IMAGE_NAME=vector _docker_env_launcher $*

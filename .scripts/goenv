@@ -1,7 +1,3 @@
 #!/bin/sh
 
-BASE_DIR=$(pwd)
-
-export WORKSPACE_NAME="GO-$(basename ${BASE_DIR})"
-
-USE_SHARED_STATE=y dockerrunit go-env:$(cat ${HOME}/.my-docker-images.release) -v $(pwd):/root/proj/
+SCRIPT=`basename $0` IMAGE_NAME=go-env _docker_env_launcher $*
