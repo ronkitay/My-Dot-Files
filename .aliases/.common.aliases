@@ -21,7 +21,7 @@ alias xgi='xargs egrep --color -i'
 #A# fnf;Find files
 alias fnf='fd  -t f -H'
 #A# fnsrc;Find Source Files
-alias fnsrc='fd -t f -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/"'
+alias fnsrc='fd -t f -H -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/"'
 #A# fnd;Find directories
 alias fnd='fd -t d -H'
 #A# fgrp;Find all files and grep on them
