@@ -33,7 +33,7 @@ then
     help
 fi
 
-IMAGE="${IMAGE_NAME}:$(cat ${HOME}/.my-docker-images.release)"
+IMAGE="${MY_DOCKER_IMAGES_REPO}/${IMAGE_NAME}:$(cat ${HOME}/.my-docker-images.release)"
 
 if [[ $# > 0 ]];
 then

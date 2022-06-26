@@ -43,7 +43,7 @@ shift
 
 if [[ -z "${WORKSPACE_NAME}" ]];
 then
-    WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_')-$(date +%s)-${RANDOM}-${RANDOM}
+    WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-$(date +%s)-${RANDOM}-${RANDOM}
     WORKSPACE_DIR="${HOME}/.my-docker-envs/${WORKSPACE_NAME}"
 else
     CONTAINER_NAME=" --name ${WORKSPACE_NAME} "

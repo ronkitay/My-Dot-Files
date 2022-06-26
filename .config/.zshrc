@@ -1,5 +1,7 @@
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export MY_DOCKER_IMAGES_REPO=ronkitay
+
 export EDITOR='vim'
 HIST_STAMPS="[%F] [%T]"
 

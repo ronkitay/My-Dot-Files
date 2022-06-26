@@ -16,7 +16,7 @@ then
     PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj "
 fi
 
-dockerrunit eks:$(cat ${HOME}/.my-docker-images.release) \
+dockerrunit ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
     -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube ${PROJECT_PARTITION} \
     --env AWS_PROFILE=$2 \
