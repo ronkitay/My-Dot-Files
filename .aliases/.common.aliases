@@ -19,11 +19,11 @@ alias xg='xargs egrep --color'
 #A# xgi;xargs grep (Case insensitive)
 alias xgi='xargs egrep --color -i'
 #A# fnf;Find files
-alias fnf='fd -t f -H -L'
+alias fnf='fd -t f -H -L . '
 #A# fnsrc;Find Source Files
-alias fnsrc='fd -t f -H -L -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/"'
+alias fnsrc='fd -t f -H -L -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/" . '
 #A# fnd;Find directories
-alias fnd='fd -t d -H'
+alias fnd='fd -t d -H . '
 #A# fgrp;Find all files and grep on them
 alias fgrp='fd -t f -H -L | xargs egrep --no-messages --color'
 #A# fgrpi;Find all files and grep on them (Case insensitive)
