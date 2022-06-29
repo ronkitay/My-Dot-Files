@@ -39,9 +39,10 @@ if [[ $# > 0 ]];
 then
     PROJECT_DIR=$(cd $1 && pwd)
     PROJECT_MOUNT=" -v ${PROJECT_DIR}:/root/proj "
+    export NAMESPACE=$(dirname $(pwd) | cut -d'/' -f4- | tr '/' '@')
     export WORKSPACE_NAME="$(basename ${PROJECT_DIR})"
     export NO_STATE_WARNING="y"
     shift
 fi
 
-USE_SHARED_HISTORY=y dockerrunit ${IMAGE} ${PROJECT_MOUNT} $*
+dockerrunit ${IMAGE} ${PROJECT_MOUNT} $*
