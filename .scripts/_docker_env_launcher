@@ -7,23 +7,28 @@ function help {
     fi
     printf "\n"
     printf "Usage:\n"
-    printf "\t${SCRIPT} [DIRECTORY] [FLAGS]\n"
+    printf "\t${SCRIPT} [-d <working-directory>|-w <workspace-name>] [-v <volume>]\n"
+    printf "\n"
+    printf "Options:\n"
+    printf "\t-w:\n"
+    printf "\tWorkspace name (creates new or uses existing).\n"
+    printf "\t-d:\n"
+    printf "\tThe working directory to use on this container. Used to define the workspace name and namespace\n"
+    printf "\t-v:\n"
+    printf "\tAn extra volumne to pass to the docker container\n"
     printf "\n"
     printf "Examples:\n"
     printf "\t# Launches an ad-hoc env\n"
     printf "\t${SCRIPT}\n"
     printf "\n"
     printf "\t# Launches a named env for the current directory\n"
-    printf "\t${SCRIPT} .\n"
+    printf "\t${SCRIPT} -d .\n"
     printf "\n"
     printf "\t# Launches a named env for the current directory and maps the Downloads local directory to the containers /junk directory\n"
-    printf "\t${SCRIPT} . -v ~/Downloads:/junk\n"
+    printf "\t${SCRIPT} -d . -v ~/Downloads:/junk\n"
     printf "\n"
-    printf "DIRECTORY:\n"
-    printf "\tThe working directory to use on this container\n"
-    printf "\n"
-    printf "FLAGS:\n"
-    printf "\tAny flags valid to be passed on to 'docker run ...'\n"
+    printf "\t# Launches a named env with a fixed name without the need to bind it to a directory\n"
+    printf "\t${SCRIPT} -w my_special_workspace\n"
     printf "\n"
     exit 1
 }
@@ -33,16 +38,35 @@ then
     help
 fi
 
-IMAGE="${MY_DOCKER_IMAGES_REPO}/${IMAGE_NAME}:$(cat ${HOME}/.my-docker-images.release)"
+while getopts ":w:d:v:" option; do
+    case "${option}" in
+        w)
+            WORKSPACE_MODE=true
+            export WORKSPACE_NAME=${OPTARG}
+            ;;
+        d)
+            DIR_MODE=true
+            PROJECT_DIR=$(cd ${OPTARG} && pwd)
+            PROJECT_MOUNT=" -v ${PROJECT_DIR}:/root/proj "
+            export NAMESPACE=$(dirname $(pwd) | cut -d'/' -f4- | tr '/' '@')
+            export WORKSPACE_NAME="$(basename ${PROJECT_DIR})"
+            export NO_STATE_WARNING="y"
+            ;;
+        v)
+            EXTRA_VOLUME="-v ${OPTARG}"
+            ;;            
+        *)
+            ;;
+    esac
+done
+shift $((OPTIND-1))
 
-if [[ $# > 0 ]];
+if [[ -n "${WORKSPACE_MODE}" ]] && [[ -n "${DIR_MODE}" ]]; 
 then
-    PROJECT_DIR=$(cd $1 && pwd)
-    PROJECT_MOUNT=" -v ${PROJECT_DIR}:/root/proj "
-    export NAMESPACE=$(dirname $(pwd) | cut -d'/' -f4- | tr '/' '@')
-    export WORKSPACE_NAME="$(basename ${PROJECT_DIR})"
-    export NO_STATE_WARNING="y"
-    shift
+    printf "${BRIGHT}${RED}Cannot use both -w and -d in the same command!${NORMAL}\n"
+    help
 fi
 
-dockerrunit ${IMAGE} ${PROJECT_MOUNT} $*
+IMAGE="${MY_DOCKER_IMAGES_REPO}/${IMAGE_NAME}:$(cat ${HOME}/.my-docker-images.release)"
+
+dockerrunit ${IMAGE} ${PROJECT_MOUNT} ${EXTRA_VOLUME}
