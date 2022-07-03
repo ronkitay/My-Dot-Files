@@ -1,24 +1,112 @@
 #!/bin/sh
 
-if (($# < 4 || $# > 5))
-then
-    echo "Usage:"
-    echo "eks <workspace name> <aws profile> <aws region> <eks cluster name> [project-partition]"
-    echo ""
+function help {
+    if [[ -z "${SCRIPT}" ]];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} [-flags]"
+    printf "\n"
+    printf "Mandatory Flags:\n"
+    printf "\t-w, --workspace-name:\n"
+    printf "\tThe name of the Workspace (creates new or uses existing).\n"
+    printf "\n"
+    printf "\t-p, --aws-profile:\n"
+    printf "\tThe name of the AWS Profile to use.\n"
+    printf "\n"
+    printf "\t-r, --aws-region:\n"
+    printf "\tThe AWS Region the cluster is located in.\n"
+    printf "\n"    
+    printf "\t-r, --cluster-name:\n"
+    printf "\tThe Name of the EKS cluster to connect to.\n"
+    printf "\n" 
+    printf "Optional Flags:\n"
+    printf "\t-j, --project-dir:\n"
+    printf "\tThe local directory to map as a project directory.\n"
+    printf "\n"       
+    printf "Examples:\n"
+    printf "\t# Connects to a dev cluster\n"
+    printf "\t${SCRIPT} -w 'EKS Dev' -p 'dev-profile' -r 'us-east-1' -c 'MyDevCluster'\n"
+    printf "\n"
+    printf "\t# Connects to a dev cluster with the current dir as a project dir\n"
+    printf "\t${SCRIPT} -w 'EKS Dev' -p 'dev-profile' -r 'us-east-1' -c 'MyDevCluster' -j .\n"
+    printf "\n"
     exit 1
-fi
+}
 
-export WORKSPACE_NAME=$(echo $1 | tr ' ' '-')
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    '--help')           set -- "$@" '-h'   ;;
+    '--workspace-name') set -- "$@" '-w'   ;;
+    '--aws-profile')    set -- "$@" '-p'   ;;
+    '--aws-region')     set -- "$@" '-r'   ;;
+    '--cluster-name')   set -- "$@" '-c'   ;;
+    '--project-dir')    set -- "$@" '-j'   ;;
+    *)                  set -- "$@" "$arg" ;;
+  esac
+done
 
-if (($# == 5))
+while getopts ":w:p:r:c:j:h:" option; do
+    case "${option}" in
+        h) 
+            help
+            ;;
+        w) 
+            export WORKSPACE_NAME=${OPTARG}
+            ;;
+        p) 
+            export AWS_PROFILE=${OPTARG}
+            ;;
+        r) 
+            export AWS_REGION=${OPTARG}
+            ;;
+        c) 
+            export CLUSTER_NAME=${OPTARG}
+            ;;
+        j) 
+            export PROJECT_DIR=${OPTARG}
+            PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj/"
+            ;;
+        *)
+            printf "${BRIGHT}The flag ${RED}${option}${WHITE} is not supported provided!${NORMAL}\n"
+            help
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [[ -z "${WORKSPACE_NAME}" ]];
 then
-    PROJECT_DIR=$(cd $5 && pwd)
-    PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj "
+    printf "${BRIGHT}${RED}Workspace Name was not provided!${NORMAL}\n"
+    help
 fi
+
+if [[ -z "${AWS_PROFILE}" ]];
+then
+    printf "${BRIGHT}${RED}AWS Profile was not provided!${NORMAL}\n"
+    help
+fi
+
+if [[ -z "${AWS_REGION}" ]];
+then
+    printf "${BRIGHT}${RED}AWS Region was not provided!${NORMAL}\n"
+    help
+fi
+
+if [[ -z "${CLUSTER_NAME}" ]];
+then
+    printf "${BRIGHT}${RED}Cluster Name was not provided!${NORMAL}\n"
+    help
+fi
+
+export WORKSPACE_NAME=$(echo ${WORKSPACE_NAME} | tr ' ' '-')
 
 dockerrunit ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
     -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube ${PROJECT_PARTITION} \
-    --env AWS_PROFILE=$2 \
-    --env AWS_REGION=$3 \
-    --env EKS_CLUSTER=$4 
+    --env AWS_PROFILE=${AWS_PROFILE} \
+    --env AWS_REGION=${AWS_REGION} \
+    --env EKS_CLUSTER=${CLUSTER_NAME} 
