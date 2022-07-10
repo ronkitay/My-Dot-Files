@@ -13,7 +13,7 @@ source ${HOME}/.man.settings
 export ZSH="${HOME}/.oh-my-zsh"
 
 SHARE_HISTORY=off
-plugins=(gradle git virtualenv fzf kubectl kubectx helm)
+plugins=(asdf gradle git virtualenv fzf kubectl kubectx helm)
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 source $ZSH/oh-my-zsh.sh
