@@ -7,7 +7,7 @@ export FZF_BASE=/usr/local/bin/fzf
 
 export FZF_DEFAULT_COMMAND='fd'
 
-export FZF_DEFAULT_OPTS="-m --border --layout=reverse --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse --preview 'bat --style=numbers --color=always --line-range :500 {}'"
 
 _fzf_comprun() {
   local command=$1
@@ -25,10 +25,18 @@ _fzf_complete_grevert() {
 }
 
 _____get_gadd_completion() {
-  echo "==== Modified ====="
-  git status --short | grep -v '^??' | awk '{print($NF)}';
-  echo "==== Added ====="
-  git status --short | grep '^??' | awk '{print($NF)}';
+
+  if [[ $(git status --short | grep -v '^??' | wc -l) -gt 0 ]];
+  then
+    echo "${BRIGHT}${RED}Modified:${NORMAL}"
+    git status --short | grep -v '^??' | awk '{print($NF)}';
+  fi
+  
+  if [[ $(git status --short | grep '^??' | wc -l) -gt 0 ]];
+  then
+    echo "${BRIGHT}${BLUE}Added:${NORMAL}"
+    git status --short | grep '^??' | awk '{print($NF)}';
+  fi
 }
 
 _fzf_complete_gadd() {
