@@ -26,16 +26,18 @@ _fzf_complete_grevert() {
 
 _____get_gadd_completion() {
 
-  if [[ $(git status --short | grep -v '^??' | wc -l) -gt 0 ]];
+  modified_files=$(git status --short | grep -v '^??')
+  if [[ -n "${modified_files}" ]];
   then
     echo "${BRIGHT}${RED}Modified:${NORMAL}"
-    git status --short | grep -v '^??' | awk '{print($NF)}';
+    echo ${modified_files} | awk '{print($NF)}';
   fi
   
-  if [[ $(git status --short | grep '^??' | wc -l) -gt 0 ]];
+  added_files=$(git status --short | grep '^??')
+  if [[ -n "${added_files}" ]];
   then
     echo "${BRIGHT}${BLUE}Added:${NORMAL}"
-    git status --short | grep '^??' | awk '{print($NF)}';
+    echo ${added_files} | awk '{print($NF)}';
   fi
 }
 
