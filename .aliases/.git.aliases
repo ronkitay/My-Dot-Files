@@ -143,7 +143,7 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 function gadd { printHeader Git Add ;git add $*; printFooter; }
 
 alias gdiff='git --no-pager diff'
-alias gdifff='git diff --no-ext-diff'
+alias gdifff='GIT_PAGER=cat git diff --no-ext-diff'
 
 #A# gunstage;Unstages file(s) (git reset HEAD)
 alias gunstage='git reset HEAD'
