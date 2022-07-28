@@ -141,7 +141,10 @@ alias gstatus='printHeader Git Status ;git status; printFooter'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 #A# gadd;Git status
 function gadd { printHeader Git Add ;git add $*; printFooter; }
+
 alias gdiff='git --no-pager diff'
+alias gdifff='git diff --no-ext-diff'
+
 #A# gunstage;Unstages file(s) (git reset HEAD)
 alias gunstage='git reset HEAD'
 #A# grevert;Revert file(s) (git checkout --)
