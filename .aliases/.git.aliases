@@ -1,3 +1,17 @@
+# GitLab/GitHub stuff
+
+function giturl {
+    tree="/-/tree/"
+    base_url=$(git remote -v | head -n 1 | awk '{print $2}'  | tr ':' '/'| sed 's|git@|https://|' | sed 's|.git$||')
+    [[ "$base_url" == *"github"* ]] && {
+        tree="/tree/"
+    }
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    relative_path=$(git rev-parse --show-prefix)
+    open "${base_url}${tree}${branch}/${relative_path}/$1"
+}
+
+
 # Usefull Commands
 function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ============$(tput sgr0)\n\n";}
 function printFooter { printf "\n$(tput bold)$(tput setaf 2)====================================$(tput sgr0)\n\n";}
