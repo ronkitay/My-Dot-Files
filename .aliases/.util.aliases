@@ -24,3 +24,10 @@ function mute() {
     sleep 30
     osascript -e "set Volume ${currentVolume}"
 }
+
+function rcd() {
+    tmpfile="/tmp/pwd-from-ranger"
+    ranger --choosedir=${tmpfile} $*
+    rangerpwd=$(cat ${tmpfile})
+    cd ${rangerpwd}
+}
