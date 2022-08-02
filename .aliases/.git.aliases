@@ -8,10 +8,6 @@ function giturl {
     }
     branch=$(git rev-parse --abbrev-ref HEAD)
     relative_path=$(git rev-parse --show-prefix)
-    if [[ "${relative_path}" -ne "" ]]; 
-    then
-        relative_path="${relative_path}/"
-    fi
     open "${base_url}${tree}${branch}/${relative_path}$1"
 }
 
