@@ -23,6 +23,6 @@ function smart_change_dir_to_child() {
             fi
         fi
     else
-        ls -l | egrep '^d' | awk '{print $NF}'
+        ls -la | egrep '^d' | awk '{print $NF}' | egrep -v '^\.$|^\.\.$' 
     fi
 }
