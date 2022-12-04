@@ -105,6 +105,7 @@ fi
 export WORKSPACE_NAME=$(echo ${WORKSPACE_NAME} | tr ' ' '-')
 
 dockerrunit ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
+    -v ${HOME}/.clisso.yaml:/root/.clisso.yaml \
     -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube ${PROJECT_PARTITION} \
     --env AWS_PROFILE=${AWS_PROFILE} \
