@@ -7,7 +7,11 @@ fi
 # export SYSTEMD_PAGER=
 
 export EDITOR='vim'
-HIST_STAMPS="[%F] [%T]"
+
+export HISTSIZE=10000
+export HISTTIMEFORMAT="[%F] [%T]  "
+
+
 source ${HOME}/.aliases/.define.colors
 source ${HOME}/.aliases/.bat.aliases
 source ${HOME}/.aliases/.common.aliases
