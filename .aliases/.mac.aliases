@@ -3,3 +3,6 @@ alias togglewifi='networksetup -getairportpower en0 | grep "On" && networksetup 
 alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp Wi-Fi'
 
 alias jpp='json_pp'
+
+alias tar='COPYFILE_DISABLE=1 \tar'
+
