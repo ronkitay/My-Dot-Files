@@ -1,4 +1,4 @@
 #!/bin/sh
 
 export WORKSPACE_NAME=jsqsh 
-dockerrunit ${MY_DOCKER_IMAGES_REPO}/jsqsh:$(cat ${HOME}/.my-docker-images.release)
+dockerrunit ${MY_DOCKER_IMAGES_REPO}/jsqsh:$(cat ${HOME}/.my-docker-images.release) --env TERM=xterm-color
