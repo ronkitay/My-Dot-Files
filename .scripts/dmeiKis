@@ -1,0 +1,36 @@
+#!/bin/sh
+
+function help {
+    if [[ -z "${SCRIPT}" ]];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} <day of week to start from>"
+    printf "\n"
+    printf "Examples:\n"
+    printf "\t# Start from December 30th 2022\n"
+    printf "\t${SCRIPT} 2022-12-30\n"
+    printf "\n"
+    exit 1
+}
+
+if [[ $# -ne 1 ]];
+then
+    printf "${BRIGHT}${RED}Missing start date!${NORMAL}\n"
+    help
+fi
+
+epoch_of_friday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "$1T00:00:00" +%s 2> /dev/null)
+
+if [[ $epoch_of_friday -le 0 ]];
+then
+    printf "${BRIGHT}${RED}Invalid start date ($1)!${NORMAL}\n"
+    help
+fi
+
+for i in {1..12}; do 
+    let epoch_of_friday=$epoch_of_friday+7*24*60*60;
+    date -r $epoch_of_friday +'%Y-%m-%d'; 
+done
