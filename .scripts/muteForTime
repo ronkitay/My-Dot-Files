@@ -1,0 +1,6 @@
+#!/bin/sh
+
+currentVolume=$(echo $(osascript -e 'get volume settings' | cut -d',' -f1 | cut -d':' -f2)/14 | bc)
+osascript -e "set Volume 0"
+sleep $1
+osascript -e "set Volume ${currentVolume}"
