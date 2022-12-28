@@ -1,3 +1,4 @@
 #!/bin/sh
 
-muteForTime 30 > /dev/null 2>&1 &
+SCRIPT_DIR=$(dirname $0)
+${SCRIPT_DIR}/muteForTime 30 > /dev/null 2>&1 &
