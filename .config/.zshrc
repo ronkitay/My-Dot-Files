@@ -19,6 +19,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 source $ZSH/oh-my-zsh.sh
 
 source ${HOME}/.aliases/.define.colors
+source ${HOME}/.aliases/.aws.aliases
 source ${HOME}/.aliases/.bat.aliases
 source ${HOME}/.aliases/.common.aliases
 source ${HOME}/.aliases/.cd.aliases
