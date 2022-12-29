@@ -13,21 +13,21 @@ function sqsstate() {
     REGION=$(echo ${QUEUE_URL} | cut -d'.' -f2)
     QUEUE_DATA=$(aws sqs get-queue-attributes --region ${REGION} --queue-url ${QUEUE_URL} --output json --attribute-names All)
     ARN=$(echo $QUEUE_DATA | jq '.Attributes.QueueArn' | tr -d '"')
-    QUEUE_SIZE=$(echo $QUEUE_DATA | jq '.Attributes.ApproximateNumberOfMessages')
-    IN_PROCESS=$(echo $QUEUE_DATA | jq '.Attributes.ApproximateNumberOfMessagesNotVisible')
-
-    POLICY=$(echo $QUEUE_DATA | jq '.Attributes.Policy')
-
-    SOURCE=$(echo $POLICY | jq)
-
-    echo $SOURCE
-
-    #         "Policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"sns.amazonaws.com\"},\"Action\":\"sqs:SendMessage\",\"Resource\":\"arn:aws:sqs:us-west-2:052466545929:qwilt-cq-prod-prod-reporting-ingest-mdl-file-created\",\"Condition\":{\"ArnEquals\":{\"aws:SourceArn\":\"arn:aws:sns:us-west-2:052466545929:prod-mdl-file-archived\"}}}]}",
+    QUEUE_SIZE=$(echo $QUEUE_DATA | jq -r '.Attributes.ApproximateNumberOfMessages')
+    IN_PROCESS=$(echo $QUEUE_DATA | jq -r '.Attributes.ApproximateNumberOfMessagesNotVisible')
 
     printf "\n"
     COLUMN_SIZE=25
     printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%s\n" "ARN" "${ARN}"
+    SOURCE_TOPIC=$(echo $QUEUE_DATA | jq '.Attributes.Policy | fromjson' 2> /dev/null | jq '.Statement[0].Condition.ArnEquals."aws:SourceArn"' | jq -r )
+    if [[ $? -eq 0 && -n "${SOURCE_TOPIC}" ]]; then
+        printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%s\n" "Source Topic" "${SOURCE_TOPIC}"
+    fi
+
     printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%d\n" "Queue Size (Visible)" "${QUEUE_SIZE}"
     printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%d\n" "In Process (Not Visible)" "${IN_PROCESS}"
+
+    
+
     printf "\n"
 }
