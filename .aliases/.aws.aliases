@@ -25,9 +25,7 @@ function sqsstate() {
     fi
 
     printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%d\n" "Queue Size (Visible)" "${QUEUE_SIZE}"
-    printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%d\n" "In Process (Not Visible)" "${IN_PROCESS}"
-
-    
+    printf "${BRIGHT}${GREEN}%-${COLUMN_SIZE}s\t${WHITE}%d\n" "In Process (Not Visible)" "${IN_PROCESS}"  
 
     printf "\n"
 }

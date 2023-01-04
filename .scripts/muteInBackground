@@ -1,0 +1,11 @@
+#!/bin/sh
+
+SCRIPT_DIR=$(dirname $0)
+
+SECONDS=30
+
+if [[ $# -eq 1 ]]; then
+	SECONDS=$1
+fi
+
+${SCRIPT_DIR}/muteForTime $SECONDS > /dev/null 2>&1 &
