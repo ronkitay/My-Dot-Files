@@ -5,12 +5,16 @@ function link_it() {
     TARGET=$2
     SOURCE=$3
 
-    if [[ -L "${TARGET}" ]]; 
-    then
-        echo "${NAME} - Already configured"
+    if [[ ! -e "${SOURCE}" ]]; then
+       echo "[${NAME}] does not exist at [${SOURCE}] - skipping"
     else
-        ln -s  ${SOURCE} ${TARGET}
-        echo "${NAME} - Done"
+        if [[ -L "${TARGET}" ]];
+        then
+            echo "${NAME} - Already configured"
+        else
+            ln -s  ${SOURCE} ${TARGET}
+            echo "${NAME} - Done"
+        fi
     fi
 }
 
