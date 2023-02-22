@@ -3,3 +3,12 @@
 alias k='kubectl'
 alias kns='kubens'
 alias kctx='kubectx'
+
+kgimg() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g');
+    printf "$(tput bold)$(tput setaf 4)%-70s %s$(tput sgr0)\n" "Pod" "Image"; 
+    kubectl get pods -o jsonpath='{range .items[*]}{"\n"}{.metadata.name}{"@"}{range .spec.containers[*]}{.image}{" "}{end}{end}' \
+        | egrep "${PATTERN}" \
+        | awk -F '@' '{printf "%-70s %s\n", $1, $2}' \
+        | egrep --color "${PATTERN}";
+}
