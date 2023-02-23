@@ -80,6 +80,4 @@ fi
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
-[ -f /usr/local/bin/thefuck ] && eval $(thefuck --alias)
-
 [ -f /usr/local/bin/ranger ] && alias rr='/usr/local/bin/ranger'
