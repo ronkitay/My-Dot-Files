@@ -1,3 +1,5 @@
 #!/bin/sh
 
-SCRIPT=`basename $0` IMAGE_NAME=lua-5.4-env _docker_env_launcher $*
+export SCRIPT=`basename $0`; 
+export IMAGE=lua-5.4-env;
+_docker_run_it "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"

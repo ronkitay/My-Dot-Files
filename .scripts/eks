@@ -69,6 +69,7 @@ while getopts ":w:p:r:c:j:h:" option; do
         j) 
             export PROJECT_DIR=${OPTARG}
             PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj/"
+            MOUNT_POINT=" --mount ${PROJECT_DIR}"
             ;;
         *)
             printf "${BRIGHT}The flag ${RED}${option}${WHITE} is not supported provided!${NORMAL}\n"
@@ -102,12 +103,13 @@ then
     help
 fi
 
-export WORKSPACE_NAME=$(echo ${WORKSPACE_NAME} | tr ' ' '-')
-
-dockerrunit ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
-    -v ${HOME}/.clisso.yaml:/root/.clisso.yaml \
+_docker_run_it \
+    --image ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
+    --workspace-name "${WORKSPACE_NAME}" \
+    ${MOUNT_POINT} \
+    --extra-params "-v ${HOME}/.clisso.yaml:/root/.clisso.yaml \
     -v ${HOME}/.aws/:/root/.aws \
-    -v WORKSPACE_DIR/.kube:/root/.kube ${PROJECT_PARTITION} \
+    -v WORKSPACE_DIR/.kube:/root/.kube \
     --env AWS_PROFILE=${AWS_PROFILE} \
     --env AWS_REGION=${AWS_REGION} \
-    --env EKS_CLUSTER=${CLUSTER_NAME} 
+    --env EKS_CLUSTER=${CLUSTER_NAME}" 

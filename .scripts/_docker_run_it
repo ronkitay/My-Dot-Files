@@ -1,0 +1,280 @@
+#!/bin/sh 
+
+####################################################################################################
+# _docker_run_it
+# Runs a docker container based on a given image in interactive mode (-i) with TTY support (-t)
+# 
+# Each container:
+# 1. Gets allocated a workspace - accesible under ~/workspace 
+# 2. Gets allocated a .history file - accesible under ~/.zsh_history 
+# 3. Gets a p10k segment on the right most side of the prompt with the workspace's name (for images that support it)
+# 4. Supports mounting 1 (optional) directory as the main mount point - accesible under ~/proj
+# 5. Supports passing any other arguments to `docker run`
+# 
+# There are three types of containers supported:
+# 1. Named Containers - Get a fixed workspace, support attaching to the container from another session, sets an iterm profile based on the workspace name
+# 2. Ad-Hoc Containers Without a Mount Point - Get a temporary workspace
+# 2. Ad-Hoc Containers With a Mount Point - Get a fixed workspace, support attaching to the container from another session
+# 
+# Workspace Creation Rules
+# 1. Named Containers - Located under ~/.my-docker-envs/<IMAGE_NAME>/<USER_DEFINED_WORKSPACE_NAME> 
+#    - Example: ~/.my-docker-envs/eks/eks-prod 
+#    - Example: ~/.my-docker-envs/alpine/my-alpine-playground 
+# 2. Ad-Hoc Containers Without a Mount Point - Located under ~/.my-docker-envs/<IMAGE_NAME>/<RANDOM_WORKSPACE_NAME>
+#    - Example: ~/.my-docker-envs/basic-env/1675944851-7115-11664
+#    - Example: ~/.my-docker-envs/mongo-client/1657443768-12839-11907
+# 3. Ad-Hoc Containers With a Mount Point - Located under ~/.my-docker-envs/<MOUNT_POINT_BASE_PATH>/<MOUNT_POINT_NAME>
+#    - Example: ~/.my-docker-envs/work@opensource/elasticsearch
+# 
+# p10k segment naming rules:
+# 1. Named Containers - HUMAN_READABLE_USER_DEFINED_WORKSPACE_NAME
+#    - Example: EKS Prod 
+#    - Example: My Alpine Playground 
+# 2. Ad-Hoc Containers Without a Mount Point - <IMAGE_NAME>: <RANDOM_WORKSPACE_NAME>
+#    - Example: basic-env: 1675944851-7115-11664
+#    - Example: mongo-client: 1657443768-12839-11907
+# 3. Ad-Hoc Containers With a Mount Point - <MOUNT_POINT_NAME> (<IMAGE_NAME>)
+#    - Example: elasticsearch (basic-env)
+# 
+# Docker Container naming rules:
+# 1. Named Containers - USER_DEFINED_WORKSPACE_NAME
+#    - Example: eks-prod
+#    - Example: my-alpine-playground
+# 2. Ad-Hoc Containers Without a Mount Point:  <IMAGE_NAME>_<RANDOM_WORKSPACE_NAME>
+#    - Example: basic-env_1675944851-7115-11664
+#    - Example: mongo-client_1657443768-12839-11907
+# 3. Ad-Hoc Containers With a Mount Point - <MOUNT_POINT_NAME>_<IMAGE_NAME>
+#    - Example: elasticsearch_basic-env
+# Container names will be "escaped" to replace illegal characters with the legal set allowed ([a-zA-Z0-9][a-zA-Z0-9_.-])
+####################################################################################################
+
+help() { 
+    if [ -z "${IMAGE}" ];
+    then
+        IMAGE_OPTION="-i|--image <image> "
+        IMAGE_OPTION_EXAMPLE=" --image debian:bullseye"
+        IMAGE_HELP="a given image"
+    else
+        IMAGE_OPTION_EXAMPLE=""
+        IMAGE_HELP="the ${IMAGE} image"
+    fi
+
+    if [ -z "${SCRIPT}" ];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Runs a docker container based on ${IMAGE_HELP} in interactive mode (-i) with TTY support (-t)\n"
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} ${IMAGE_OPTION}[-m|--mount <mount-point>] [-w|--workspace-name <workspace-name>] [-e|--extra-params <extra-docker-params>]\n"
+    printf "\n"
+    printf "Options:\n"
+    if [ -z "${IMAGE}" ]; 
+    then
+        printf "\t-i|--image: (MANDATORY)\n"
+        printf "\tThe name of the image to run. Examples: alpine, ronkitay/basic-env:0.0.3, ubuntu:latest.\n"
+    fi
+    printf "\t-w|--workspace-name:\n"
+    printf "\tA fixed name for the workspace (creates new or uses existing).\n"
+    printf "\t-m|--mount:\n"
+    printf "\tA mount point for the ~/proj directory. Used to define the workspace name if one is not specified with '-w'\n"
+    printf "\t-e|--extra-params:\n"
+    printf "\tPass any 'docker run' parametes (for example extra volumes)\n"
+    printf "\n"
+    printf "Examples:\n"
+    printf "\t# Launches an ad-hoc env with a random name\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE}\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --mount .\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory and maps the Downloads local directory to the containers /junk directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --mount . --extra-params '-v ~/Downloads:/junk'\n"
+    printf "\n"
+    printf "\t# Launches a named env with a fixed name without the need to bind it to a directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --workspace-name my_special_workspace\n"
+    printf "\n"
+    exit 1
+}
+
+function alert_missing_option {
+    printf "${BRIGHT}${RED}Option ${WHITE}%s${RED} is mandatory!${NORMAL}\n" $1
+}
+
+function alert_bad_argument {
+    printf "${BRIGHT}${RED}The value ${WHITE}%s${RED} for option ${WHITE}%s${RED} is not valid due to ${WHITE}%s${RED}${NORMAL}\n" $2 $1 "$3"
+}
+
+function set_iterm_profile {
+    if [[ -f "${HOME}/.iterm2/it2profile" ]]; then
+        ${HOME}/.iterm2/it2profile -s "${1}" 
+    fi
+}
+
+function get_running_containers {
+    echo $(docker ps | awk '{print $NF}' | egrep "^${DOCKER_CONTAINER_NAME}$" | wc -l)
+}
+
+function attach_to_running_container {
+    docker exec -it $(docker ps | grep "${1}" | awk '{print $1}') zsh
+}
+
+function launch_container {
+    mkdir -p ${WORKSPACE_DIR}
+    mkdir -p ${HISTORY_DIR}
+    mkdir -p ${WORK_DIR}
+
+    if [ ! -f "${HISTORY_DIR}/.zsh_history" ]
+    then
+        touch ${HISTORY_DIR}/.zsh_history
+    fi
+
+    if [ ! -f "${HISTORY_DIR}/.ash_history" ]
+    then
+        touch "${HISTORY_DIR}/.ash_history"
+    fi   
+
+    OTHER_PARAMS=$(echo ${OTHER_PARAMS} | sed "s|WORKSPACE_DIR|${WORKSPACE_DIR}|g")
+
+    docker run \
+        -e TERM -e COLORTERM -e LC_ALL=C.UTF-8 \
+        --workdir /root/ \
+        ${PROJECT_MOUNT} \
+        -v ${WORK_DIR}:/root/workspace/ \
+        -v ${HISTORY_DIR}/.zsh_history:/root/.zsh_history \
+        -v ${HISTORY_DIR}/.ash_history:/root/.ash_history \
+        --env WORKSPACE_NAME="${P10K_SEGMENT}" \
+        ${OTHER_PARAMS} --name ${DOCKER_CONTAINER_NAME} \
+        -t -i --rm ${IMAGE} 
+}
+
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    '--help')                    set -- "$@" '-h'   ;;
+    '--image')                   set -- "$@" '-i'   ;;
+    '--mount')                   set -- "$@" '-m'   ;;
+    '--workspace-name')          set -- "$@" '-w'   ;;
+    '--extra-params')            set -- "$@" '-e'   ;;
+    *)                           set -- "$@" "$arg" ;;
+  esac
+done
+
+while getopts ":h:i:w:m:e:" option; do
+    case "${option}" in
+        h)
+            help
+            ;;    
+        i)
+            IMAGE="${OPTARG}"
+            IMAGE_TAG=$(echo ${IMAGE} | sed 's|.*:||')
+            IMAGE_NAME=$(echo ${IMAGE} | sed 's|:.*||' | sed 's|.*/||')
+            ;;
+        w)
+            WORKSPACE_HUMAN_NAME="${OPTARG}"
+            ;;            
+        m)
+            if [[ ! -d ${OPTARG} ]]; then
+                alert_bad_argument "-m" "${OPTARG}" 'Is not a directory!'
+                help
+            fi
+            MOUNT_POINT=$(cd ${OPTARG}; pwd)
+            ;;            
+        e)
+            OTHER_PARAMS="${OPTARG}"
+            ;;                                  
+        *)
+            help
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+ALL_WORKSPACES_ROOT="${HOME}/.my-docker-envs"
+
+if [[ -z "${IMAGE}" ]]; then
+    alert_missing_option '-i/--image'
+    help
+fi
+
+if [[ -n "${WORKSPACE_HUMAN_NAME}" ]];
+then
+    echo "Mode #1 - Named Container"
+    WORKSPACE_NAME=$(echo ${WORKSPACE_HUMAN_NAME} | tr ' ' '-')
+    WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_NAME}"
+    DOCKER_CONTAINER_NAME=$(echo ${WORKSPACE_NAME} | egrep -o "[a-zA-Z0-9]+.*")
+    P10K_SEGMENT=${WORKSPACE_NAME}
+    if [ -n "${MOUNT_POINT}" ]; 
+    then
+        PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
+    fi
+    ITERM_PROFILE_NAME="${WORKSPACE_NAME}"
+else
+    if [ -n "${MOUNT_POINT}" ]; 
+    then
+        echo "Mode #2 - Ad-Hoc Container WITH a Mount Point"
+        PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
+        MOUNT_NAME=$(basename ${MOUNT_POINT} | egrep -o "[a-zA-Z0-9]+.*");
+        MOUNT_HIERARCHY=$(dirname ${MOUNT_POINT} | cut -d'/' -f4- | tr '/' '@');
+        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${MOUNT_HIERARCHY}/${MOUNT_NAME}"
+        DOCKER_CONTAINER_NAME="${MOUNT_NAME}_${IMAGE_NAME}"
+        P10K_SEGMENT="${MOUNT_NAME} (${IMAGE_NAME})"
+    else
+        echo "Mode #3 - Ad-Hoc Container WITHOUT a Mount Point"
+        WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-$(date +%s)-${RANDOM}-${RANDOM}
+        WORKSPACE_ID="$(date +%s)-${RANDOM}-${RANDOM}"
+        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_ID}"
+        DOCKER_CONTAINER_NAME="${IMAGE_NAME}_${WORKSPACE_ID}"
+        P10K_SEGMENT="${IMAGE_NAME} (${WORKSPACE_ID})"
+    fi
+fi
+
+WORK_DIR="${WORKSPACE_DIR}/workspace/"
+HISTORY_DIR="${WORKSPACE_DIR}/.history"
+
+if [ -n "${MOUNT_POINT}" ]; 
+then
+    printf "${BRIGHT}${GREEN}Launching Container [${WHITE}%s${GREEN}] under workspace dir [${WHITE}%s${GREEN}]. Project Mount Point is dir [${WHITE}%s${GREEN}]${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" "${WORKSPACE_DIR}" "${MOUNT_POINT}"
+else
+    printf "${BRIGHT}${GREEN}Launching Container [${WHITE}%s${GREEN}] under workspace dir [${WHITE}%s${GREEN}]${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" "${WORKSPACE_DIR}"
+fi
+
+if [ -n "${ITERM_PROFILE_NAME}" ]; 
+then
+    set_iterm_profile "${ITERM_PROFILE_NAME}"
+fi
+
+if [[ $(get_running_containers) -gt 0 ]];
+then
+    printf "${BRIGHT}${GREEN}Container [${WHITE}%s${GREEN}] is already running - attaching to it${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" 
+    attach_to_running_container "${DOCKER_CONTAINER_NAME}"
+else  
+    launch_container $*
+fi
+
+if [ -z "${WORKSPACE_HUMAN_NAME}" ] && [ -z "${MOUNT_POINT}" ]; 
+then
+    echo "Checking if cleanup is needed"
+
+    if [[ $(get_running_containers) -eq 0 ]];
+    then
+        let state_files="$(find ${WORKSPACE_DIR} -type f | grep -v '/.history/' | wc -l)"+0
+
+        if [[ ${state_files} -eq 0 ]];
+        then
+            printf "${BRIGHT}${GREEN}Container [${WHITE}%s${GREEN}] has exited, cleaning up workspace dir [${WHITE}%s${GREEN}]${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" "${WORKSPACE_DIR}"        
+            rm -rf ${WORKSPACE_DIR}
+            PARENT_DIR=$(dirname ${WORKSPACE_DIR})
+            let namespace_files="$(find ${PARENT_DIR} | wc -l)"+0
+            if [[ ${namespace_files} -eq 1 ]];
+            then
+                rm -r ${PARENT_DIR}
+            fi
+        else
+            printf "${BRIGHT}${RED}Container [${WHITE}%s${RED}] has exited with [${WHITE}%d${RED}] remaining under workspace dir [${WHITE}%s${RED}]${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" ${state_files} "${WORKSPACE_DIR}"        
+        fi
+    fi    
+fi
+
+set_iterm_profile "Default"
