@@ -135,6 +135,11 @@ function launch_container {
         touch "${HISTORY_DIR}/.ash_history"
     fi   
 
+    if [ ! -f "${HISTORY_DIR}/.psql_history" ]
+    then
+        touch "${HISTORY_DIR}/.psql_history"
+    fi   
+
     OTHER_PARAMS=$(echo ${OTHER_PARAMS} | sed "s|WORKSPACE_DIR|${WORKSPACE_DIR}|g")
 
     docker run \
@@ -144,6 +149,7 @@ function launch_container {
         -v ${WORK_DIR}:/root/workspace/ \
         -v ${HISTORY_DIR}/.zsh_history:/root/.zsh_history \
         -v ${HISTORY_DIR}/.ash_history:/root/.ash_history \
+        -v ${HISTORY_DIR}/.psql_history:/root/.psql_history \
         --env WORKSPACE_NAME="${P10K_SEGMENT}" \
         ${OTHER_PARAMS} --name ${DOCKER_CONTAINER_NAME} \
         -t -i --rm ${IMAGE} 
@@ -200,7 +206,6 @@ fi
 
 if [[ -n "${WORKSPACE_HUMAN_NAME}" ]];
 then
-    echo "Mode #1 - Named Container"
     WORKSPACE_NAME=$(echo ${WORKSPACE_HUMAN_NAME} | tr ' ' '-')
     WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_NAME}"
     DOCKER_CONTAINER_NAME=$(echo ${WORKSPACE_NAME} | egrep -o "[a-zA-Z0-9]+.*")
@@ -213,7 +218,6 @@ then
 else
     if [ -n "${MOUNT_POINT}" ]; 
     then
-        echo "Mode #2 - Ad-Hoc Container WITH a Mount Point"
         PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
         MOUNT_NAME=$(basename ${MOUNT_POINT} | egrep -o "[a-zA-Z0-9]+.*");
         MOUNT_HIERARCHY=$(dirname ${MOUNT_POINT} | cut -d'/' -f4- | tr '/' '@');
@@ -221,7 +225,6 @@ else
         DOCKER_CONTAINER_NAME="${MOUNT_NAME}_${IMAGE_NAME}"
         P10K_SEGMENT="${MOUNT_NAME} (${IMAGE_NAME})"
     else
-        echo "Mode #3 - Ad-Hoc Container WITHOUT a Mount Point"
         WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-$(date +%s)-${RANDOM}-${RANDOM}
         WORKSPACE_ID="$(date +%s)-${RANDOM}-${RANDOM}"
         WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_ID}"
@@ -255,8 +258,6 @@ fi
 
 if [ -z "${WORKSPACE_HUMAN_NAME}" ] && [ -z "${MOUNT_POINT}" ]; 
 then
-    echo "Checking if cleanup is needed"
-
     if [[ $(get_running_containers) -eq 0 ]];
     then
         let state_files="$(find ${WORKSPACE_DIR} -type f | grep -v '/.history/' | wc -l)"+0
