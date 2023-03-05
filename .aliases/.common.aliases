@@ -19,7 +19,7 @@ alias xg='xargs egrep --color'
 #A# xgi;xargs grep (Case insensitive)
 alias xgi='xargs egrep --color -i'
 
-if [[ -x "$(which fd  2> /dev/null)" ]]; then
+if [ -x "$(which fd  2> /dev/null)" ] || [ -x "$(which fdfind  2> /dev/null)" ]; then
     #A# fnf;Find files
     alias fnf='fd -t f -H -L . '
     #A# fnsrc;Find Source Files
