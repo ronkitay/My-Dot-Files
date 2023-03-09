@@ -81,6 +81,8 @@ help() {
     printf "\tA mount point for the ~/proj directory. Used to define the workspace name if one is not specified with '-w'\n"
     printf "\t-e|--extra-params:\n"
     printf "\tPass any 'docker run' parametes (for example extra volumes)\n"
+    printf "\t-d|--delete-workspace:\n"
+    printf "\tAlways delete the workspace after exit even if files were left.\n"
     printf "\n"
     printf "Examples:\n"
     printf "\t# Launches an ad-hoc env with a random name\n"
@@ -163,11 +165,12 @@ for arg in "$@"; do
     '--mount')                   set -- "$@" '-m'   ;;
     '--workspace-name')          set -- "$@" '-w'   ;;
     '--extra-params')            set -- "$@" '-e'   ;;
+    '--delete-workspace')        set -- "$@" '-d'   ;;
     *)                           set -- "$@" "$arg" ;;
   esac
 done
 
-while getopts ":h:i:w:m:e:" option; do
+while getopts ":h:i:w:m:e:d" option; do
     case "${option}" in
         h)
             help
@@ -189,7 +192,10 @@ while getopts ":h:i:w:m:e:" option; do
             ;;            
         e)
             OTHER_PARAMS="${OPTARG}"
-            ;;                                  
+            ;;   
+        d)
+            ALWAYS_DELETE="Y"
+            ;;                                            
         *)
             help
             ;;
@@ -204,10 +210,15 @@ if [[ -z "${IMAGE}" ]]; then
     help
 fi
 
+WORKSPACE_BUILDER_FLAGS="-i ${IMAGE}"
+[[ -n "${WORKSPACE_HUMAN_NAME}" ]] && WORKSPACE_BUILDER_FLAGS="${WORKSPACE_BUILDER_FLAGS} -w ${WORKSPACE_HUMAN_NAME}"
+[[ -n "${MOUNT_POINT}" ]] && WORKSPACE_BUILDER_FLAGS="${WORKSPACE_BUILDER_FLAGS} -m ${MOUNT_POINT}"
+source _docker_workspace_builder ${WORKSPACE_BUILDER_FLAGS}
+
 if [[ -n "${WORKSPACE_HUMAN_NAME}" ]];
 then
-    WORKSPACE_NAME=$(echo ${WORKSPACE_HUMAN_NAME} | tr ' ' '-')
-    WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_NAME}"
+    # WORKSPACE_NAME=$(echo ${WORKSPACE_HUMAN_NAME} | tr ' ' '-')
+    # WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_NAME}"
     DOCKER_CONTAINER_NAME=$(echo ${WORKSPACE_NAME} | egrep -o "[a-zA-Z0-9]+.*")
     P10K_SEGMENT=${WORKSPACE_NAME}
     if [ -n "${MOUNT_POINT}" ]; 
@@ -219,15 +230,15 @@ else
     if [ -n "${MOUNT_POINT}" ]; 
     then
         PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
-        MOUNT_NAME=$(basename ${MOUNT_POINT} | egrep -o "[a-zA-Z0-9]+.*");
-        MOUNT_HIERARCHY=$(dirname ${MOUNT_POINT} | cut -d'/' -f4- | tr '/' '@');
-        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${MOUNT_HIERARCHY}/${MOUNT_NAME}"
+        # MOUNT_NAME=$(basename ${MOUNT_POINT} | egrep -o "[a-zA-Z0-9]+.*");
+        # MOUNT_HIERARCHY=$(dirname ${MOUNT_POINT} | cut -d'/' -f4- | tr '/' '@');
+        # WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${MOUNT_HIERARCHY}/${MOUNT_NAME}"
         DOCKER_CONTAINER_NAME="${MOUNT_NAME}_${IMAGE_NAME}"
         P10K_SEGMENT="${MOUNT_NAME} (${IMAGE_NAME})"
     else
-        WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-$(date +%s)-${RANDOM}-${RANDOM}
-        WORKSPACE_ID="$(date +%s)-${RANDOM}-${RANDOM}"
-        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_ID}"
+        WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-${WORKSPACE_ID}
+        # WORKSPACE_ID="$(date +%s)-${RANDOM}-${RANDOM}"
+        # WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_ID}"
         DOCKER_CONTAINER_NAME="${IMAGE_NAME}_${WORKSPACE_ID}"
         P10K_SEGMENT="${IMAGE_NAME} (${WORKSPACE_ID})"
     fi
@@ -260,9 +271,9 @@ if [ -z "${WORKSPACE_HUMAN_NAME}" ] && [ -z "${MOUNT_POINT}" ];
 then
     if [[ $(get_running_containers) -eq 0 ]];
     then
-        let state_files="$(find ${WORKSPACE_DIR} -type f | grep -v '/.history/' | wc -l)"+0
+        let state_files="$(find ${WORK_DIR} -type f | wc -l)"+0
 
-        if [[ ${state_files} -eq 0 ]];
+        if [ ${state_files} -eq 0 ] || [ "${ALWAYS_DELETE}" == "Y" ];
         then
             printf "${BRIGHT}${GREEN}Container [${WHITE}%s${GREEN}] has exited, cleaning up workspace dir [${WHITE}%s${GREEN}]${NORMAL}\n" "${DOCKER_CONTAINER_NAME}" "${WORKSPACE_DIR}"        
             rm -rf ${WORKSPACE_DIR}

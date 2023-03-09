@@ -6,9 +6,11 @@ then
     echo "mongo <hostname> <db> <username> <password>"
     echo ""
 else
-    AUTO_CLEANUP=y dockerrunit ${MY_DOCKER_IMAGES_REPO}/mongo-client:$(cat ${HOME}/.my-docker-images.release) \
-        --env MONGO_HOSTNAME=$1 \
+    _docker_run_it \
+        --image ${MY_DOCKER_IMAGES_REPO}/mongo-client:$(cat ${HOME}/.my-docker-images.release) \
+        --workspace-name "${2}_${1}" \
+        --extra-params "--env MONGO_HOSTNAME=$1 \
         --env MONGO_DB=$2 \
         --env MONGO_USERNAME=$3 \
-        --env MONGO_PASSWORD=$4 
+        --env MONGO_PASSWORD=$4" 
 fi

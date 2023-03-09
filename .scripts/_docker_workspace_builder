@@ -1,0 +1,139 @@
+#!/bin/sh 
+
+####################################################################################################
+# _docker_workspace_builder
+####################################################################################################
+
+help() { 
+    if [ -z "${IMAGE}" ];
+    then
+        IMAGE_OPTION="-i|--image <image> "
+        IMAGE_OPTION_EXAMPLE=" --image debian:bullseye"
+        IMAGE_HELP="a given image"
+    else
+        IMAGE_OPTION_EXAMPLE=""
+        IMAGE_HELP="the ${IMAGE} image"
+    fi
+
+    if [ -z "${SCRIPT}" ];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Runs a docker container based on ${IMAGE_HELP} in interactive mode (-i) with TTY support (-t)\n"
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} ${IMAGE_OPTION}[-m|--mount <mount-point>] [-w|--workspace-name <workspace-name>] [-e|--extra-params <extra-docker-params>]\n"
+    printf "\n"
+    printf "Options:\n"
+    if [ -z "${IMAGE}" ]; 
+    then
+        printf "\t-i|--image: (MANDATORY)\n"
+        printf "\tThe name of the image to run. Examples: alpine, ronkitay/basic-env:0.0.3, ubuntu:latest.\n"
+    fi
+    printf "\t-w|--workspace-name:\n"
+    printf "\tA fixed name for the workspace (creates new or uses existing).\n"
+    printf "\t-m|--mount:\n"
+    printf "\tA mount point for the ~/proj directory. Used to define the workspace name if one is not specified with '-w'\n"
+    printf "\t-e|--extra-params:\n"
+    printf "\tPass any 'docker run' parametes (for example extra volumes)\n"
+    printf "\n"
+    printf "Examples:\n"
+    printf "\t# Launches an ad-hoc env with a random name\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE}\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --mount .\n"
+    printf "\n"
+    printf "\t# Launches a named env for the current directory and maps the Downloads local directory to the containers /junk directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --mount . --extra-params '-v ~/Downloads:/junk'\n"
+    printf "\n"
+    printf "\t# Launches a named env with a fixed name without the need to bind it to a directory\n"
+    printf "\t${SCRIPT}${IMAGE_OPTION_EXAMPLE} --workspace-name my_special_workspace\n"
+    printf "\n"
+    exit 1
+}
+
+function alert_missing_option {
+    printf "${BRIGHT}${RED}Option ${WHITE}%s${RED} is mandatory!${NORMAL}\n" $1
+}
+
+function alert_bad_argument {
+    printf "${BRIGHT}${RED}The value ${WHITE}%s${RED} for option ${WHITE}%s${RED} is not valid due to ${WHITE}%s${RED}${NORMAL}\n" $2 $1 "$3"
+}
+
+
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    '--help')                    set -- "$@" '-h'   ;;
+    *)                           set -- "$@" "$arg" ;;
+  esac
+done
+
+while getopts ":h:i:w:m:e:" option; do
+    case "${option}" in
+        h)
+            help
+            ;;    
+        i)
+            IMAGE="${OPTARG}"
+            IMAGE_TAG=$(echo ${IMAGE} | sed 's|.*:||')
+            IMAGE_NAME=$(echo ${IMAGE} | sed 's|:.*||' | sed 's|.*/||')
+            ;;
+        w)
+            WORKSPACE_HUMAN_NAME="${OPTARG}"
+            ;;            
+        m)
+            if [[ ! -d ${OPTARG} ]]; then
+                alert_bad_argument "-m" "${OPTARG}" 'Is not a directory!'
+                help
+            fi
+            MOUNT_POINT=$(cd ${OPTARG}; pwd)
+            ;;            
+        *)
+            help
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+ALL_WORKSPACES_ROOT="${HOME}/.my-docker-envs"
+
+if [[ -z "${IMAGE}" ]]; then
+    alert_missing_option '-i/--image'
+    help
+fi
+
+if [[ -n "${WORKSPACE_HUMAN_NAME}" ]];
+then
+    export WORKSPACE_NAME=$(echo ${WORKSPACE_HUMAN_NAME} | tr ' ' '-')
+    WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_NAME}"
+    # DOCKER_CONTAINER_NAME=$(echo ${WORKSPACE_NAME} | egrep -o "[a-zA-Z0-9]+.*")
+    # P10K_SEGMENT=${WORKSPACE_NAME}
+    # if [ -n "${MOUNT_POINT}" ]; 
+    # then
+    #     PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
+    # fi
+    # ITERM_PROFILE_NAME="${WORKSPACE_NAME}"
+else
+    if [ -n "${MOUNT_POINT}" ]; 
+    then        
+        # PROJECT_MOUNT=" -v ${MOUNT_POINT}:/root/proj "
+        MOUNT_NAME=$(basename ${MOUNT_POINT} | egrep -o "[a-zA-Z0-9]+.*");
+        MOUNT_HIERARCHY=$(dirname ${MOUNT_POINT} | cut -d'/' -f4- | tr '/' '@');
+        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${MOUNT_HIERARCHY}/${MOUNT_NAME}"
+        # DOCKER_CONTAINER_NAME="${MOUNT_NAME}_${IMAGE_NAME}"
+        # P10K_SEGMENT="${MOUNT_NAME} (${IMAGE_NAME})"
+    else
+        [ -z "${WORKSPACE_ID}" ] && export WORKSPACE_ID="$(date +%s)-${RANDOM}-${RANDOM}"
+        # WORKSPACE_NAME=$(echo ${IMAGE} | tr ':' '_' | sed 's|.*/||')-$(date +%s)-${RANDOM}-${RANDOM}
+        WORKSPACE_DIR="${ALL_WORKSPACES_ROOT}/${IMAGE_NAME}/${WORKSPACE_ID}"
+        # DOCKER_CONTAINER_NAME="${IMAGE_NAME}_${WORKSPACE_ID}"
+        # P10K_SEGMENT="${IMAGE_NAME} (${WORKSPACE_ID})"
+    fi
+fi
+
+export WORKSPACE_DIR
+export WORK_DIR="${WORKSPACE_DIR}/workspace"
+export HISTORY_DIR="${WORKSPACE_DIR}/.history"
