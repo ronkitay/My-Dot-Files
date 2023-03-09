@@ -11,6 +11,20 @@ function giturl {
     open "${base_url}${tree}${branch}/${relative_path}$1"
 }
 
+function archiverepo {
+    export REPO_NAME=$1;
+
+    if [ ! -d "$REPO_NAME" ]
+    then
+        echo "$REPO_NAME is not a directory";
+    else
+        cd ${REPO_NAME};
+        git remote -v > ../${REPO_NAME}.git \
+            && cd .. \
+            && rm -rf ${REPO_NAME};
+    fi
+}
+
 
 # Usefull Commands
 function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ============$(tput sgr0)\n\n";}
