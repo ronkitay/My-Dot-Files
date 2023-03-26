@@ -25,6 +25,22 @@ function archiverepo {
     fi
 }
 
+function unarchiverepo {
+    export REPO_MARKER=$1;
+
+    REPO_NAME=$(echo $REPO_MARKER | sed 's|\.git||')
+    REPO_MARKER="${REPO_NAME}.git"
+
+    if [ ! -f "${REPO_MARKER}" ]
+    then
+        echo "Cannot find ${REPO_MARKER}";
+    else
+        REPO_URL=$(cat ${REPO_MARKER} | head -n 1 | awk '{print $2}')
+        echo "Unarchiving ${REPO_NAME} from ${REPO_URL}"
+        git clone ${REPO_URL} && rm ${REPO_MARKER} && cd ${REPO_NAME}
+    fi
+}
+
 
 # Usefull Commands
 function printHeader { printf "\n$(tput bold)$(tput setaf 2)============ $* ============$(tput sgr0)\n\n";}
