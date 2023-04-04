@@ -23,6 +23,7 @@ source ${HOME}/.aliases/.k8s.aliases
 source ${HOME}/.aliases/.mac.aliases
 source ${HOME}/.aliases/.mvn.aliases
 source ${HOME}/.aliases/.p4.aliases
+source ${HOME}/.aliases/.python.aliases
 source ${HOME}/.aliases/.util.aliases
 
 

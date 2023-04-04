@@ -1,0 +1,14 @@
+#A# venv;Alias for working with virtualenvs
+function venv() { 
+    python -m virtualenv $* 
+}
+
+function venvactivate() { 
+    VENV_ACTIVATION_SCRIPT=venv/bin/activate
+    if [ -f "${VENV_ACTIVATION_SCRIPT}" ]
+    then
+        source ${VENV_ACTIVATION_SCRIPT}
+    else
+        echo "${RED}${BRIGHT}Cannot find ${WHITE}${VENV_ACTIVATION_SCRIPT}${RED} under the current location!${NORMAL}"
+    fi
+}
