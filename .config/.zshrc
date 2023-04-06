@@ -53,6 +53,27 @@ if [[ -d "${PERSONAL_HOME}" ]]; then
       BASE_DIR=${PERSONAL_HOME} source ${PERSONAL_HOME}/${dir_name}/.go.here
     fi
   done
+
+  CFI_HOME=${PERSONAL_HOME}/code-for-israel
+  if [[ -d "${CFI_HOME}" ]]; then
+    complete -W "$(ls ${CFI_HOME})" gocfi
+    function gocfi() {
+      rgb 88 10 120
+      cd ${CFI_HOME}
+      smart_change_dir_to_child $*
+    }
+
+    OVRIM_HOME=${CFI_HOME}/ovrim
+    if [[ -d "${OVRIM_HOME}" ]]; then
+      complete -W "$(ls ${OVRIM_HOME})" goovrim
+      function goovrim() {
+        rgb 88 10 120
+        cd ${OVRIM_HOME}
+        smart_change_dir_to_child $*
+      }
+    fi    
+  fi
+
   cd ${GO_BACK}
 fi
 
