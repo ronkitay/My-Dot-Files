@@ -175,8 +175,11 @@ function git-branch-name {
 }
 
 
+
 #A# gcm; Git Checkout Master
-alias gcm='printHeader "Git Checkout => Master" ;git checkout master; printFooter'
+if !alias gcm >/dev/null 2>&1; then # Define only when not using the zsh git plugin which defines this to support main and trunk as well
+  alias gcm='printHeader "Git Checkout => Master" ;git checkout master; printFooter'
+fi
 #A# gcheckout; Git Checkout ...
 function gcheckout { printHeader "Git Checkout ($*)" ; git checkout $*; printFooter; }
 #A# gstatus;Git status
