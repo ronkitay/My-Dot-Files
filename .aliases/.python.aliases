@@ -22,5 +22,5 @@ export PIPENV_VENV_IN_PROJECT=Y
 
 #A# pipenv;Alias for working with Pipenv
 function pipenv() { 
-    python -m pipenv $* 
+    python3 -m pipenv $* 
 }
