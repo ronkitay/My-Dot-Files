@@ -1,0 +1,6 @@
+#!/bin/sh
+
+## To "install" - run the following command:
+## sudo ln -s ~/Personal/My-Dot-Files/.scripts/podman_docker_wrapper /usr/local/bin/docker
+
+exec podman "$@"
