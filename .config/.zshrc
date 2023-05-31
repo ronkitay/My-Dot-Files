@@ -5,6 +5,8 @@ export MY_DOCKER_IMAGES_REPO=ronkitay
 export EDITOR='vim'
 HIST_STAMPS="[%F] [%T]"
 
+[ -f /opt/homebrew/bin/brew ] &&  eval "$(/opt/homebrew/bin/brew shellenv)"
+
 source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
 source ${HOME}/.man.settings
