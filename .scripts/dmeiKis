@@ -24,13 +24,32 @@ fi
 
 epoch_of_friday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "$1T00:00:00" +%s 2> /dev/null)
 
+omers_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-07-16T00:00:00" +%s 2> /dev/null)
+noams_8th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-09-21T00:00:00" +%s 2> /dev/null)
+noams_10th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2025-09-21T00:00:00" +%s 2> /dev/null)
+
 if [[ $epoch_of_friday -le 0 ]];
 then
     printf "${BRIGHT}${RED}Invalid start date ($1)!${NORMAL}\n"
     help
 fi
 
+NOAM=3
+OMER=20
+
 for i in {1..12}; do 
     let epoch_of_friday=$epoch_of_friday+7*24*60*60;
-    date -r $epoch_of_friday +'%Y-%m-%d'; 
+    if [[ $epoch_of_friday -ge $omers_birthday ]]; 
+    then
+        OMER=50
+    fi
+    if [[ $epoch_of_friday -ge $noams_8th_birthday ]]; 
+    then
+        NOAM=15
+    fi
+    if [[ $epoch_of_friday -ge $noams_10th_birthday ]]; 
+    then
+        NOAM=20
+    fi
+    echo "$(date -r $epoch_of_friday +'%Y-%m-%d') - Maya: 50, Omer: ${OMER}, Noam: ${NOAM}"; 
 done
