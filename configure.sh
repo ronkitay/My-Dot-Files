@@ -22,6 +22,11 @@ cd $(dirname $0)
 BASE_DIR="$(pwd)"
 link_it 'Aliases' "${HOME}/.aliases" "${BASE_DIR}/.aliases"
 
+link_it 'Key ReMapping' "${HOME}/Library/LaunchAgents/com.local.KeyRemapping.plist" "${BASE_DIR}/MacSettings/Library/LaunchAgents/com.local.KeyRemapping.plist"
+launchctl load ~/Library/LaunchAgents/com.local.KeyRemapping.plist
+launchctl start com.local.KeyRemapping
+
+
 cd $(dirname $0)/.config
 BASE_DIR="$(pwd)"
 
@@ -37,3 +42,6 @@ link_it 'ZSH RC' "${HOME}/.zshrc" "${BASE_DIR}/.zshrc"
 link_it 'PSQL RC' "${HOME}/.psqlrc" "${BASE_DIR}/.psqlrc"
 link_it 'P10K Configuration' "${HOME}/.p10k.zsh" "${BASE_DIR}/.p10k.zsh"
 link_it 'My Docker Images Release' "${HOME}/.my-docker-images.release" "${HOME}/Personal/docker-images/release"
+
+
+
