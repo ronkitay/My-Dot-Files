@@ -1,4 +1,6 @@
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
 
@@ -105,3 +107,5 @@ fi
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 [ -f /usr/local/bin/ranger ] && alias rr='/usr/local/bin/ranger'
+
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
