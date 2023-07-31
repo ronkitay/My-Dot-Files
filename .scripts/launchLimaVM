@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/opt/homebrew/bin/limactl start default 
+
