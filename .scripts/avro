@@ -21,4 +21,4 @@ then
     downloadLatestAvro
 fi
 
-java -jar ${AVRO_INSTALL_DIR}/avro-tools-*.jar $* 2>/dev/null
+java -jar ${AVRO_INSTALL_DIR}/avro-tools-*.jar $* 
