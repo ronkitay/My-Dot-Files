@@ -27,6 +27,7 @@ source ${HOME}/.aliases/.aws.aliases
 source ${HOME}/.aliases/.bat.aliases
 source ${HOME}/.aliases/.common.aliases
 source ${HOME}/.aliases/.cd.aliases
+source ${HOME}/.aliases/.gcp.aliases
 source ${HOME}/.aliases/.git.aliases
 source ${HOME}/.aliases/.iterm.aliases
 source ${HOME}/.aliases/.java.aliases
@@ -35,6 +36,7 @@ source ${HOME}/.aliases/.mac.aliases
 source ${HOME}/.aliases/.mvn.aliases
 source ${HOME}/.aliases/.p4.aliases
 source ${HOME}/.aliases/.python.aliases
+source ${HOME}/.aliases/.terraform.aliases
 source ${HOME}/.aliases/.util.aliases
 
 PERSONAL_HOME=${HOME}/Personal
