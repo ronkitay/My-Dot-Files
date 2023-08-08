@@ -1,2 +1,0 @@
-# tfswitch
-if [ -d "${HOME}/tools/tfswitch" ]; then PATH=${PATH}:${HOME}/tools/tfswitch/; fi
