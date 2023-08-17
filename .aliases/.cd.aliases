@@ -26,3 +26,16 @@ function smart_change_dir_to_child() {
         ls -la | egrep '^d' | awk '{print $NF}' | egrep -v '^\.$|^\.\.$' 
     fi
 }
+
+function rr() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g')
+
+    cd ${HOME}/Personal
+    /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" > /tmp/rr.list
+    cd ${HOME}/work
+    /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" >> /tmp/rr.list
+    #DIR_TO_SWITCH_TO=`/opt/homebrew/bin/fd '.git$' --prune -u -t d --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" | fzf`
+    DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf`
+    rm /tmp/rr.list
+    cd $DIR_TO_SWITCH_TO
+}
