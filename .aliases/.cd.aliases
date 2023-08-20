@@ -34,8 +34,12 @@ function rr() {
     /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" > /tmp/rr.list
     cd ${HOME}/work
     /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" >> /tmp/rr.list
-    #DIR_TO_SWITCH_TO=`/opt/homebrew/bin/fd '.git$' --prune -u -t d --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" | fzf`
-    DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf`
+    if [[ "$(cat /tmp/rr.list | wc -l)" -eq "1" ]]; 
+    then 
+        DIR_TO_SWITCH_TO=`cat /tmp/rr.list`
+    else
+        DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf`
+    fi
     rm /tmp/rr.list
     cd $DIR_TO_SWITCH_TO
 }
