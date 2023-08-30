@@ -28,12 +28,12 @@ function smart_change_dir_to_child() {
 }
 
 function rr() {
+    RR_CONFIG_DIR=${HOME}/.config/rr
+    RR_CONFIG_FILE=${RR_CONFIG_DIR}/rr.list 
     PATTERN=$(echo $* | sed 's/ /\.\*/g')
 
-    cd ${HOME}/Personal
-    /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" > /tmp/rr.list
-    cd ${HOME}/work
-    /opt/homebrew/bin/fd '.git$' --prune -u -t d -a --exclude '.terraform'  --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i ".*${PATTERN}.*" >> /tmp/rr.list
+    cat ${RR_CONFIG_FILE} | cut -d';' -f1-2 | egrep -i ".*${PATTERN}.*" | tr ';' '/' > /tmp/rr.list
+
     if [[ "$(cat /tmp/rr.list | wc -l)" -eq "1" ]]; 
     then 
         DIR_TO_SWITCH_TO=`cat /tmp/rr.list`
