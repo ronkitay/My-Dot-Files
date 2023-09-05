@@ -27,7 +27,7 @@ function smart_change_dir_to_child() {
     fi
 }
 
-function rr() {
+function r() {
     RR_CONFIG_DIR=${HOME}/.config/rr
     RR_CONFIG_FILE=${RR_CONFIG_DIR}/rr.list 
     PATTERN=$(echo $* | sed 's/ /\.\*/g')
@@ -41,5 +41,15 @@ function rr() {
         DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf`
     fi
     rm /tmp/rr.list
-    cd $DIR_TO_SWITCH_TO
+
+    if [[ "${DIR_TO_SWITCH_TO}" = *.git ]]; 
+    then
+        cd $(dirname ${DIR_TO_SWITCH_TO});
+        echo "${BRIGHT}${GREEN}To access the repo, run the following command:${NORMAL}"
+        echo ""
+        echo "unarchive $(basename ${DIR_TO_SWITCH_TO})"
+        echo ""
+    else
+        cd $DIR_TO_SWITCH_TO
+    fi
 }
