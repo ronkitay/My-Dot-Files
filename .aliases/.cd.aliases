@@ -27,6 +27,16 @@ function smart_change_dir_to_child() {
     fi
 }
 
+function cdz() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g');
+    DIR_TO_SWITCH_TO=$(fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep "${PATTERN}" | fzf --preview 'tree -L 2 -C {}')
+    if [[ $? -eq 0 ]];
+    then
+        cd $DIR_TO_SWITCH_TO;
+    fi
+}
+
+
 function r() {
     RR_CONFIG_DIR=${HOME}/.config/rr
     RR_CONFIG_FILE=${RR_CONFIG_DIR}/rr.list 
@@ -38,7 +48,7 @@ function r() {
     then 
         DIR_TO_SWITCH_TO=`cat /tmp/rr.list`
     else
-        DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf`
+        DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf --preview 'tree -L 2 -C {}'`
     fi
     rm /tmp/rr.list
 

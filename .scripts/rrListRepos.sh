@@ -24,6 +24,7 @@ function parseRepo() {
     # if [[ "${URL}" = *service* ]]; then
     #     TYPE="microservice"
     # fi
+
     printf "${BASE_DIR};${REPO_DIR};${URL};${TYPE}\n"
 }
 
@@ -55,6 +56,22 @@ function listRepos() {
     for archive in ${ARCHIVE_LIST}; do
         parseArchive ${BASE_DIR} $archive
     done
+
+    TEMP_PARENT_DIR=$(mktemp)
+    PARENT_DIRS=$DIR_LIST
+    while [[ $(for dir in $PARENT_DIRS; do echo 1; done | wc -l) -gt 0 ]]; 
+    do
+        PARENT_DIRS=$(for dir in $PARENT_DIRS; do dirname $dir; done | sort -u | grep -v '^\.$')
+
+        for dir in $PARENT_DIRS; 
+        do 
+            echo "${BASE_DIR};${dir};-;dir" >> ${TEMP_PARENT_DIR}
+        done
+    done
+    echo "$(dirname ${BASE_DIR});$(basename ${BASE_DIR});-;dir" >> ${TEMP_PARENT_DIR}
+
+    cat ${TEMP_PARENT_DIR} | sort -u
+    rm ${TEMP_PARENT_DIR}
 }
 
 RR_CONFIG_DIR=${HOME}/.config/rr
