@@ -5,9 +5,11 @@ function parseRepo() {
     REPO_DIR=$2
     cd $BASE_DIR/$REPO_DIR; 
 
-    URL=$(git remote -v | grep fetch | awk '{print $2}' | sed 's|git@gitlab.eng.qwilt.com:|https://gitlab.eng.qwilt.com/|' | sed 's|git@gitlab.com:|https://gitlab.com/|' | sed 's|git@github.com:|https://github.com/|' | sed 's|\.git||')
-    
-    TYPE="github"
+    GITURL=$(git remote -v | grep fetch | awk '{print $2}' )
+
+    URL=$(gitUrlToHttp ${GITURL})
+
+    TYPE="unknown"
 
     if [[ "${URL}" = *github* ]]; then
         TYPE="github"
@@ -25,12 +27,33 @@ function parseRepo() {
     printf "${BASE_DIR};${REPO_DIR};${URL};${TYPE}\n"
 }
 
+function gitUrlToHttp() {
+    printf "$1" | sed 's|git@gitlab.eng.qwilt.com:|https://gitlab.eng.qwilt.com/|' | sed 's|git@gitlab.com:|https://gitlab.com/|' | sed 's|git@github.com:|https://github.com/|' | sed 's|\.git||'
+}
+
+function parseArchive() {
+    BASE_DIR=$1
+    ARCHIVE=$2
+
+    GITURL=$(cat ${BASE_DIR}/${ARCHIVE} | head -n 1 | awk '{print $2}')
+
+    URL=$(gitUrlToHttp ${GITURL})
+
+    printf "${BASE_DIR};${ARCHIVE};${URL};archive\n"
+}
+
 function listRepos() {
     BASE_DIR=$1
     cd ${BASE_DIR}
-    DIR_LIST=`/opt/homebrew/bin/fd '.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||'`
+    DIR_LIST=`/opt/homebrew/bin/fd '\.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||'`
+    ARCHIVE_LIST=`/opt/homebrew/bin/fd '\.git$' --prune -u -t f`
+    
     for repo_dir in ${DIR_LIST}; do 
 		parseRepo ${BASE_DIR} $repo_dir; 
+    done
+    
+    for archive in ${ARCHIVE_LIST}; do
+        parseArchive ${BASE_DIR} $archive
     done
 }
 
