@@ -1,0 +1,30 @@
+function gradle_clean_all() {
+    gradle_clean_here ""
+}
+
+function gradle_clean_here() {
+    context="$1"
+    for dir in `ls -d *  2> /dev/null`; do 
+        if [[ -d ${dir} ]]; then
+            cd $dir
+            current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
+            if [[ $? != 0 ]]; then
+                gradle_clean_here "${context}${dir}/"
+                context="$1"
+            else
+                current_repo="$(tput setaf 7)$(basename `pwd`)"
+                printf "$(tput bold)"        
+                if [[ ${context} != "" ]]; then
+                    printf "$(tput setaf 5)${context}"
+                    context_length=${#context}
+                    let padding=45-${context_length}
+                    printf "%-${padding}s $(tput sgr0) \t==> %s\n" ${current_repo}"
+                else
+                    printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo}"
+                fi
+                gradle clean
+            fi
+            cd ..
+        fi
+    done 
+}
