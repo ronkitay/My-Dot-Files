@@ -29,6 +29,7 @@ source ${HOME}/.aliases/.common.aliases
 source ${HOME}/.aliases/.cd.aliases
 source ${HOME}/.aliases/.gcp.aliases
 source ${HOME}/.aliases/.git.aliases
+source ${HOME}/.aliases/.gradle.aliases
 source ${HOME}/.aliases/.iterm.aliases
 source ${HOME}/.aliases/.java.aliases
 source ${HOME}/.aliases/.k8s.aliases
