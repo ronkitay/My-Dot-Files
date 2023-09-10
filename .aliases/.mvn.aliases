@@ -19,7 +19,7 @@ function maven_clean_here() {
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
             if [[ $? != 0 ]]; then
-                branches_here "${context}${dir}/"
+                maven_clean_here "${context}${dir}/"
                 context="$1"
             else
                 current_repo="$(tput setaf 7)$(basename `pwd`)"
