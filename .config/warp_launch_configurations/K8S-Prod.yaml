@@ -22,14 +22,13 @@
 #            - exec: code .
 
 ---
-name: Delivery-Reports
+name: K8S-Prod
 windows:
   - tabs:
-    - layout:
-        split_direction: vertical
-        panes:
-          - split_direction: horizontal
-            panes:
-              - cwd: /Users/ronk/work/qwilt/cdn/observability/services/delivery-reports
-              - cwd: /Users/ronk/work/ronk2/mock-servers/qn-deployment-internal
-          - cwd: /Users/ronk/work/qwilt/cdn/observability/services/delivery-reports
+      - title: K8S Prod
+        layout:
+          cwd: /Users/ronk
+          commands:
+            - exec: osascript -e 'tell application "System Events" to keystroke "f" using {control down, command down}'
+            - exec: '/Users/ronk/.scripts/kprod'
+        color: red
