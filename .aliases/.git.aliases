@@ -64,7 +64,7 @@ function show_branches_here {
             else
                 current_repo="$(tput setaf 7)$(basename `pwd`)"
                 current_branch=$((git branch 2> /dev/null) | grep \* | cut -c3-)
-                if [[ ${current_branch} == "master" ]]; then
+                if [[ ${current_branch} == "master" || ${current_branch} == "main" || ${current_branch} == "dev" ]]; then
                     current_branch="$(tput bold)$(tput setaf 2)${current_branch}$(tput sgr0)"
                 else
                     current_branch="$(tput bold)$(tput setaf 4)${current_branch}$(tput sgr0)"
