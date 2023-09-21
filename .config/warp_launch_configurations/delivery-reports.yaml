@@ -22,7 +22,7 @@
 #            - exec: code .
 
 ---
-name: Delivery-Reports
+name: Delivery-reports
 windows:
   - tabs:
     - layout:
@@ -31,5 +31,17 @@ windows:
           - split_direction: horizontal
             panes:
               - cwd: /Users/ronk/work/qwilt/cdn/observability/services/delivery-reports
-              - cwd: /Users/ronk/work/ronk2/mock-servers/qn-deployment-internal
+              - split_direction: vertical
+                panes:
+                  - cwd: /Users/ronk/work/ronk2/mock-servers/qn-deployment-internal
+                    commands:
+                      - exec: ./launch.sh
+                  - split_direction: horizontal
+                    panes:
+                      - cwd: /Users/ronk/work/ronk2/mock-servers/qn-deployment-auth
+                        commands:
+                          - exec: ./launch.sh
+                      - cwd: /Users/ronk/work/ronk2/mock-servers/unified-sites-auth
+                        commands:
+                          - exec: ./launch.sh
           - cwd: /Users/ronk/work/qwilt/cdn/observability/services/delivery-reports
