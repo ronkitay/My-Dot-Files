@@ -16,6 +16,9 @@ then
 elif [[ -f "$1/build.gradle" ]];
 then 
     open -na "IntelliJ IDEA CE.app" --args $1
+elif [[ -f "$1/package.json" ]];
+then 
+    open -na "WebStorm.app" --args $1    
 else
     /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code $1
 fi
