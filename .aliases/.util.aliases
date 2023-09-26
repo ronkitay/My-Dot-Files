@@ -28,3 +28,7 @@ function rcd() {
     rangerpwd=$(cat ${tmpfile})
     cd ${rangerpwd}
 }
+
+function convert() {
+   echo $1 $(units $2 $3 | head -n 1 ) | bc;
+}
