@@ -1,0 +1,50 @@
+#!/bin/sh
+
+help() { 
+    if [ -z "${SCRIPT}" ];
+    then
+        SCRIPT=`basename $0`
+    fi
+    printf "\n"
+    printf "Prints a URL in a human-readable manner\n"
+    printf "\n"
+    printf "Usage:\n"
+    printf "\t${SCRIPT} URL\n"
+    printf "\n"
+    printf "URL:\n"
+    printf "\tA URL.\n"
+    printf "\n"
+    printf "Examples:\n"
+    printf "\t# EXAMPLE\n"
+    printf "\t${SCRIPT} https://www.google.com/?q=hello+world \n"
+    printf "\n"
+    exit 1
+}
+
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    '--help')           set -- "$@" '-h'   ;;
+    *)                  set -- "$@" "$arg" ;;
+  esac
+done
+
+while getopts ":h:a:b:" option; do
+    case "${option}" in
+        h)
+            help
+            ;;    
+        *)
+            help
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+URL=$1
+
+if [ -z "${URL}" ]; then
+    help
+fi
+
+echo $1 | tr '?&' '\n' | sed 's|+| |g'  |  sed 's|%2C|,|g' | sed 's|%3A|:|g' | awk -F '=' '{if (NF == 1) { print $NF } else { param_name=$1; $1=""; print("\033[1;32m"param_name"\033[1;36m ==> \033[0m"$NF); } }'
