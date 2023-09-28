@@ -29,10 +29,22 @@ function smart_change_dir_to_child() {
 
 function cdz() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
-    DIR_TO_SWITCH_TO=$(fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep "${PATTERN}" | fzf --preview 'tree -L 2 -C {}')
+    DIR_TO_SWITCH_TO=$(fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" | fzf --preview 'tree -L 2 -C {}')
     if [[ $? -eq 0 ]];
     then
         cd $DIR_TO_SWITCH_TO;
+    fi
+}
+
+function cdzf() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g');
+    FILE_TO_SWITCH_TO=$(fd -t f -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')
+    if [[ $? -eq 0 ]];
+    then
+        DIR_TO_SWITCH_TO=$(dirname $FILE_TO_SWITCH_TO)
+        FILE_NAME=$(basename $FILE_TO_SWITCH_TO)
+        cd $DIR_TO_SWITCH_TO;
+        ls -la $FILE_NAME
     fi
 }
 
