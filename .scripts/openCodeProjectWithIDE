@@ -13,7 +13,7 @@ echo "Openning project $1"
 if [[ -f "$1/requirements.txt" ]];
 then
     open -na "PyCharm CE.app" --args $1
-elif [[ -f "$1/build.gradle" ]];
+elif [[ -f "$1/build.gradle" || -f "$1/pom.xml" ]];
 then 
     open -na "IntelliJ IDEA CE.app" --args $1
 elif [[ -f "$1/package.json" ]];

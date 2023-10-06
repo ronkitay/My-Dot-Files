@@ -1,6 +1,6 @@
 DOT_FILES_HOME=${BASE_DIR}/My-Dot-Files
 
-PATH=${PATH}:${DOT_FILES_HOME}/.scripts
+PATH=${DOT_FILES_HOME}/.scripts:${PATH}
 
 complete -W "$(cd ${DOT_FILES_HOME} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" godotfiles
 function godotfiles() {

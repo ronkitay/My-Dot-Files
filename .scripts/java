@@ -1,0 +1,8 @@
+#!/bin/sh
+
+${HOME}/.asdf/shims/java -version > /dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    ${HOME}/.asdf/shims/java $*
+else
+    $(/usr/libexec/java_home)/bin/java $*
+fi
