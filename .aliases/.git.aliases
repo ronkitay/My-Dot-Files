@@ -213,3 +213,13 @@ alias gpush='printHeader Git Push \(Branch only\) ;git push --tags origin HEAD; 
 
 #A# cdroot; Jumps to Git Repo root
 alias cdroot='cd $(git rev-parse --show-toplevel)'
+
+function cdrepo() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g');
+    
+    DIR_TO_SWITCH_TO=$(/opt/homebrew/bin/fd '\.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i "${PATTERN}" | sort | fzf --preview 'tree -L 2 -C {}')
+    if [[ $? -eq 0 ]];
+    then
+        cd $DIR_TO_SWITCH_TO;
+    fi
+}
