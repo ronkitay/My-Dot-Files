@@ -50,19 +50,21 @@ function cdzf() {
 
 
 function r() {
+    TEMP_LIST_FILE=/tmp/rr.list
+
     RR_CONFIG_DIR=${HOME}/.config/rr
     RR_CONFIG_FILE=${RR_CONFIG_DIR}/rr.list 
     PATTERN=$(echo $* | sed 's/ /\.\*/g')
 
-    cat ${RR_CONFIG_FILE} | cut -d';' -f1-2 | egrep -i ".*${PATTERN}.*" | tr ';' '/' > /tmp/rr.list
+    cat ${RR_CONFIG_FILE} | cut -d';' -f1-2 | egrep -i ".*${PATTERN}.*" | tr ';' '/' > ${TEMP_LIST_FILE}
 
-    if [[ "$(cat /tmp/rr.list | wc -l)" -eq "1" ]]; 
+    if [[ "$(cat ${TEMP_LIST_FILE} | wc -l)" -eq "1" ]]; 
     then 
-        DIR_TO_SWITCH_TO=`cat /tmp/rr.list`
+        DIR_TO_SWITCH_TO=`cat ${TEMP_LIST_FILE}`
     else
-        DIR_TO_SWITCH_TO=`cat /tmp/rr.list | fzf --preview 'tree -L 2 -C {}'`
+        DIR_TO_SWITCH_TO=`cat ${TEMP_LIST_FILE} | fzf --preview 'tree -L 2 -C {}'`
     fi
-    rm /tmp/rr.list
+    rm ${TEMP_LIST_FILE}
 
     if [[ "${DIR_TO_SWITCH_TO}" = *.git ]]; 
     then
@@ -74,4 +76,24 @@ function r() {
     else
         cd $DIR_TO_SWITCH_TO
     fi
+}
+
+function p() {
+    TEMP_PP_LIST_FILE=/tmp/pp.list
+
+    PP_CONFIG_DIR=${HOME}/.config/pp
+    PP_CONFIG_FILE=${PP_CONFIG_DIR}/pp.list 
+    PATTERN=$(echo $* | sed 's/ /\.\*/g')
+
+    cat ${PP_CONFIG_FILE} | cut -d';' -f1-2 | egrep -i ".*${PATTERN}.*" | tr ';' '/' > ${TEMP_PP_LIST_FILE}
+
+    if [[ "$(cat ${TEMP_PP_LIST_FILE} | wc -l)" -eq "1" ]]; 
+    then 
+        DIR_TO_SWITCH_TO=`cat ${TEMP_PP_LIST_FILE}`
+    else
+        DIR_TO_SWITCH_TO=`cat ${TEMP_PP_LIST_FILE} | fzf --preview 'tree -L 2 -C {}'`
+    fi
+    rm ${TEMP_PP_LIST_FILE}
+
+    cd $DIR_TO_SWITCH_TO
 }
