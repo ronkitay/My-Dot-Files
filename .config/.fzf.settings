@@ -32,29 +32,42 @@ _fzf_complete_grevert() {
   _fzf_complete --multi --reverse --prompt="revert> " -- "$@" < <(git status | egrep "deleted|modified" | awk '{$1=""; print $NF}')
 }
 
-_____get_gadd_completion() {
+_____get_status_completion() {
 
-  modified_files=$(git status --short | grep -v '^??')
+  modified_files=$(git status --short | egrep '^ M|^M')
   if [[ -n "${modified_files}" ]];
   then
-    echo "${BRIGHT}${RED}Modified:${NORMAL}"
-    echo ${modified_files} | awk '{print($NF)}';
+    echo ${modified_files} | awk '{print("\033[34mModified\033[0m\t"$NF)}';
   fi
   
   added_files=$(git status --short | grep '^??')
   if [[ -n "${added_files}" ]];
   then
-    echo "${BRIGHT}${BLUE}Added:${NORMAL}"
-    echo ${added_files} | awk '{print($NF)}';
+    echo ${added_files} | awk '{print("\033[33mAdded\033[0m\t\t"$NF)}';
   fi
+
+  deleted_files=$(git status --short | grep '^ D')
+  if [[ -n "${deleted_files}" ]];
+  then
+    echo ${deleted_files} | awk '{print("\033[31mDeleted\033[0m\t\t"$NF)}';
+  fi
+
 }
 
 _fzf_complete_gadd() {
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
-  _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(_____get_gadd_completion)
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {2}'"  
+  _fzf_complete --multi --reverse  --header "FILE"  --prompt="add> " -- "$@" < <(_____get_status_completion) 
+}
+
+_fzf_complete_gadd_post() {
+  awk '{print $2}'
 }
 
 _fzf_complete_gdiff() {
   FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
-  _fzf_complete --multi --reverse --prompt="diff> " -- "$@" < <(git status --short | awk '{print($NF)}')
+  _fzf_complete --multi --reverse --header "FILE"  --prompt="diff> " -- "$@" < <(_____get_status_completion)
+}
+
+_fzf_complete_gdiff_post() {
+  awk '{print $2}'
 }
