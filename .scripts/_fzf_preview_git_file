@@ -1,0 +1,11 @@
+#!/bin/sh
+
+GIT_PAGER=cat
+GIT_STATUS=$(git status --short $1 | awk '{print $1}')
+
+if [[ "${GIT_STATUS}" == "??" ]]; 
+then
+    bat -n --color=always $1
+else
+    git diff --no-ext-diff --color=always -C $1 | head -200
+fi

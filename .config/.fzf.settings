@@ -50,9 +50,11 @@ _____get_gadd_completion() {
 }
 
 _fzf_complete_gadd() {
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
   _fzf_complete --multi --reverse --prompt="add> " -- "$@" < <(_____get_gadd_completion)
 }
 
 _fzf_complete_gdiff() {
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
   _fzf_complete --multi --reverse --prompt="diff> " -- "$@" < <(git status --short | awk '{print($NF)}')
 }
