@@ -7,7 +7,7 @@ export FZF_BASE=/usr/local/bin/fzf
 
 export FZF_DEFAULT_COMMAND='fd'
 
-export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse"
+export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse  --preview 'bat {}' "
 
 # CTRL-Y to copy the command into clipboard using pbcopy
 export FZF_CTRL_R_OPTS="
@@ -55,8 +55,10 @@ _____get_status_completion() {
 }
 
 _fzf_complete_gadd() {
+  ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
   FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {2}'"  
   _fzf_complete --multi --reverse  --header "FILE"  --prompt="add> " -- "$@" < <(_____get_status_completion) 
+  FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS="
 }
 
 _fzf_complete_gadd_post() {
@@ -64,8 +66,10 @@ _fzf_complete_gadd_post() {
 }
 
 _fzf_complete_gdiff() {
+  ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
   FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
   _fzf_complete --multi --reverse --header "FILE"  --prompt="diff> " -- "$@" < <(_____get_status_completion)
+  FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
 
 _fzf_complete_gdiff_post() {
