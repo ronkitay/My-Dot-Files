@@ -11,7 +11,8 @@ function parseModule() {
 function listModules() {
     BASE_DIR=$1
     cd ${BASE_DIR}
-    DIR_LIST=`/opt/homebrew/bin/fd '\.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | xargs -I {} fd 'build.gradle|package.json|requirements.txt|pom.xml'  {} -t f -x echo {//}`
+    FD_EXECUTABLE=/opt/homebrew/bin/fd
+    DIR_LIST=`${FD_EXECUTABLE} '\.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | xargs -I {} ${FD_EXECUTABLE} 'build.gradle|package.json|requirements.txt|pom.xml|go.mod'  {} -t f -x echo {//}`
     
     for repo_dir in ${DIR_LIST}; do 
 		parseModule ${BASE_DIR} $repo_dir; 
