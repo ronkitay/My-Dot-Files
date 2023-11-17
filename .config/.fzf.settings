@@ -58,7 +58,7 @@ _fzf_complete_gadd() {
   ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
   FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {2}'"  
   _fzf_complete --multi --reverse  --header "FILE"  --prompt="add> " -- "$@" < <(_____get_status_completion) 
-  FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS="
+  FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
 
 _fzf_complete_gadd_post() {
