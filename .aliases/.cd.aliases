@@ -97,3 +97,6 @@ function p() {
 
     cd $DIR_TO_SWITCH_TO
 }
+
+#A# cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
+alias cdmod='while [[ ! -f pom.xml && ! -f build.gradle && ! -f build.gradle.kts && ! -f package.json && ! -f requirements.txt && ! -f go.mod  && $(pwd) != "/" ]] ; do cd ..; done'
