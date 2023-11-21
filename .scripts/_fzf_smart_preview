@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -e $1 ]; then
+    if [ -f $1 ]; then
+        bat $1
+    else
+        tree -C $1 | head -200
+    fi
+else 
+    echo "No preview for $1"    
+fi  

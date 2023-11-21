@@ -7,7 +7,7 @@ export FZF_BASE=/usr/local/bin/fzf
 
 export FZF_DEFAULT_COMMAND='fd'
 
-export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse  --preview 'bat {}' "
+export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse  --preview '_fzf_smart_preview {}' "
 
 # CTRL-Y to copy the command into clipboard using pbcopy
 export FZF_CTRL_R_OPTS="
@@ -22,7 +22,7 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    cd)           fzf "$@" --preview '_fzf_smart_preview {}' ;;
     dattach)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview 'docker ps | head -n 1 && docker ps | egrep {}' ;;
     *)            fzf "$@" ;;
   esac
