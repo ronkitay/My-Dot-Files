@@ -17,6 +17,7 @@ alias tabblue='rgb 30 169 214'
 alias tabred='rgb 214 75 30'
 
 alias 1='tabrand'
+alias 2='it2profile -s Default'
 
 #A# title;Sets or resets the terminals title
 function set_tab_title {
