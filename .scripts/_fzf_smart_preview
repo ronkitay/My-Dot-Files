@@ -1,11 +1,13 @@
 #!/bin/sh
 
-if [ -e $1 ]; then
-    if [ -f $1 ]; then
-        bat $1
+FILE_OR_DIR="$*"
+
+if [ -e "${FILE_OR_DIR}" ]; then
+    if [ -f "${FILE_OR_DIR}" ]; then
+        bat --color always "${FILE_OR_DIR}"
     else
-        tree -C $1 | head -200
+        tree -C "${FILE_OR_DIR}" | head -200
     fi
 else 
-    echo "No preview for $1"    
+    echo "No preview for ${FILE_OR_DIR}"    
 fi  
