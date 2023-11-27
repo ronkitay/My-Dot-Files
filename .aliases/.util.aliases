@@ -32,3 +32,11 @@ function rcd() {
 function convert() {
    echo $1 $(units $2 $3 | head -n 1 ) | bc;
 }
+
+function depoc() {
+    TZ=GMT date -j -f "%Y-%m-%d %H:%M:%S" "$1 $2" +%s
+}
+
+function epoc() {
+    TZ=GMT date -r"$1" +"%Y-%m-%d %H:%M:%S GMT"
+}
