@@ -1,7 +1,7 @@
 #!/bin/sh
 
 GIT_PAGER=cat
-GIT_STATUS=$(git status --short | grep $1 | awk '{print $1}')
+GIT_STATUS=$(git status --short | egrep "$1$" | awk '{print $1}')
 
 if [[ "${GIT_STATUS}" == "??" ]]; 
 then
@@ -18,7 +18,7 @@ then
     echo "${BRIGHT}${YELLOW}$1${NORMAL} has been ${BRIGHT}${RED}DELETED${NORMAL}"
 fi
 
-if [[ "${GIT_STATUS}" == "M" ]]; 
+if [[ "${GIT_STATUS}" == "M" || "${GIT_STATUS}" == " M" || "${GIT_STATUS}" == "MM" ]]; 
 then
     git diff --no-ext-diff --color=always -C $1 | head -200
 fi
