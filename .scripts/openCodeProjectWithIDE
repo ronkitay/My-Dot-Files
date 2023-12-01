@@ -10,7 +10,7 @@ fi
 echo "Openning project $1"
 
 
-if [[ -f "$1/requirements.txt" ]];
+if [[ -f "$1/requirements.txt" || -f "$1/Pipfile" ]];
 then
     open -na "PyCharm CE.app" --args $1
 elif [[ -f "$1/build.gradle" || -f "$1/pom.xml" ]];
