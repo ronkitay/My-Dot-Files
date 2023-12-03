@@ -1,15 +1,18 @@
 #!/bin/sh
 
-GIT_PAGER=cat
-GIT_STATUS=$(git status --short | egrep "$1$" | awk '{print $1}')
+local file_to_preview
+file_to_preview=$(echo $1 | awk '{$1=""; print $0}')
 
-if [[ "${GIT_STATUS}" == "??" ]]; 
+GIT_PAGER=cat
+GIT_STATUS=$(git status --short | egrep "$file_to_preview" | awk '{print $1}')
+
+if [[ "${GIT_STATUS:0:2}" == "??" ]]; 
 then
-    if [[ -d $1 ]];
+    if [[ -d $file_to_preview ]];
     then
-        tree -L 2 -C $1
+        tree -L 2 -C $file_to_preview
     else
-        bat -n --color=always $1
+        bat -n --color=always $file_to_preview
     fi
 fi
 
@@ -18,7 +21,7 @@ then
     echo "${BRIGHT}${YELLOW}$1${NORMAL} has been ${BRIGHT}${RED}DELETED${NORMAL}"
 fi
 
-if [[ "${GIT_STATUS}" == "M" || "${GIT_STATUS}" == " M" || "${GIT_STATUS}" == "MM" ]]; 
+if [[ "${GIT_STATUS}" = M* || "${GIT_STATUS}" == " M" || "${GIT_STATUS}" == "MM" ]]; 
 then
-    git diff --no-ext-diff --color=always -C $1 | head -200
+    git diff --no-ext-diff --color=always -C $file_to_preview | head -200
 fi
