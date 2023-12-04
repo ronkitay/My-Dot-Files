@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#S# Wrapper for the avro-tools utility ###
+
 function downloadLatestAvro() {
     LATEST_VERSION=$(curl https://repo1.maven.org/maven2/org/apache/avro/avro-tools/ | grep 'title="\d' | egrep -o '\d+\.\d+\.\d+' | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n 1)
     printf "${BRIGHT}${GREEN}Latest Avro tools version is ${WHITE}${LATEST_VERSION}${GREEN} - downloading it${NORMAL}".
