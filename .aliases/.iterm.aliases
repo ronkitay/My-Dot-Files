@@ -1,5 +1,8 @@
-function rgb()
-{
+#A# iTerm;1;Chose random Tab Color
+#A# iTerm;2;Restore default Profile
+#A# iTerm;tt;Set/Reset Tab Title
+
+function rgb() {
     echo -ne "\033]6;1;bg;red;brightness;$1\a\033]6;1;bg;green;brightness;$2\a\033]6;1;bg;blue;brightness;$3\a"
 }
 
@@ -19,22 +22,21 @@ alias tabred='rgb 214 75 30'
 alias 1='tabrand'
 alias 2='it2profile -s Default'
 
-#A# title;Sets or resets the terminals title
-function set_tab_title {
+function tt {
      if [[ $# == 0 ]]; then
-         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title -r$(tput sgr0)\t# Resets the title\n"; 
-         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)title <title>$(tput sgr0)\t# Sets the tile\n"; 
-         printf "$(tput bold)$(tput setaf 2) e.g.:$(tput sgr0) $(tput bold)title this is awesome!$(tput sgr0)\n"; 
+         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)tt -r$(tput sgr0)\t# Resets the title\n"; 
+         printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)tt <title>$(tput sgr0)\t# Sets the tile\n"; 
+         printf "$(tput bold)$(tput setaf 2) e.g.:$(tput sgr0) $(tput bold)tt this is awesome!$(tput sgr0)\n"; 
          return 1;
     fi
     if [[ $# == 1 && $1 == "-r" ]] ; then
         DISABLE_AUTO_TITLE="false"
         echo -ne "\e]1;${PWD: -10}\a";
         return 0;
-    else 
+    else
+        DISABLE_AUTO_TITLE="true" 
         TITLE=$*; 
         echo -ne "\e]1;${TITLE}\a";
     fi
 }
 
-alias tt='DISABLE_AUTO_TITLE="true" && set_tab_title'

@@ -1,4 +1,26 @@
-# GitLab/GitHub stuff
+# Git stuff
+
+#A# Git;giturl;Opens file from a git repo in github/gitlab web UI
+
+#A# Git;gcm; Git Checkout Master
+#A# Git;gcheckout; Git Checkout ...
+#A# Git;gstatus;Git status
+#A# Git;glog;Git log (pretty)
+
+#A# Git;gadd;Git status
+#A# Git;gunstage;Unstages file(s) (git reset HEAD)
+#A# Git;grevert;Revert file(s) (git checkout --)
+#A# Git;stash;git stash save
+#A# Git;unstash;git stash pop
+#A# Git;stashlist;git stash list
+#A# Git;stashshow;git stash show
+#A# Git;gpull;git ~EMP~pull~NORM~ --rebase
+#A# Git;gcommit;git commit
+#A# Git;gpush;git push (branch only)
+
+#A# Navigation;cdroot; Jumps to Git Repo root
+
+
 
 function giturl {
     tree="/-/tree/"
@@ -175,43 +197,27 @@ function git-branch-name {
 }
 
 
-
-#A# gcm; Git Checkout Master
 if !alias gcm >/dev/null 2>&1; then # Define only when not using the zsh git plugin which defines this to support main and trunk as well
   alias gcm='printHeader "Git Checkout => Master" ;git checkout master; printFooter'
 fi
-#A# gcheckout; Git Checkout ...
 function gcheckout { printHeader "Git Checkout ($*)" ; git checkout $*; printFooter; }
-#A# gstatus;Git status
 alias gstatus='printHeader Git Status ;git status; printFooter'
-#A# glog;Git log (pretty)
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-#A# gadd;Git status
 function gadd { printHeader Git Add ;git add $*; printFooter; }
 
 alias gdiff='git --no-pager diff'
 alias gdifff='GIT_PAGER=cat git diff --no-ext-diff'
 
-#A# gunstage;Unstages file(s) (git reset HEAD)
 alias gunstage='git reset HEAD'
-#A# grevert;Revert file(s) (git checkout --)
 function grevert { printHeader Git Revert \(checkout -- \); git checkout -- $*; printFooter; }
-#A# stash;git stash save
 function stash { printHeader Git Stash \($*\) ;git stash save "$*"; printFooter; }
-#A# unstash;git stash pop
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
-#A# stashlist;git stash list
 alias stashlist='printHeader Git stash list;git stash list; printFooter'
-#A# stashshow;git stash show
 alias stashshow='printHeader Git stash show;git stash show; printFooter'
-#A# gpull;git ~EMP~pull~NORM~ --rebase
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase origin `git-branch-name`; printFooter'
-#A# gcommit;git commit
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
-#A# gpush;git push (branch only)
 alias gpush='printHeader Git Push \(Branch only\) ;git push --tags origin HEAD; printFooter'
 
-#A# cdroot; Jumps to Git Repo root
 alias cdroot='cd $(git rev-parse --show-toplevel)'
 
 function cdrepo() {

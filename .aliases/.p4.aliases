@@ -1,17 +1,17 @@
 ## Perforce (P4) Aliases
+#A# Perforce;p4sync;perforce sync
+#A# Perforce;p4refresh;perforce sync -f
+#A# Perforce;p4def;shows the default changelist
+#A# Perforce;p4edit;p4 edit
+#A# Perforce;p4pend;shows the pending changes for the current user based on ${LOGNAME}
+#A# Perforce;p4view;shows the content of a file based on its depot path 
 
 alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml|\.perforce|afiedt.buf"'
 
-#A# p4sync;perforce sync
 alias p4sync='p4 sync ./... '
-#A# p4refresh;perforce sync -f
 alias p4refresh='p4 sync -f ./... '
-#A# p4edit;p4 edit
 alias p4edit='p4 edit '
-#A# p4def;shows the default changelist
 alias p4def='p4 change -o'
-#A# p4pend;shows the pending changes for the current user based on ${LOGNAME}
 alias p4pend='p4 changes -u ${LOGNAME} -s pending ./...'
 
-#A# p4view;shows the content of a file based on its depot path 
 function p4view { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)p4view <depot-path>$(tput sgr0)\n" && return 1; p4 print $1 | less; }

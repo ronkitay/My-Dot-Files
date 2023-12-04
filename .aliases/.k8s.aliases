@@ -1,5 +1,7 @@
 ## Kubernetes (K8S) Aliases
 
+#A# Kubernetes;kgimg;Shows the images of all matching pods
+
 alias k='kubectl'
 alias kns='kubens'
 alias kctx='kubectx'

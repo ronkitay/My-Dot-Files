@@ -1,4 +1,3 @@
-#A# venv;Alias for working with virtualenvs
 function venv() { 
     python -m virtualenv $* 
 }

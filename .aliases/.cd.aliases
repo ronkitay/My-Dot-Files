@@ -1,11 +1,23 @@
+#A# Navigation;cdfile;Changes dir to the directory a file is located in
+#A# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
+#A# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
+#A# Navigation;cdz;Fuzzy directory change
+#A# Navigation;cdzf;Fuzzy directory change to a file
+#A# Navigation;mcd;Make and Change directory
+#A# Navigation;p;Fuzzy jump to code project (in git repo)
+#A# Navigation;r;Fuzzy jump to git repository
 
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
-#A# cdd;Changes dir to the first directory in the tree which partially matches the name
 function cdd { [[ $# == 0 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdd <regex fragments> $(tput sgr0)\n\tE.g. cdd src main impl ==> will cd to a path containing 'src', 'main' and 'impl' in the path\n" && return 1; PATTERN=$(echo $* | sed 's/ /\.\*/g'); dir=$(find . -type d | egrep "$PATTERN" | head -1); cd "${dir}"; }
-#A# mcd;Make and Change directory
 function mcd { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)mcd <dir> $(tput sgr0)\n" && return 1; mkdir -p $1; cd $1; }
-#A# cdfile;Changes dir to the directory a file is located in
 function cdfile { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)cdfile <file>$(tput sgr0)\n" && return 1; dir=$(echo $1 | sed 's/\(.*\/\).*/\1/'); cd $dir; }
+
+alias cdmod='while [[ ! -f pom.xml && ! -f build.gradle && ! -f build.gradle.kts && ! -f package.json && ! -f requirements.txt && ! -f go.mod  && $(pwd) != "/" ]] ; do cd ..; done'
 
 function smart_change_dir_to_child() {
     if [[ $# -gt 0 ]]; then
@@ -97,6 +109,3 @@ function p() {
 
     cd $DIR_TO_SWITCH_TO
 }
-
-#A# cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
-alias cdmod='while [[ ! -f pom.xml && ! -f build.gradle && ! -f build.gradle.kts && ! -f package.json && ! -f requirements.txt && ! -f go.mod  && $(pwd) != "/" ]] ; do cd ..; done'

@@ -1,63 +1,51 @@
+#A# Util;psu;Current User's processes
+#A# Util;clearformatting;Clears formatting of everything piped to it
+#A# Util;trimfile;Empties a file (good for truncating logs)
+#A# Util;dirsize;Calculates the size of the current directory
+#A# Util;sendfile;Send a file via eMail
+#A# Search;g;egrep
+#A# Search;gi;egrep (Case insensitive)
+#A# Search;xg;xargs egrep
+#A# Search;xgi;xargs egrep (Case insensitive)
+#A# Search;fnf;Find files
+#A# Search;fnsrc;Find Source Files
+#A# Search;fnd;Find directories
+#A# Search;fgrp;Find all files and grep on them
+#A# Search;fgrpi;Find all files and grep on them (Case insensitive)
+
 # General LINUX stuff
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
 alias l='ls -lF'
 alias ll='ls -laF'
-#A# h;History
 alias h='history'
-#A# psu;Current User's processes
+
+
 alias psu='ps -efu ${LOGNAME}'
-#A# g;grep
 alias g='egrep --color'
-#A# gi;grep (Case insensitive)
 alias gi='egrep --color -i'
-#A# xg;xargs grep
 alias xg='xargs egrep --color'
-#A# xgi;xargs grep (Case insensitive)
 alias xgi='xargs egrep --color -i'
 
 if [ -x "$(which fd  2> /dev/null)" ] || [ -x "$(which fdfind  2> /dev/null)" ]; then
-    #A# fnf;Find files
     alias fnf='fd -t f -H -L . '
-    #A# fnsrc;Find Source Files
     alias fnsrc='fd -t f -H -L -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/" . '
-    #A# fnd;Find directories
     alias fnd='fd -t d -H . '
-    #A# fgrp;Find all files and grep on them
     alias fgrp='fd -t f -H -L | xargs egrep --no-messages --color'
-    #A# fgrpi;Find all files and grep on them (Case insensitive)
     alias fgrpi='fd -t f -H -L | xargs egrep --no-messages --color -i'
 else
-    #A# fnf;Find files
     alias fnf='find . -type f '
-    #A# fnsrc;Find Source Files
     alias fnsrc='find . -type f | egrep -v "/.git/|/.idea/|/target/|/build/" '
-    #A# fnd;Find directories
     alias fnd='find . -type d '
-    #A# fgrp;Find all files and grep on them
     alias fgrp='find . -type f | xargs egrep --no-messages --color'
-    #A# fgrpi;Find all files and grep on them (Case insensitive)
     alias fgrpi='find . -type f | xargs egrep --no-messages --color -i'
 fi
 
-
-#A# tf;Tail with follow (tail -f)
 alias tf='tail -f'
-#A# rless;Less with color support (less -R)
-alias rless='less -R'
 alias untar='tar zxvf'
 
-#A# clearformatting;Clears formatting of everything piped to it
 alias clearformattings='sed '\''s/.\[[;0-9]*m//g'\'''
 
 # Usefull Commands
-#A# dirsize;Calculates the size of the current directory
 alias dirsize='du -h -d 1 . | sort -h'
-#A# trimfile;Empties a file (good for truncating logs)
 alias trimfile='cp /dev/null'
 
-#A# sendfile;Send a file via eMail
 function sendfile { [[ $# != 3 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)sendFile <file> <subject> <recepient>$(tput sgr0)\n" && return 1; uuencode $1 $1 | mail -s $2 $3; }
