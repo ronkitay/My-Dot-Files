@@ -1,5 +1,14 @@
 #!/bin/sh
 
+omers_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-07-16T00:00:00" +%s 2> /dev/null)
+noams_8th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-09-21T00:00:00" +%s 2> /dev/null)
+noams_9th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2024-09-21T00:00:00" +%s 2> /dev/null)
+noams_12th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2027-09-21T00:00:00" +%s 2> /dev/null)
+
+NOAM=3
+OMER=20
+
+
 function help {
     if [[ -z "${SCRIPT}" ]];
     then
@@ -22,34 +31,48 @@ then
     help
 fi
 
-epoch_of_friday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "$1T00:00:00" +%s 2> /dev/null)
+# Input date in human-readable format
+input_date=$1
 
-omers_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-07-16T00:00:00" +%s 2> /dev/null)
-noams_8th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2023-09-21T00:00:00" +%s 2> /dev/null)
-noams_10th_birthday=$(date -j -f '%Y-%m-%dT%H:%M:%S' "2025-09-21T00:00:00" +%s 2> /dev/null)
-
-if [[ $epoch_of_friday -le 0 ]];
-then
-    printf "${BRIGHT}${RED}Invalid start date ($1)!${NORMAL}\n"
-    help
+# Validate if the input is a valid date
+if ! date -jf "%Y-%m-%d" "$input_date" &> /dev/null; then
+    echo "Invalid date format. Please use YYYY-MM-DD."
+    exit 1
 fi
 
-NOAM=3
-OMER=20
 
-for i in {1..12}; do 
-    let epoch_of_friday=$epoch_of_friday+7*24*60*60;
+# Get the day of the week for the input date (0 = Sunday, 6 = Saturday)
+day_of_week=$(date -jf "%Y-%m-%d" "$input_date" +"%w")
+
+# Calculate the number of days to the next Friday
+days_to_friday=$(( (5 - day_of_week + 7) % 7))
+
+# Loop to print the next 12 Fridays
+for ((i=0; i<12; i++)); do
+    # Calculate the date of the next Friday
+    next_friday=$(date -jf "%Y-%m-%d" -v +"$days_to_friday"d "$input_date" +"%Y-%m-%d")
+
+    epoch_of_friday=$(date -j -f "%Y-%m-%d" "$next_friday" +%s)
+
+    # Print the date of the next Friday
     if [[ $epoch_of_friday -ge $omers_birthday ]]; 
     then
         OMER=50
     fi
     if [[ $epoch_of_friday -ge $noams_8th_birthday ]]; 
     then
-        NOAM=15
+        NOAM=10
     fi
-    if [[ $epoch_of_friday -ge $noams_10th_birthday ]]; 
+    if [[ $epoch_of_friday -ge $noams_9th_birthday ]]; 
     then
         NOAM=20
     fi
-    echo "$(date -r $epoch_of_friday +'%Y-%m-%d') - Maya: 50, Omer: ${OMER}, Noam: ${NOAM}"; 
+    if [[ $epoch_of_friday -ge $noams_12th_birthday ]]; 
+    then
+        NOAM=50
+    fi    
+    echo "$next_friday - Maya: 50, Omer: ${OMER}, Noam: ${NOAM}"; 
+
+    # Move to the next week
+    days_to_friday=$((days_to_friday + 7))
 done
