@@ -2,8 +2,8 @@
 
 #A# Git;giturl;Opens file from a git repo in github/gitlab web UI
 
-#A# Git;gcm; Git Checkout Master
-#A# Git;gcheckout; Git Checkout ...
+#A# Git;gcm;Git Checkout Master
+#A# Git;gcheckout;Git Checkout ...
 #A# Git;gstatus;Git status
 #A# Git;glog;Git log (pretty)
 
@@ -18,7 +18,7 @@
 #A# Git;gcommit;git commit
 #A# Git;gpush;git push (branch only)
 
-#A# Navigation;cdroot; Jumps to Git Repo root
+#A# Navigation;cdroot;Jumps to Git Repo root
 
 
 
