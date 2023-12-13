@@ -1,6 +1,7 @@
 ## Kubernetes (K8S) Aliases
 
 #A# Kubernetes;kgimg;Shows the images of all matching pods
+#A# Kubernetes;kactive;Shows the active color of all matching services
 
 alias k='kubectl'
 alias kns='kubens'
@@ -13,4 +14,10 @@ kgimg() {
         | egrep "${PATTERN}" \
         | awk -F '@' '{printf "%-70s %s\n", $1, $2}' \
         | egrep --color "${PATTERN}";
+}
+
+kactive() {
+    PATTERN=$(echo $* | sed 's/ /\.\*/g');
+    printf "$(tput bold)$(tput setaf 4)%-50s %s$(tput sgr0)\n" "Service" "Active";
+    kubectl get services -o yaml 2> /dev/null | yq '.[].[] | select (.kind == "Service") | select (.metadata.name | test("^blue") | not) | select (.metadata.name | test("^green") | not) | select (.metadata.name | test("\-pr$") | not) | select (.spec.selector."app.kubernetes.io/instance" | test ("")) | { "name": .metadata.name, "active": .spec.selector."app.kubernetes.io/instance" } | @json'  | gi a | jq -r '[ .name, .active] | @tsv' | egrep "${PATTERN}" | sed 's/\(green.*\)/\x1b[1m\x1b[32m\1\x1b[0m/' | sed 's/\(blue.*\)/\x1b[1m\x1b[34m\1\x1b[0m/' | awk '{printf "%-50s%s\n", $1, $2}'
 }
