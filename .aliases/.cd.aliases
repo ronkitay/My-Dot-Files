@@ -64,11 +64,7 @@ function cdzf() {
 function r() {
     TEMP_LIST_FILE=/tmp/rr.list
 
-    RR_CONFIG_DIR=${HOME}/.config/rr
-    RR_CONFIG_FILE=${RR_CONFIG_DIR}/rr.list 
-    PATTERN=$(echo $* | sed 's/ /\.\*/g')
-
-    cat ${RR_CONFIG_FILE} | cut -d';' -f1-2 | egrep -i ".*${PATTERN}.*" | tr ';' '/' > ${TEMP_LIST_FILE}
+    ${HOME}/tools/repo-and-module-indexerr find-repo $* > ${TEMP_LIST_FILE}
 
     if [[ "$(cat ${TEMP_LIST_FILE} | wc -l)" -eq "1" ]]; 
     then 
