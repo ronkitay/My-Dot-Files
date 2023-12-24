@@ -110,4 +110,5 @@ fi
 
 [ -f /usr/local/bin/ranger ] && alias rr='/usr/local/bin/ranger'
 
+export PATH=${HOME}/tools/:$PATH
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
