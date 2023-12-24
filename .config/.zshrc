@@ -106,9 +106,9 @@ fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/bin/autojump  ] && . /opt/homebrew/Cellar/autojump/22.5.3_3/share/autojump/autojump.zsh
 
-[ -f /usr/local/bin/ranger ] && alias rr='/usr/local/bin/ranger'
+[ -f  /opt/homebrew/bin/ranger ] && alias rr='/opt/homebrew/bin/ranger'
 
 export PATH=${HOME}/tools/:$PATH
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
