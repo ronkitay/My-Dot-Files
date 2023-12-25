@@ -64,7 +64,7 @@ function cdzf() {
 function r() {
     TEMP_LIST_FILE=/tmp/rr.list
 
-    ${HOME}/tools/grover find-repo $* > ${TEMP_LIST_FILE}
+    ${HOME}/tools/griffin find-repo $* > ${TEMP_LIST_FILE}
 
     if [[ "$(cat ${TEMP_LIST_FILE} | wc -l)" -eq "1" ]]; 
     then 
