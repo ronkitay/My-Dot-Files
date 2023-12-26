@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. .commons
-
 LOGIN_REMINDER_FILE=${HOME}/loginReminder
 
 function Usage() 
