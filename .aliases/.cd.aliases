@@ -60,32 +60,6 @@ function cdzf() {
     fi
 }
 
-
-function r() {
-    TEMP_LIST_FILE=/tmp/rr.list
-
-    ${HOME}/tools/griffin find-repo $* > ${TEMP_LIST_FILE}
-
-    if [[ "$(cat ${TEMP_LIST_FILE} | wc -l)" -eq "1" ]]; 
-    then 
-        DIR_TO_SWITCH_TO=`cat ${TEMP_LIST_FILE}`
-    else
-        DIR_TO_SWITCH_TO=`cat ${TEMP_LIST_FILE} | fzf --preview 'tree -L 2 -C {}'`
-    fi
-    rm ${TEMP_LIST_FILE}
-
-    if [[ "${DIR_TO_SWITCH_TO}" = *.git ]]; 
-    then
-        cd $(dirname ${DIR_TO_SWITCH_TO});
-        echo "${BRIGHT}${GREEN}To access the repo, run the following command:${NORMAL}"
-        echo ""
-        echo "unarchive $(basename ${DIR_TO_SWITCH_TO})"
-        echo ""
-    else
-        cd $DIR_TO_SWITCH_TO
-    fi
-}
-
 function p() {
     TEMP_PP_LIST_FILE=/tmp/pp.list
 
