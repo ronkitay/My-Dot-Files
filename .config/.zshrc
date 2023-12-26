@@ -112,3 +112,5 @@ fi
 
 export PATH=${HOME}/tools:$PATH
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+
+source <(griffin shell-integration)
