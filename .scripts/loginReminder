@@ -6,51 +6,50 @@ function Usage()
 {
 	SCRIPT=`basename $0`
 	printf "Usage:\n"
-	printf "\t${BRIGHT}${SCRIPT} -d${NORMAL}\t\t\t- Remove the reminder if it exists\n"
+	printf "\t${BRIGHT}${SCRIPT} -e${NORMAL}\t\t\t- Edits the reminders if they exists\n"
 	printf "\t${BRIGHT}${SCRIPT} -v${NORMAL}\t\t\t- View the reminder if it exists\n"
-	printf "\t${BRIGHT}${SCRIPT} -s <reminder-message> ${NORMAL}\t- Sets the reminder\n"
+	printf "\t${BRIGHT}${SCRIPT} -a <reminder-message> ${NORMAL}\t- Adds reminder\n"
 	printf "\t${BRIGHT}${GREEN}E.g.: ${NORMAL}${BRIGHT}${SCRIPT} -s 'Hello World!'${NORMAL}\n"
 	printf "\n"
         exit 1
 }
 
-function RemoveReminder()
+function EditReminders()
 {
 	[[ -f ${LOGIN_REMINDER_FILE} ]] && {
-		printf "${BRIGHT}${GREEN}Removed login reminder${NORMAL}\n"
-		rm ${LOGIN_REMINDER_FILE}
+		vi ${LOGIN_REMINDER_FILE}
 	} || {
-		printf "${BRIGHT}${RED}There is no login reminder!${NORMAL}\n"
+		printf "${BRIGHT}${RED}There are no login reminders!${NORMAL}\n"
 	}
 }
 
 function ViewReminder()
 {
 	[[ -f ${LOGIN_REMINDER_FILE} ]] && {
-		printf "\n${BRIGHT}Reminder: ${GREEN}"
+		printf "\n${BRIGHT}Reminder(s): ${GREEN}\n"
 		cat ${LOGIN_REMINDER_FILE}
-		printf "${NORMAL}\n\n"
+		printf "${NORMAL}\n"
 	} || {
-		printf "${BRIGHT}${RED}There is no login reminder!${NORMAL}\n"
+		printf "${BRIGHT}${RED}There are no login reminders!${NORMAL}\n"
 	}
 }
 
-function SetReminder()
+function AddReminder()
 {
 	[[ $1 == "" ]] && printf "${BRIGHT}${RED}Missing reminder${NORMAL}\n" && Usage
 
-	echo $1 > ${LOGIN_REMINDER_FILE}
+	echo $1 >> ${LOGIN_REMINDER_FILE}
 
 	printf "${BRIGHT}${GREEN}Login reminder set succesfully${NORMAL}\n"
 }
 
 [[ $# -eq 0 ]] && Usage
 
-[[ $1 == "-d" ]] && RemoveReminder
+[[ $1 == "-e" ]] && EditReminders
 
 [[ $1 == "-v" ]] && ViewReminder
 
-[[ $1 == "-s" ]] && SetReminder "$2"
+[[ $1 == "-a" ]] && AddReminder "$2"
 
 
 
