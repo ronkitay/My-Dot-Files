@@ -26,6 +26,6 @@ name: Ovrim
 windows:
   - tabs:
       - layout:
-          cwd: /Users/ronk/Personal/code-for-israel/ovrim/sync-remote-db
+          cwd: /Users/ronk/code/personal/code-for-israel/ovrim/sync-remote-db
       - layout:
-          cwd: /Users/ronk/Personal/code-for-israel/ovrim/catalog-api
+          cwd: /Users/ronk/code/personal/code-for-israel/ovrim/catalog-api
