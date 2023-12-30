@@ -39,7 +39,7 @@ source ${HOME}/.aliases/.p4.aliases
 source ${HOME}/.aliases/.python.aliases
 source ${HOME}/.aliases/.util.aliases
 
-PERSONAL_HOME=${HOME}/Personal
+PERSONAL_HOME=${HOME}/code/personal
 
 if [[ -d "${PERSONAL_HOME}" ]]; then
   GO_BACK=$(pwd)
