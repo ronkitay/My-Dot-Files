@@ -39,28 +39,31 @@ source ${HOME}/.aliases/.p4.aliases
 source ${HOME}/.aliases/.python.aliases
 source ${HOME}/.aliases/.util.aliases
 
-PERSONAL_HOME=${HOME}/code/personal
+export CODE_ROOT="${HOME}/code"
+export PERSONAL_CODE_ROOT="${CODE_ROOT}/personal"
+export OPENSOURCE_CODE_ROOT="${CODE_ROOT}/opensource"
+export WORK_CODE_ROOT="${CODE_ROOT}/work"
 
-if [[ -d "${PERSONAL_HOME}" ]]; then
+if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
   GO_BACK=$(pwd)
-  cd ${PERSONAL_HOME}
+  cd ${PERSONAL_CODE_ROOT}
 
-  complete -W "$(ls ${PERSONAL_HOME})" gopersonal
+  complete -W "$(ls ${PERSONAL_CODE_ROOT})" gopersonal
   function gopersonal() {
     rgb 158 100 180
-    cd ${PERSONAL_HOME}
+    cd ${PERSONAL_CODE_ROOT}
     smart_change_dir_to_child $*
   }
 
   for dir_name in `ls`; 
   do 
-    if [[ -f "${PERSONAL_HOME}/${dir_name}/.go.here" ]];
+    if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.go.here" ]];
     then
-      BASE_DIR=${PERSONAL_HOME} source ${PERSONAL_HOME}/${dir_name}/.go.here
+      BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.go.here
     fi
   done
 
-  CFI_HOME=${PERSONAL_HOME}/code-for-israel
+  CFI_HOME=${PERSONAL_CODE_ROOT}/code-for-israel
   if [[ -d "${CFI_HOME}" ]]; then
     complete -W "$(ls ${CFI_HOME})" gocfi
     function gocfi() {

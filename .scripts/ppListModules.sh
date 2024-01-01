@@ -24,5 +24,5 @@ PP_CONFIG_FILE=${PP_CONFIG_DIR}/pp.list
 
 parseModule ${HOME} .scripts > ${PP_CONFIG_FILE}
 listModules ${HOME}/code/personal >> ${PP_CONFIG_FILE}
-listModules ${HOME}/code/opensoure >> ${PP_CONFIG_FILE}
+listModules ${HOME}/code/opensource >> ${PP_CONFIG_FILE}
 listModules ${HOME}/code/work >> ${PP_CONFIG_FILE}
