@@ -38,7 +38,7 @@ function AddReminder()
 {
 	[[ $1 == "" ]] && printf "${BRIGHT}${RED}Missing reminder${NORMAL}\n" && Usage
 
-	echo $1 >> ${LOGIN_REMINDER_FILE}
+	echo "- $1" >> ${LOGIN_REMINDER_FILE}
 
 	printf "${BRIGHT}${GREEN}Login reminder set succesfully${NORMAL}\n"
 }
