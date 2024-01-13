@@ -86,6 +86,24 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
   cd ${GO_BACK}
 fi
 
+if [[ -d "${WORK_CODE_ROOT}" ]]; then
+  complete -W "$(cd ${WORK_CODE_ROOT} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" gowork
+  function gowork() {
+    rgb 255 0 255
+    cd ${WORK_CODE_ROOT}
+    smart_change_dir_to_child $*
+  }
+fi
+
+if [[ -d "${OPENSOURCE_CODE_ROOT}" ]]; then
+  complete -W "$(cd ${OPENSOURCE_CODE_ROOT} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" goopensource
+  function goopensource() {
+    rgb 20 90 20
+    cd ${OPENSOURCE_CODE_ROOT}
+    smart_change_dir_to_child $*
+  }
+fi
+
 NOTES_DIR="${HOME}/OneDrive/Notes"
 
 if [[ -d "${NOTES_DIR}" ]]; then
