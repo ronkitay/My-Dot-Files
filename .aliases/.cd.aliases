@@ -41,7 +41,19 @@ function smart_change_dir_to_child() {
 
 function cdz() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
-    DIR_TO_SWITCH_TO=$(fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" | fzf --preview 'tree -L 2 -C {}')
+
+    TEMP_LIST_FILE=$(mktemp)
+	
+    fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" > "${TEMP_LIST_FILE}"
+
+    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]]; 
+    then 
+        DIR_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}")
+    else
+        DIR_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}" | fzf +m --preview 'tree -L 2 -C {}')
+    fi
+    rm "${TEMP_LIST_FILE}"
+
     if [[ $? -eq 0 ]];
     then
         cd $DIR_TO_SWITCH_TO;
@@ -50,7 +62,19 @@ function cdz() {
 
 function cdzf() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
-    FILE_TO_SWITCH_TO=$(fd -t f -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')
+
+    TEMP_LIST_FILE=$(mktemp)
+	
+    fd -t f -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" > "${TEMP_LIST_FILE}"
+
+    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]]; 
+    then 
+        FILE_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}")
+    else
+        FILE_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}" | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')
+    fi
+    rm "${TEMP_LIST_FILE}"
+
     if [[ $? -eq 0 ]];
     then
         DIR_TO_SWITCH_TO=$(dirname $FILE_TO_SWITCH_TO)
