@@ -17,7 +17,7 @@ source ${HOME}/.man.settings
 export ZSH="${HOME}/.oh-my-zsh"
 
 SHARE_HISTORY=off
-plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosuggestions)
+plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosuggestions terraform taskwarrior)
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 source $ZSH/oh-my-zsh.sh
@@ -131,9 +131,11 @@ fi
 
 [ -f  /opt/homebrew/bin/ranger ] && alias rr='/opt/homebrew/bin/ranger'
 
+[ -f  /opt/homebrew/bin/task ] && alias t='/opt/homebrew/bin/task'
+
 export PATH=${HOME}/tools:$PATH
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-loginReminder -v
+task ready
