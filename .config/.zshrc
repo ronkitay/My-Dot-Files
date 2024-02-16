@@ -138,4 +138,7 @@ export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-task ready
+if [[ "${TERM_PROGRAM}" -ne "vscode" ]]; 
+then
+  task ready
+fi
