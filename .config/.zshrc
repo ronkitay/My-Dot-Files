@@ -138,7 +138,11 @@ export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-if [[ "${TERM_PROGRAM}" -ne "vscode" ]]; 
+if [[ "${TERM_PROGRAM}" != "vscode" ]]; 
 then
-  task ready
+  task active
+  echo "${BRIGHT}You have ${GREEN}$(task count +READY)${WHITE} tasks to work on${NORMAL}\n"
 fi
+
+alias trp='task ready +Personal'
+alias trf='task ready +Focus'
