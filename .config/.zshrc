@@ -37,6 +37,7 @@ source ${HOME}/.aliases/.mac.aliases
 source ${HOME}/.aliases/.mvn.aliases
 source ${HOME}/.aliases/.p4.aliases
 source ${HOME}/.aliases/.python.aliases
+source ${HOME}/.aliases/.taskwarrior.aliases
 source ${HOME}/.aliases/.util.aliases
 
 export CODE_ROOT="${HOME}/code"
@@ -145,8 +146,3 @@ then
   task active
   echo "\n${BRIGHT}You have ${GREEN}$(task count +READY)${WHITE} tasks to work on${NORMAL}\n"
 fi
-
-alias ta='task active'
-alias trd='task ready'
-alias trp='task ready +Personal'
-alias trf='task ready +Focus'

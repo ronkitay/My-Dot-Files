@@ -1,0 +1,6 @@
+alias ta='task active'
+alias trd='task ready'
+alias trdp='task ready +Personal'
+alias trdf='task ready +Focus'
+alias tcompleted='task completed'
+alias twaiting='task waiting'
