@@ -22,9 +22,9 @@ cd $(dirname $0)
 BASE_DIR="$(pwd)"
 link_it 'Aliases' "${HOME}/.aliases" "${BASE_DIR}/.aliases"
 
-link_it 'Key ReMapping' "${HOME}/Library/LaunchAgents/com.local.KeyRemapping.plist" "${BASE_DIR}/MacSettings/Library/LaunchAgents/com.local.KeyRemapping.plist"
-launchctl load ~/Library/LaunchAgents/com.local.KeyRemapping.plist
-launchctl start com.local.KeyRemapping
+# link_it 'Key ReMapping' "${HOME}/Library/LaunchAgents/com.local.KeyRemapping.plist" "${BASE_DIR}/MacSettings/Library/LaunchAgents/com.local.KeyRemapping.plist"
+# launchctl load ~/Library/LaunchAgents/com.local.KeyRemapping.plist
+# launchctl start com.local.KeyRemapping
 
 
 cd $(dirname $0)/.config
@@ -34,6 +34,7 @@ mkdir -p ${HOME}/.config
 
 link_it 'Bat' "${HOME}/.config/bat" "${BASE_DIR}/bat_configurations"
 link_it 'Bind Key' "${HOME}/.bindkey.settings" "${BASE_DIR}/.bindkey.settings"
+link_it 'ASDF RC' "${HOME}/.asdfrc" "${BASE_DIR}/.asdfrc"
 link_it 'FZF Setting' "${HOME}/.fzf.settings" "${BASE_DIR}/.fzf.settings"
 link_it 'MAN Setting' "${HOME}/.man.settings" "${BASE_DIR}/.man.settings"
 link_it 'Input RC' "${HOME}/.inputrc" "${BASE_DIR}/.inputrc"
