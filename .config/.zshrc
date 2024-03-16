@@ -139,10 +139,12 @@ export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-if [[ "${TERM_PROGRAM}" == "iTerm.app" ]]; 
+if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" ]]; 
 then
   echo "${BRIGHT}Active Tasks${NORMAL}"
   echo "${BRIGHT}============${NORMAL}"
   task active
   echo "\n${BRIGHT}You have ${GREEN}$(task count +READY)${WHITE} tasks to work on${NORMAL}\n"
 fi
+
+alias vi=nvim
