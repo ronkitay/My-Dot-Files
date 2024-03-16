@@ -3,6 +3,7 @@ alias trd='task ready'
 alias trdp='task ready +Personal'
 alias trdf='task ready +Focus'
 alias tcompleted='task completed'
+alias tcontext='task context'
 alias twaiting='task waiting'
 
 function rladd() {
