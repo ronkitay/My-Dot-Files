@@ -27,4 +27,9 @@ function rladd() {
     task ${TASK_ID}
 }
 
-alias rlshow='task project:Read-List'
+function rlshow() {
+    echo "Active"
+    task project:Read-List
+    echo "Waiting"
+    task waiting project:Read-List
+}
