@@ -6,6 +6,26 @@ alias tcompleted='task completed'
 alias tcontext='task context'
 alias twaiting='task waiting'
 
+function _tsnooze_validate() {
+    if [ $# -ne 2 ]; then
+        echo "Expecting exactly 1 argument";
+        printf "Usage:\n"
+        printf "\t%s <task-id>\n" "$1"
+        printf "\nExample:\n"
+        printf "\t%s '73'\n" "$1"
+        return 1;
+    fi
+    return 0;
+}
+
+function tsnooze1hour() {
+    _tsnooze_validate tsnooze1hour $* && task $1 modify wait:+1h
+}
+
+function tsnoozetommorow() {
+    _tsnooze_validate tsnoozetommorow $* && task $1 modify wait:tomorrow+8h
+}
+
 function rladd() {
     if [ $# -ne 3 ]; then
         echo "Expecting exactly 3 arguments";
