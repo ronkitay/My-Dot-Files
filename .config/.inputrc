@@ -1,5 +1,2 @@
 # Make auto completion case insensitive
 set completion-ignore-case On
-# Use Alt+Left and Alt+Right to move between words
-"\e\e[C": forward-word
-"\e\e[D": backward-word
