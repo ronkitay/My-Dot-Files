@@ -6,6 +6,8 @@ alias tcompleted='task completed'
 alias tcontext='task context'
 alias twaiting='task waiting'
 
+alias 3='clear && task ready'
+
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then
         echo "Expecting exactly 1 argument";
