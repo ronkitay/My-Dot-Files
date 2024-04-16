@@ -7,6 +7,7 @@ alias tcontext='task context'
 alias twaiting='task waiting'
 
 alias 3='clear && task ready'
+alias 4='clear && task active'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then

@@ -141,7 +141,7 @@ export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" ]]; 
+if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" ]]; 
 then
   echo "${BRIGHT}Active Tasks${NORMAL}"
   echo "${BRIGHT}============${NORMAL}"
