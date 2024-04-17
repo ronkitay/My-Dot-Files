@@ -3,6 +3,7 @@
 #A# Date;depoc;Converts dates from human format to "epoch" format 
 #A# Date;ts;Displays epoc timestamps to human readable in output redirection
 #A# Util;convert;Converts any value between different measurement units
+#A# Util;highlight;Highlights text matching a regex while leaving the rest of the text
 
 OS=$(uname -s)
 
@@ -33,4 +34,9 @@ function convert() {
 
 function depoc() {
     TZ=GMT date -j -f "%Y-%m-%d %H:%M:%S" "$1 $2" +%s
+}
+
+function highlight() {
+    local pattern="$1"
+    egrep "^|$pattern"
 }

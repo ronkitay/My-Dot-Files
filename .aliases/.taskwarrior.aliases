@@ -1,3 +1,8 @@
+#A# Taskwarrior;3;Show ready tasks
+#A# Taskwarrior;4;Show active tasks
+
+
+
 alias ta='task active'
 alias trd='task ready'
 alias trdp='task ready +Personal'
