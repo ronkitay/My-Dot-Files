@@ -1,5 +1,6 @@
-#A# Taskwarrior;3;Show ready tasks
-#A# Taskwarrior;4;Show active tasks
+#A# Taskwarrior;3;Show Ready Tasks
+#A# Taskwarrior;4;Show Active Tasks
+#A# Taskwarrior;5;Show Read List
 
 
 
@@ -13,6 +14,7 @@ alias twaiting='task waiting'
 
 alias 3='clear && task ready'
 alias 4='clear && task active'
+alias 5='clear && rlshow'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then
