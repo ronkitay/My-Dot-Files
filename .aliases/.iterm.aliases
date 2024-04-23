@@ -1,5 +1,6 @@
 #A# iTerm;1;Chose random Tab Color
 #A# iTerm;2;Restore default Profile
+#A# iTerm;badge;Set the badge
 #A# iTerm;tt;Set/Reset Tab Title
 
 function rgb() {
@@ -38,5 +39,10 @@ function tt {
         TITLE=$*; 
         echo -ne "\e]1;${TITLE}\a";
     fi
+}
+
+function badge() {
+    ARGUMENTS="$(echo $*)"
+    printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n "${ARGUMENTS}" | base64)
 }
 
