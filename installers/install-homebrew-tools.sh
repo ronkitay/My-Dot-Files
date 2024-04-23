@@ -46,6 +46,9 @@ installFormulae yq
 logStep "Installing/Updating tree - https://formulae.brew.sh/formula/tree"
 installFormulae tree
 
+logStep "Installing/Updating taskwarrior - https://taskwarrior.org/download/"
+installFormulae task
+
 logStep "Installing/Updating SwitchAudioSource  - https://github.com/deweller/switchaudio-osx"
 installFormulae switchaudio-osx
 
