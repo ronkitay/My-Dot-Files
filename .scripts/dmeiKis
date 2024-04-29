@@ -71,7 +71,9 @@ for ((i=0; i<12; i++)); do
     then
         NOAM=50
     fi    
-    echo "$next_friday - Maya: 50, Omer: ${OMER}, Noam: ${NOAM}"; 
+    echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h description:\"50 םוכס - ${next_friday} - ךיראתל היאמל סיכ ימד\""
+    echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h description:\"50 םוכס - ${next_friday} - ךיראתל רמועל סיכ ימד\""
+    echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h description:\"10 םוכס - ${next_friday} - ךיראתל םעונל סיכ ימד\""
 
     # Move to the next week
     days_to_friday=$((days_to_friday + 7))
