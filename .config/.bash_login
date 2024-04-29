@@ -30,10 +30,3 @@ export EDITOR=vi
 export CLICOLOR=1
 export LSCOLORS=CxFxxxxxBxxxxxxxxxxxxx
 
-#################################################
-##                PERSONAL REMINDER            ##
-#################################################
-[[ -f ${HOME}/loginReminder ]] && {
-	REMINDER=$(cat ${HOME}/loginReminder)
-	printf "\n$(tput bold)Reminder: $(tput setaf 2)${REMINDER}$(tput sgr0)\n\n"
-}
