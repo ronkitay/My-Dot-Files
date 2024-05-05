@@ -32,6 +32,11 @@ function tsnooze1hour() {
     _tsnooze_validate tsnooze1hour $* && task $1 modify wait:+1h
 }
 
+
+function tsnoozenight() {
+    _tsnooze_validate tsnoozenight $* && task $1 modify wait:today+19h
+}
+
 function tsnoozetommorow() {
     _tsnooze_validate tsnoozetommorow $* && task $1 modify wait:tomorrow+8h
 }
