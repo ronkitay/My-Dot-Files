@@ -32,7 +32,6 @@ function t1hour() {
     _tsnooze_validate t1hour $* && task $1 modify wait:+1h
 }
 
-
 function ttonight() {
     _tsnooze_validate ttonight $* && task $1 modify wait:today+19h
 }
@@ -43,6 +42,10 @@ function ttommorow() {
 
 function tweekend() {
     _tsnooze_validate tweekend $* && task $1 modify wait:friday+8h
+}
+
+function tresume() {
+    _tsnooze_validate tresume $* && task $1 start && task $1 modify wait:
 }
 
 function rladd() {
