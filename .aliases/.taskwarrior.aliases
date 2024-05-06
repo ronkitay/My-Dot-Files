@@ -28,17 +28,21 @@ function _tsnooze_validate() {
     return 0;
 }
 
-function tsnooze1hour() {
-    _tsnooze_validate tsnooze1hour $* && task $1 modify wait:+1h
+function t1hour() {
+    _tsnooze_validate t1hour $* && task $1 modify wait:+1h
 }
 
 
-function tsnoozenight() {
-    _tsnooze_validate tsnoozenight $* && task $1 modify wait:today+19h
+function ttonight() {
+    _tsnooze_validate ttonight $* && task $1 modify wait:today+19h
 }
 
-function tsnoozetommorow() {
-    _tsnooze_validate tsnoozetommorow $* && task $1 modify wait:tomorrow+8h
+function ttommorow() {
+    _tsnooze_validate ttommorow $* && task $1 modify wait:tomorrow+8h
+}
+
+function tweekend() {
+    _tsnooze_validate tweekend $* && task $1 modify wait:friday+8h
 }
 
 function rladd() {
