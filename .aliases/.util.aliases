@@ -15,9 +15,9 @@ fi
 
 
 if [ "${OS}" = "Linux" ] ; then
-	alias ts='awk '"'"'match($0, /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/) { ts=substr( $0, RSTART, RLENGTH ); if (length(ts)>10) ts=substr(ts,1,10); printf $0" ==> "; system("date -d @"ts" \"+%d-%h-%Y %H:%M:%S %Z\"");}'"' | grep --color '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*'"
+	alias ts='awk '"'"'match($0, /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/) { ts=substr( $0, RSTART, RLENGTH ); if (length(ts)>10) ts=substr(ts,1,10); printf $0" ==> "; system("date -d @"ts" \"+%Y-%m-%d %H:%M:%S %Z\"");}'"' | grep --color '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*'"
 else
-	alias ts='awk '"'"'match($0, /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/) { ts=substr( $0, RSTART, RLENGTH ); if (length(ts)>10) ts=substr(ts,1,10); printf $0" ==> "; system("date -r "ts" \"+%d-%h-%Y %H:%M:%S %Z\"");}'"' | grep --color '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*'"
+	alias ts='awk '"'"'match($0, /[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+/) { ts=substr( $0, RSTART, RLENGTH ); if (length(ts)>10) ts=substr(ts,1,10); printf $0" ==> "; system("date -r "ts" \"+%Y-%m-%d %H:%M:%S %Z\"");}'"' | grep --color '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]*'"
 fi
 
 function bwhich() {
