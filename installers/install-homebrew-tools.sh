@@ -16,7 +16,7 @@ function installFormulae() {
     fi
 }
 
-STEP_COUNT=14
+STEP_COUNT=16
 
 let CURRENT_STEP=1
 
@@ -70,3 +70,7 @@ installFormulae helm
 logStep "Installing/Updating clisso - https://github.com/allcloud-io/clisso"
 [[ $(brew tap allcloud-io/tools > /dev/null 2>&1) -ne 0 ]] && brew tap allcloud-io/tools
 installFormulae clisso
+
+logStep "Installing/Updating granted - https://docs.commonfate.io/granted/getting-started"
+[[ $(brew tap common-fate/granted > /dev/null 2>&1) -ne 0 ]] && brew tap common-fate/granted
+installFormulae granted
