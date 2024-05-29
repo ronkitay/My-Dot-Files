@@ -1,4 +1,4 @@
-#A# Java;look4j;Looks for classes in JAR files
+#DOC# Java;look4j;Looks for classes in JAR files
 
 function look4j() { 
     JAR_COMMAND="jar"; 

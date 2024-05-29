@@ -1,6 +1,6 @@
-#A# AWS;s3;Shortcut for 'aws s3'
-#A# AWS;s3cat;Run 'cat' on a file in an S3 bucket
-#A# AWS;s3zcat;Run 'cat' on a gzipped file in an S3 bucket
+#DOC# AWS;s3;Shortcut for 'aws s3'
+#DOC# AWS;s3cat;Run 'cat' on a file in an S3 bucket
+#DOC# AWS;s3zcat;Run 'cat' on a gzipped file in an S3 bucket
 
 alias s3='aws s3'
 

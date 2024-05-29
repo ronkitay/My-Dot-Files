@@ -1,17 +1,17 @@
-#A# Util;psu;Current User's processes
-#A# Util;clearformatting;Clears formatting of everything piped to it
-#A# Util;trimfile;Empties a file (good for truncating logs)
-#A# Util;dirsize;Calculates the size of the current directory
-#A# Util;sendfile;Send a file via eMail
-#A# Search;g;egrep
-#A# Search;gi;egrep (Case insensitive)
-#A# Search;xg;xargs egrep
-#A# Search;xgi;xargs egrep (Case insensitive)
-#A# Search;fnf;Find files
-#A# Search;fnsrc;Find Source Files
-#A# Search;fnd;Find directories
-#A# Search;fgrp;Find all files and grep on them
-#A# Search;fgrpi;Find all files and grep on them (Case insensitive)
+#DOC# Util;psu;Current User's processes
+#DOC# Util;clearformatting;Clears formatting of everything piped to it
+#DOC# Util;trimfile;Empties a file (good for truncating logs)
+#DOC# Util;dirsize;Calculates the size of the current directory
+#DOC# Util;sendfile;Send a file via eMail
+#DOC# Search;g;egrep
+#DOC# Search;gi;egrep (Case insensitive)
+#DOC# Search;xg;xargs egrep
+#DOC# Search;xgi;xargs egrep (Case insensitive)
+#DOC# Search;fnf;Find files
+#DOC# Search;fnsrc;Find Source Files
+#DOC# Search;fnd;Find directories
+#DOC# Search;fgrp;Find all files and grep on them
+#DOC# Search;fgrpi;Find all files and grep on them (Case insensitive)
 
 # General LINUX stuff
 alias l='ls -lF'

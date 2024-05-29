@@ -1,5 +1,5 @@
-#A# Util;bathelp;Redirect help outputs to it to present nicely
-#A# Util;help;Runs --help on selected commands and formats it with bat
+#DOC# Util;bathelp;Redirect help outputs to it to present nicely
+#DOC# Util;help;Runs --help on selected commands and formats it with bat
 
 alias bathelp='bat --plain --language=help'
 function help() {

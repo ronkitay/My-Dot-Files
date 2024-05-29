@@ -1,24 +1,24 @@
 # Git stuff
 
-#A# Git;giturl;Opens file from a git repo in github/gitlab web UI
+#DOC# Git;giturl;Opens file from a git repo in github/gitlab web UI
 
-#A# Git;gcm;Git Checkout Master
-#A# Git;gcheckout;Git Checkout ...
-#A# Git;gstatus;Git status
-#A# Git;glog;Git log (pretty)
+#DOC# Git;gcm;Git Checkout Master
+#DOC# Git;gcheckout;Git Checkout ...
+#DOC# Git;gstatus;Git status
+#DOC# Git;glog;Git log (pretty)
 
-#A# Git;gadd;Git status
-#A# Git;gunstage;Unstages file(s) (git reset HEAD)
-#A# Git;grevert;Revert file(s) (git checkout --)
-#A# Git;stash;git stash save
-#A# Git;unstash;git stash pop
-#A# Git;stashlist;git stash list
-#A# Git;stashshow;git stash show
-#A# Git;gpull;git ~EMP~pull~NORM~ --rebase
-#A# Git;gcommit;git commit
-#A# Git;gpush;git push (branch only)
+#DOC# Git;gadd;Git status
+#DOC# Git;gunstage;Unstages file(s) (git reset HEAD)
+#DOC# Git;grevert;Revert file(s) (git checkout --)
+#DOC# Git;stash;git stash save
+#DOC# Git;unstash;git stash pop
+#DOC# Git;stashlist;git stash list
+#DOC# Git;stashshow;git stash show
+#DOC# Git;gpull;git ~EMP~pull~NORM~ --rebase
+#DOC# Git;gcommit;git commit
+#DOC# Git;gpush;git push (branch only)
 
-#A# Navigation;cdroot;Jumps to Git Repo root
+#DOC# Navigation;cdroot;Jumps to Git Repo root
 
 
 

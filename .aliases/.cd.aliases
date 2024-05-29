@@ -1,11 +1,11 @@
-#A# Navigation;cdfile;Changes dir to the directory a file is located in
-#A# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
-#A# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
-#A# Navigation;cdz;Fuzzy directory change
-#A# Navigation;cdzf;Fuzzy directory change to a file
-#A# Navigation;mcd;Make and Change directory
-#A# Navigation;p;Fuzzy jump to code project (in git repo)
-#A# Navigation;r;Fuzzy jump to git repository
+#DOC# Navigation;cdfile;Changes dir to the directory a file is located in
+#DOC# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
+#DOC# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
+#DOC# Navigation;cdz;Fuzzy directory change
+#DOC# Navigation;cdzf;Fuzzy directory change to a file
+#DOC# Navigation;mcd;Make and Change directory
+#DOC# Navigation;p;Fuzzy jump to code project (in git repo)
+#DOC# Navigation;r;Fuzzy jump to git repository
 
 alias ..='cd ..'
 alias ...='cd ../..'

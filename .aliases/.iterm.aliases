@@ -1,7 +1,7 @@
-#A# iTerm;1;Chose random Tab Color
-#A# iTerm;2;Restore default Profile
-#A# iTerm;badge;Set the badge
-#A# iTerm;tt;Set/Reset Tab Title
+#DOC# iTerm;1;Chose random Tab Color
+#DOC# iTerm;2;Restore default Profile
+#DOC# iTerm;badge;Set the badge
+#DOC# iTerm;tt;Set/Reset Tab Title
 
 function rgb() {
     echo -ne "\033]6;1;bg;red;brightness;$1\a\033]6;1;bg;green;brightness;$2\a\033]6;1;bg;blue;brightness;$3\a"

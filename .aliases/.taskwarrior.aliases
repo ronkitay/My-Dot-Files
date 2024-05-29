@@ -1,11 +1,11 @@
-#A# Taskwarrior;3;Show Ready Tasks
-#A# Taskwarrior;4;Show Active Tasks
-#A# Taskwarrior;5;Show Read List
+#DOC# Taskwarrior;3;Show Ready Tasks
+#DOC# Taskwarrior;4;Show Active Tasks
+#DOC# Taskwarrior;5;Show Read List
 
-#A# Taskwarrior;t1hour;Snooze task for 1 hour
-#A# Taskwarrior;ttonight;Snooze task until tonight at 19:00
-#A# Taskwarrior;ttomorrow;Snooze task until tomorrow at 8:00
-#A# Taskwarrior;tweekend;Snooze task until Friday at 8:00
+#DOC# Taskwarrior;t1hour;Snooze task for 1 hour
+#DOC# Taskwarrior;ttonight;Snooze task until tonight at 19:00
+#DOC# Taskwarrior;ttomorrow;Snooze task until tomorrow at 8:00
+#DOC# Taskwarrior;tweekend;Snooze task until Friday at 8:00
 
 alias ta='task active'
 alias trd='task ready'
@@ -39,8 +39,8 @@ function ttonight() {
     _tsnooze_validate ttonight $* && task $1 modify wait:today+19h
 }
 
-function ttommorow() {
-    _tsnooze_validate ttommorow $* && task $1 modify wait:tomorrow+8h
+function ttomorow() {
+    _tsnooze_validate ttomorow $* && task $1 modify wait:tomorrow+8h
 }
 
 function tweekend() {
