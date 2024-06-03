@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#DOC# taskwarrior;tnoteadd;Adds a note a task
+
+if [ $# -lt 2 ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
+    echo "Usage: $0 <numeric_argument> <note_name>"
+    exit 1
+fi
+
+TASK_ID="$1"
+
+NOTE_ROOT_ABSOLUTE="${HOME}/OneDrive/taskwarrior/notes"
+NOTE_ROOT_RELATIVE="~/OneDrive/taskwarrior/notes"
+
+YYYY=$(date +%Y)
+MM=$(date +%m)
+DD=$(date +%d)
+
+mkdir -p "$NOTE_ROOT_ABSOLUTE/$YYYY/$MM/$DD"
+
+shift
+
+NOTE_NAME=$(echo $* | sed 's/ /\-/g').md
+
+NOTE_PATH_ABSOLUTE="$NOTE_ROOT_ABSOLUTE/$YYYY/$MM/$DD/$NOTE_NAME"
+NOTE_PATH_RELATIVE="$NOTE_ROOT_RELATIVE/$YYYY/$MM/$DD/$NOTE_NAME"
+
+task "${TASK_ID}" annotate "Note: $NOTE_PATH_RELATIVE"
+
+edit "$NOTE_PATH_ABSOLUTE"

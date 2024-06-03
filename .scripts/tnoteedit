@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#DOC# taskwarrior;tnoteedit;Edits the note attached to a task
+
+if [ $# -ne 1 ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
+    echo "Usage: $0 <numeric_argument>"
+    exit 1
+fi
+
+TASK_ID="$1"
+
+NOTE_PATH=$(EDITOR=cat task "${TASK_ID}" edit |  grep  'Annotation:.*Note:' | sed 's|.*Note: ||')
+
+if [ -z "$NOTE_PATH" ]; then
+    echo "No note found for task ${TASK_ID}"
+    exit 1
+else
+    if [ ! -f "$NOTE_PATH" ]; then
+        echo "Note file not found: $NOTE_PATH"
+        exit 1
+    else
+        edit "$NOTE_PATH"
+    fi
+fi
