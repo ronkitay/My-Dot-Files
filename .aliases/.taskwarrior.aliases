@@ -16,7 +16,7 @@ alias tcontext='task context'
 alias twaiting='task waiting'
 
 alias 3='clear && task ready'
-alias 4='clear && task active'
+alias 4='clear && task active -BLOCKED'
 alias 5='clear && rlshow'
 
 function _tsnooze_validate() {

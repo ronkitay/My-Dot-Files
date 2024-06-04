@@ -145,7 +145,7 @@ if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" && "${TERMIN
 then
   echo "${BRIGHT}Active Tasks${NORMAL}"
   echo "${BRIGHT}============${NORMAL}"
-  task active
+  task active -BLOCKED
   echo "\n${BRIGHT}You have ${GREEN}$(task count +READY)${WHITE} tasks to work on${NORMAL}\n"
 fi
 
