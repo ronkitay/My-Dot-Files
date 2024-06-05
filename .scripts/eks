@@ -13,9 +13,6 @@ function help {
     printf "\t-w, --workspace-name:\n"
     printf "\tThe name of the Workspace (creates new or uses existing).\n"
     printf "\n"
-    printf "\t-p, --aws-profile:\n"
-    printf "\tThe name of the AWS Profile to use.\n"
-    printf "\n"
     printf "\t-r, --aws-region:\n"
     printf "\tThe AWS Region the cluster is located in.\n"
     printf "\n"    
@@ -28,10 +25,10 @@ function help {
     printf "\n"       
     printf "Examples:\n"
     printf "\t# Connects to a dev cluster\n"
-    printf "\t${SCRIPT} -w 'EKS Dev' -p 'dev-profile' -r 'us-east-1' -c 'MyDevCluster'\n"
+    printf "\t${SCRIPT} -w 'EKS Dev' -r 'us-east-1' -c 'MyDevCluster'\n"
     printf "\n"
     printf "\t# Connects to a dev cluster with the current dir as a project dir\n"
-    printf "\t${SCRIPT} -w 'EKS Dev' -p 'dev-profile' -r 'us-east-1' -c 'MyDevCluster' -j .\n"
+    printf "\t${SCRIPT} -w 'EKS Dev' -r 'us-east-1' -c 'MyDevCluster' -j .\n"
     printf "\n"
     exit 1
 }
@@ -39,13 +36,12 @@ function help {
 for arg in "$@"; do
   shift
   case "$arg" in
-    '--help')           set -- "$@" '-h'   ;;
-    '--workspace-name') set -- "$@" '-w'   ;;
-    '--aws-profile')    set -- "$@" '-p'   ;;
-    '--aws-region')     set -- "$@" '-r'   ;;
-    '--cluster-name')   set -- "$@" '-c'   ;;
-    '--project-dir')    set -- "$@" '-j'   ;;
-    *)                  set -- "$@" "$arg" ;;
+    '--help')            set -- "$@" '-h'   ;;
+    '--workspace-name')  set -- "$@" '-w'   ;;
+    '--aws-region')      set -- "$@" '-r'   ;;
+    '--cluster-name')    set -- "$@" '-c'   ;;
+    '--project-dir')     set -- "$@" '-j'   ;;
+    *)                   set -- "$@" "$arg" ;;
   esac
 done
 
@@ -56,9 +52,6 @@ while getopts ":w:p:r:c:j:h:" option; do
             ;;
         w) 
             export WORKSPACE_NAME=${OPTARG}
-            ;;
-        p) 
-            export AWS_PROFILE=${OPTARG}
             ;;
         r) 
             export AWS_REGION=${OPTARG}
@@ -85,12 +78,6 @@ then
     help
 fi
 
-if [[ -z "${AWS_PROFILE}" ]];
-then
-    printf "${BRIGHT}${RED}AWS Profile was not provided!${NORMAL}\n"
-    help
-fi
-
 if [[ -z "${AWS_REGION}" ]];
 then
     printf "${BRIGHT}${RED}AWS Region was not provided!${NORMAL}\n"
@@ -107,9 +94,10 @@ _docker_run_it \
     --image ${MY_DOCKER_IMAGES_REPO}/eks:$(cat ${HOME}/.my-docker-images.release) \
     --workspace-name "${WORKSPACE_NAME}" \
     ${MOUNT_POINT} \
-    --extra-params "-v ${HOME}/.clisso.yaml:/root/.clisso.yaml \
-    -v ${HOME}/.aws/:/root/.aws \
+    --extra-params " -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube \
-    --env AWS_PROFILE=${AWS_PROFILE} \
+    --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+    --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+    --env AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN} \
     --env AWS_REGION=${AWS_REGION} \
     --env EKS_CLUSTER=${CLUSTER_NAME}" 
