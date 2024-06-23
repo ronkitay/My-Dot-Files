@@ -1,0 +1,45 @@
+#!/bin/sh
+
+#DOC# taskwarrior;tattach;Adds an attachment to a task
+
+if [ $# -ne 3 ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
+    echo "Usage: $0 <task_id> <path_to_file> <attachment_name>"
+    exit 1
+fi
+
+TASK_ID="$1"
+FILE_PATH="$2"
+ATTACHMENT_NAME="$3"
+
+# Check if the file exists
+if [ ! -f "$FILE_PATH" ]; then
+    echo "Error: File not found at $FILE_PATH"
+    exit 1
+fi
+
+ATTACHMENT_ROOT_ABSOLUTE="${HOME}/OneDrive/taskwarrior/attachments"
+ATTACHMENT_ROOT_RELATIVE="~/OneDrive/taskwarrior/attachments"
+
+YYYY=$(date +%Y)
+MM=$(date +%m)
+DD=$(date +%d)
+
+# Create the directory structure
+mkdir -p "$ATTACHMENT_ROOT_ABSOLUTE/$YYYY/$MM/$DD"
+
+ATTACHMENT_FILENAME="${ATTACHMENT_NAME}"
+
+ATTACHMENT_PATH_ABSOLUTE="$ATTACHMENT_ROOT_ABSOLUTE/$YYYY/$MM/$DD/$ATTACHMENT_NAME"
+ATTACHMENT_PATH_RELATIVE="$ATTACHMENT_ROOT_RELATIVE/$YYYY/$MM/$DD/$ATTACHMENT_NAME"
+
+# Copy the file to the attachment directory
+cp "$FILE_PATH" "$ATTACHMENT_PATH_ABSOLUTE"
+
+if [ $? -eq 0 ]; then
+    # Add annotation to the task
+    task "${TASK_ID}" annotate "Attachment: $ATTACHMENT_PATH_RELATIVE"
+    echo "Attachment added successfully."
+else
+    echo "Error: Failed to copy the file."
+    exit 1
+fi
