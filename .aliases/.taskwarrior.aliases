@@ -7,12 +7,18 @@
 #DOC# Taskwarrior;ttomorrow;Snooze task until tomorrow at 8:00
 #DOC# Taskwarrior;tweekend;Snooze task until Friday at 8:00
 
-alias ta='task active'
-alias trd='task ready'
-alias trdp='task ready +Personal'
-alias trdf='task ready +Focus'
-alias tcompleted='task completed'
+#DOC# Taskwarrior;tcontext;Alias for `task context`
+
+#DOC# Taskwarrior;tactive;Filter only active tasks
+#DOC# Taskwarrior;tcompleted;Filter only completed tasks
+#DOC# Taskwarrior;tpending;Filter only pending tasks
+#DOC# Taskwarrior;twaiting;Filter only waiting tasks
+
 alias tcontext='task context'
+
+alias tactive='task active'
+alias tcompleted='task completed'
+alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
 alias 3='clear && task ready'
