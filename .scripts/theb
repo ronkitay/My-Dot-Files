@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+#DOC# taskwarrior;theb;Reverses hebrew characters to make them compatible with taskwarrior
+import sys
+
+
+def main(argv):
+    if len(argv) == 1:
+        raise ValueError('Missing arguments')
+
+    full_string = ' '.join(argv[1:])
+
+    reversed = full_string[::-1]
+
+    print(reversed, end='')
+
+
+if __name__ == '__main__':
+    main(sys.argv)
