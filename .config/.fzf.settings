@@ -30,7 +30,7 @@ _fzf_comprun() {
 
 _____get_status_completion() {
 
-  modified_files=$(git status --short | egrep '^ M|^M')
+  modified_files=$(git status --short | egrep '^ M|^AM|^MM')
   if [[ -n "${modified_files}" ]];
   then
     echo ${modified_files} | awk '{$1=""; print("\033[34mModified\033[0m\t"$0)}';
