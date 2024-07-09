@@ -1,0 +1,15 @@
+#!/bin/sh
+
+cmd="./gradlew"
+for letter in $(echo "$1" | grep -o .); do
+    case $letter in
+        c) cmd+=" clean" ;;
+        b) cmd+=" build" ;;
+        t) cmd+=" test" ;;
+        j) cmd+=" jib" ;;
+        r) cmd+=" bootRun" ;;
+        *) echo "Warning: Unknown letter '$letter' ignored." >&2 ;;
+    esac
+done
+echo "Executing: $cmd"
+eval $cmd
