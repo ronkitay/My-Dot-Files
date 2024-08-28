@@ -53,6 +53,10 @@ function tweekend() {
     _tsnooze_validate tweekend $* && task $1 modify wait:friday+8h
 }
 
+function tnextweek() {
+    _tsnooze_validate tnextweek $* && task $1 modify wait:sun+8h
+}
+
 function tresume() {
     _tsnooze_validate tresume $* && task $1 start && task $1 modify wait:
 }
