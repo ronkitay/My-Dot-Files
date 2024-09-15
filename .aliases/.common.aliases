@@ -6,10 +6,15 @@
 #DOC# Search;g;egrep
 #DOC# Search;gi;egrep (Case insensitive)
 #DOC# Search;xg;xargs egrep
+#DOC# Search;xg0;xargs egrep with null as the line delimited (-0 or -print0)
 #DOC# Search;xgi;xargs egrep (Case insensitive)
+#DOC# Search;xgi0;xargs egrep (Case insensitive) with null as the line delimited (-0 or -print0)
 #DOC# Search;fnf;Find files
+#DOC# Search;fnf0;Find files with null as the line delimited (-0 or -print0)
 #DOC# Search;fnsrc;Find Source Files
+#DOC# Search;fnsrc0;Find Source Files with null as the line delimited (-0 or -print0)
 #DOC# Search;fnd;Find directories
+#DOC# Search;fnd0;Find directories with null as the line delimited (-0 or -print0)
 #DOC# Search;fgrp;Find all files and grep on them
 #DOC# Search;fgrpi;Find all files and grep on them (Case insensitive)
 
@@ -23,20 +28,28 @@ alias psu='ps -efu ${LOGNAME}'
 alias g='egrep --color'
 alias gi='egrep --color -i'
 alias xg='xargs egrep --color'
+alias xg0='xargs -0 egrep --color'
 alias xgi='xargs egrep --color -i'
+alias xgi0='xargs -0 egrep --color -i'
 
 if [ -x "$(which fd  2> /dev/null)" ] || [ -x "$(which fdfind  2> /dev/null)" ]; then
     alias fnf='fd -t f -H -L . '
+    alias fnf0='fd -t f -H -L . -0'
     alias fnsrc='fd -t f -H -L -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/" . '
+    alias fnsrc0='fd -0 -t f -H -L -E "/.git/" -E "/.idea/" -E "/target/" -E "/build/" . '
     alias fnd='fd -t d -H . '
-    alias fgrp='fd -t f -H -L | xargs egrep --no-messages --color'
-    alias fgrpi='fd -t f -H -L | xargs egrep --no-messages --color -i'
+    alias fnd0='fd -t d -H . -0'
+    alias fgrp='fd -t f -H -L -0 | xargs -0 egrep --no-messages --color'
+    alias fgrpi='fd -t f -H -L -0 | xargs -0 egrep --no-messages --color -i'
 else
     alias fnf='find . -type f '
-    alias fnsrc='find . -type f | egrep -v "/.git/|/.idea/|/target/|/build/" '
+    alias fnf0='find . -type f -print0'
+    alias fnsrc='find . -type f -not \( -path "*/.git/*" -o -path "*/.idea/*" -o -path "*/target/*" -o -path "*/build/*" \) '
+    alias fnsrc0='find . -type f -not \( -path "*/.git/*" -o -path "*/.idea/*" -o -path "*/target/*" -o -path "*/build/*" \) -print0 '
     alias fnd='find . -type d '
-    alias fgrp='find . -type f | xargs egrep --no-messages --color'
-    alias fgrpi='find . -type f | xargs egrep --no-messages --color -i'
+    alias fnd0='find . -type d -print0 '
+    alias fgrp='find . -type f -print0 | xargs egrep --no-messages --color'
+    alias fgrpi='find . -type f -print0 | xargs egrep --no-messages --color -i'
 fi
 
 alias tf='tail -f'
