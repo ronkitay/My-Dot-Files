@@ -16,6 +16,12 @@ kgimg() {
         | egrep --color "${PATTERN}";
 }
 
+kpodcount () {
+	PATTERN=$(echo $* | sed 's/ /\.\*/g')
+	printf "$(tput bold)$(tput setaf 4)%-10s%s$(tput sgr0)\n" "Count" "Deployment"
+	kubectl get pods |  egrep "${PATTERN}" | awk '{print $1}' | sed -E 's|(\-[a-z0-9]{2,20})?\-[a-z0-9]*$||g' | sort | uniq -c | sort -n  | awk '{printf "%-10s%s\n", $1, $2}'
+}
+
 kactive() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
     printf "$(tput bold)$(tput setaf 4)%-50s %s$(tput sgr0)\n" "Service" "Active";
