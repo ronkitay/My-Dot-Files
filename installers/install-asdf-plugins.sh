@@ -56,7 +56,8 @@ asdf install golang 1.21.1
 asdf global golang 1.21.1
 
 logStep "Installing Terraform"
-addPlugin plugin-add terraform https://github.com/echo asdf-community/echo asdf-hashicorp.git
+# addPlugin terraform https://github.com/asdf-community/asdf-hashicorp.git
+addPlugin terraform https://github.com/echo asdf-community/echo asdf-hashicorp.git
 asdf install terraform 0.13.7
 asdf install terraform 1.5.4
 asdf global terraform 0.13.7

@@ -1,0 +1,14 @@
+Fuzzy Finder;https://github.com/junegunn/fzf;fzf
+batcat;https://github.com/sharkdp/bat;bat
+fd - find replacement;https://github.com/sharkdp/fd;fd
+JSON Query;https://jqlang.github.io/jq/download/;jq
+YAML Query;https://github.com/mikefarah/yq;yq
+Tree;https://formulae.brew.sh/formula/tree;tree
+Task Warrior;https://taskwarrior.org/download/;task
+SwitchAudioSource;https://github.com/deweller/switchaudio-osx;switchaudio-osx
+ASDF Package Manager;https://asdf-vm.com/guide/getting-started.html;asdf
+Kubernetes CLI;https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos;kubectl
+Kubernetes Context Switcher;https://formulae.brew.sh/formula/kubectx;kubectx
+Helm;https://helm.sh/docs/intro/install/;helm
+CLI SSO;https://github.com/allcloud-io/clisso;clisso;allcloud-io/tools
+Granted;https://docs.commonfate.io/granted/getting-started;granted;common-fate/granted
