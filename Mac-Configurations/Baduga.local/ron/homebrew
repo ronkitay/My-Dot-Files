@@ -1,0 +1,10 @@
+NeoVIM;https://github.com/neovim/neovim/blob/master/INSTALL.md;neovim
+Fuzzy Finder;https://github.com/junegunn/fzf;fzf
+fd - find replacement;https://github.com/sharkdp/fd;fd
+batcat;https://github.com/sharkdp/bat;bat
+JSON Query;https://jqlang.github.io/jq/download/;jq
+YAML Query;https://github.com/mikefarah/yq;yq
+Tree;https://formulae.brew.sh/formula/tree;tree
+Task Warrior;https://taskwarrior.org/download/;task
+SwitchAudioSource;https://github.com/deweller/switchaudio-osx;switchaudio-osx
+ASDF Package Manager;https://asdf-vm.com/guide/getting-started.html;asdf
