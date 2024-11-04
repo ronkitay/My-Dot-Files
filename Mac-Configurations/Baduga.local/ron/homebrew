@@ -8,3 +8,4 @@ Tree;https://formulae.brew.sh/formula/tree;tree
 Task Warrior;https://taskwarrior.org/download/;task
 SwitchAudioSource;https://github.com/deweller/switchaudio-osx;switchaudio-osx
 ASDF Package Manager;https://asdf-vm.com/guide/getting-started.html;asdf
+PostgreSQL;https://wiki.postgresql.org/wiki/Homebrew;postgresql
