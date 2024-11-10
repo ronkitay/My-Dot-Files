@@ -21,9 +21,9 @@ alias tcompleted='task completed'
 alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
-alias 3='clear && task ready'
-alias 4='clear && task active -BLOCKED'
-alias 5='clear && rlshow'
+alias 3='clear && echo "" && task ready'
+alias 4='clear && echo "" && task active -BLOCKED'
+alias 5='clear && echo "" && rlshow'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then

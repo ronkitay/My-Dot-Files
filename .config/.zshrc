@@ -145,10 +145,19 @@ source <(griffin shell-integration)
 
 if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" ]]; 
 then
-  echo "${BRIGHT}Active Tasks${NORMAL}"
-  echo "${BRIGHT}============${NORMAL}"
-  task active -BLOCKED
-  echo "\n${BRIGHT}You have ${GREEN}$(task count +READY)${WHITE} tasks to work on${NORMAL}\n"
+  STATE_DIR="${HOME}/.config/taskwarrior"
+  mkdir -p "${STATE_DIR}"
+  STATE_FILE="${STATE_DIR}/.state"
+  TASK_DB="$HOME/.task/taskchampion.sqlite3"
+  if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ]; 
+  then
+    task count +READY +ACTIVE > "${STATE_FILE}"
+    task count +READY         >> "${STATE_FILE}"
+  fi
+
+  ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")
+  READY_TASKS=$(tail -n 1 "${STATE_FILE}")
+  echo "\n${BRIGHT}You are working on ${GREEN}${ACTIVE_TASKS}${WHITE} tasks have a total of ${GREEN}${READY_TASKS}${WHITE} tasks to work on${NORMAL}\n"
 fi
 
 alias vi=nvim
