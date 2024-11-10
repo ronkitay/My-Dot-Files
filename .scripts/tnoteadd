@@ -9,8 +9,8 @@ fi
 
 TASK_ID="$1"
 
-NOTE_ROOT_ABSOLUTE="${HOME}/OneDrive/taskwarrior/notes"
-NOTE_ROOT_RELATIVE="~/OneDrive/taskwarrior/notes"
+NOTE_ROOT_ABSOLUTE="${HOME}/Dropbox/taskwarrior/notes"
+NOTE_ROOT_RELATIVE="~/Dropbox/taskwarrior/notes"
 
 YYYY=$(date +%Y)
 MM=$(date +%m)

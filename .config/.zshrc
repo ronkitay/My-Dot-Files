@@ -109,7 +109,7 @@ if [[ -d "${OPENSOURCE_CODE_ROOT}" ]]; then
   }
 fi
 
-NOTES_DIR="${HOME}/OneDrive/Notes"
+NOTES_DIR="${HOME}/Dropbox/Notes"
 
 if [[ -d "${NOTES_DIR}" ]]; then
   function gonotes() {
