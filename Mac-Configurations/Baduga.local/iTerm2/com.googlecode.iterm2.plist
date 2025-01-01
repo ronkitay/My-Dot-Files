@@ -273,7 +273,7 @@ The script should do this: \(ai.prompt)</string>
 			<key>Columns</key>
 			<integer>80</integer>
 			<key>Command</key>
-			<string></string>
+			<string>/bin/zsh</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -985,7 +985,7 @@ The script should do this: \(ai.prompt)</string>
 			<key>Window Type</key>
 			<integer>0</integer>
 			<key>Working Directory</key>
-			<string>/Users/ronk</string>
+			<string>/Users/ron</string>
 		</dict>
 	</array>
 	<key>NumberOfLinesForAccessibility</key>
@@ -2046,7 +2046,7 @@ The script should do this: \(ai.prompt)</string>
 											<key>Window Type</key>
 											<integer>0</integer>
 											<key>Working Directory</key>
-											<string>/Users/ronk</string>
+											<string>/Users/ron</string>
 										</dict>
 										<key>Columns</key>
 										<integer>214</integer>
@@ -2054,39 +2054,39 @@ The script should do this: \(ai.prompt)</string>
 										<array/>
 										<key>Directories</key>
 										<array>
-											<string>/Users/ronk</string>
-											<string>/Users/ronk</string>
-											<string>/Users/ronk</string>
+											<string>/Users/ron</string>
+											<string>/Users/ron</string>
+											<string>/Users/ron</string>
 										</array>
 										<key>Environment</key>
 										<dict>
 											<key>PWD</key>
-											<string>/Users/ronk</string>
+											<string>/Users/ron</string>
 										</dict>
 										<key>Hostname to Shell</key>
 										<dict>
-											<key>ronk@ronk-Mac-Laptop</key>
+											<key>ron@Baduga.local</key>
 											<string>zsh</string>
 										</dict>
 										<key>Hosts</key>
 										<array>
 											<dict>
 												<key>Host name</key>
-												<string>ronk-Mac-Laptop</string>
+												<string>Baduga.local</string>
 												<key>User name</key>
-												<string>ronk</string>
+												<string>ron</string>
 											</dict>
 											<dict>
 												<key>Host name</key>
-												<string>ronk-Mac-Laptop</string>
+												<string>Baduga.local</string>
 												<key>User name</key>
-												<string>ronk</string>
+												<string>ron</string>
 											</dict>
 											<dict>
 												<key>Host name</key>
-												<string>ronk-Mac-Laptop</string>
+												<string>Baduga.local</string>
 												<key>User name</key>
-												<string>ronk</string>
+												<string>ron</string>
 											</dict>
 										</array>
 										<key>Is UTF-8</key>
@@ -2103,7 +2103,7 @@ The script should do this: \(ai.prompt)</string>
 										<key>Program</key>
 										<dict>
 											<key>Command</key>
-											<string>login -fp "ronk"</string>
+											<string>login -fp "ron"</string>
 											<key>Type</key>
 											<string>Command</string>
 										</dict>
@@ -2123,7 +2123,7 @@ The script should do this: \(ai.prompt)</string>
 											<string>$$</string>
 										</dict>
 										<key>Working Directory</key>
-										<string>/Users/ronk</string>
+										<string>/Users/ron</string>
 										<key>Working Directory Poller Disabled</key>
 										<true/>
 									</dict>
