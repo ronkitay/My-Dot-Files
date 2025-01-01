@@ -60,8 +60,8 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
     smart_change_dir_to_child $*
   }
 
-  for dir_name in `ls`; 
-  do 
+  for dir_name in `ls`;
+  do
     if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.go.here" ]];
     then
       BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.go.here
@@ -85,7 +85,7 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
         cd ${OVRIM_HOME}
         smart_change_dir_to_child $*
       }
-    fi    
+    fi
   fi
 
   cd ${GO_BACK}
@@ -109,7 +109,7 @@ if [[ -d "${OPENSOURCE_CODE_ROOT}" ]]; then
   }
 fi
 
-NOTES_DIR="${HOME}/Dropbox/Notes"
+NOTES_DIR="${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
 
 if [[ -d "${NOTES_DIR}" ]]; then
   function gonotes() {
@@ -143,11 +143,11 @@ export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
-if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" ]]; 
+if [[ "${TERM_PROGRAM}" == "iTerm.app" && "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" ]];
 then
   STATE_FILE="${HOME}/.task/.state"
   TASK_DB="$HOME/.task/taskchampion.sqlite3"
-  if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ]; 
+  if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ];
   then
     task count +READY +ACTIVE > "${STATE_FILE}"
     task count +READY -ACTIVE >> "${STATE_FILE}"
@@ -161,4 +161,3 @@ fi
 alias vi=nvim
 
 eval "$(starship init zsh)"
-
