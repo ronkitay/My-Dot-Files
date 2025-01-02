@@ -1,0 +1,4 @@
+blueutil --connect "OpenRun by Shokz"
+if [[ $? -ne 0 ]]; then
+  blueutil --connect "OpenRun by Shokz"
+fi
