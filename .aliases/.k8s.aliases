@@ -9,7 +9,7 @@ alias kctx='kubectx'
 
 kgimg() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
-    printf "$(tput bold)$(tput setaf 4)%-70s %s$(tput sgr0)\n" "Pod" "Image"; 
+    printf "$(tput bold)$(tput setaf 4)%-70s %s$(tput sgr0)\n" "Pod" "Image";
     kubectl get pods -o jsonpath='{range .items[*]}{"\n"}{.metadata.name}{"@"}{range .spec.containers[*]}{.image}{" "}{end}{end}' \
         | egrep "${PATTERN}" \
         | awk -F '@' '{printf "%-70s %s\n", $1, $2}' \
@@ -18,8 +18,8 @@ kgimg() {
 
 kpodcount () {
 	PATTERN=$(echo $* | sed 's/ /\.\*/g')
-	printf "$(tput bold)$(tput setaf 4)%-10s%s$(tput sgr0)\n" "Count" "Deployment"
-	kubectl get pods |  egrep "${PATTERN}" | awk '{print $1}' | sed -E 's|(\-[a-z0-9]{2,20})?\-[a-z0-9]*$||g' | sort | uniq -c | sort -n  | awk '{printf "%-10s%s\n", $1, $2}'
+	printf "$(tput bold)$(tput setaf 4)%-10s%-20s%s$(tput sgr0)\n" "Count" "Status" "Deployment"
+	kubectl get pods | egrep -v '^NAME' |  egrep "${PATTERN}" | awk '{print $3" "$1}' | sed -E 's|(\-[a-z0-9]{2,20})?\-[a-z0-9]*$||g' | sort | uniq -c | sort -n | awk '{printf "%-10s%-20s%s\n", $1, $2, $3}'
 }
 
 kactive() {
