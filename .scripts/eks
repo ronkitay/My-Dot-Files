@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#DOC# Util;eks;Launches a docker container connected to a specific AWS EKS cluster
+
 function help {
     if [[ -z "${SCRIPT}" ]];
     then
