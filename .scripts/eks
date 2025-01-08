@@ -15,14 +15,17 @@ function help {
     printf "\n"
     printf "\t-r, --aws-region:\n"
     printf "\tThe AWS Region the cluster is located in.\n"
-    printf "\n"    
+    printf "\n"
+    printf "\t-p, --aws-profile:\n"
+    printf "\tThe AWS Profile being used.\n"
+    printf "\n"
     printf "\t-r, --cluster-name:\n"
     printf "\tThe Name of the EKS cluster to connect to.\n"
-    printf "\n" 
+    printf "\n"
     printf "Optional Flags:\n"
     printf "\t-j, --project-dir:\n"
     printf "\tThe local directory to map as a project directory.\n"
-    printf "\n"       
+    printf "\n"
     printf "Examples:\n"
     printf "\t# Connects to a dev cluster\n"
     printf "\t${SCRIPT} -w 'EKS Dev' -r 'us-east-1' -c 'MyDevCluster'\n"
@@ -39,6 +42,7 @@ for arg in "$@"; do
     '--help')            set -- "$@" '-h'   ;;
     '--workspace-name')  set -- "$@" '-w'   ;;
     '--aws-region')      set -- "$@" '-r'   ;;
+    '--aws-profile')     set -- "$@" '-p'   ;;
     '--cluster-name')    set -- "$@" '-c'   ;;
     '--project-dir')     set -- "$@" '-j'   ;;
     *)                   set -- "$@" "$arg" ;;
@@ -47,19 +51,22 @@ done
 
 while getopts ":w:p:r:c:j:h:" option; do
     case "${option}" in
-        h) 
+        h)
             help
             ;;
-        w) 
+        w)
             export WORKSPACE_NAME=${OPTARG}
             ;;
-        r) 
+        r)
             export AWS_REGION=${OPTARG}
             ;;
-        c) 
+        p)
+            export AWS_PROFILE=${OPTARG}
+            ;;
+        c)
             export CLUSTER_NAME=${OPTARG}
             ;;
-        j) 
+        j)
             export PROJECT_DIR=${OPTARG}
             PROJECT_PARTITION=" -v ${PROJECT_DIR}:/root/proj/"
             MOUNT_POINT=" --mount ${PROJECT_DIR}"
@@ -75,6 +82,12 @@ shift $((OPTIND-1))
 if [[ -z "${WORKSPACE_NAME}" ]];
 then
     printf "${BRIGHT}${RED}Workspace Name was not provided!${NORMAL}\n"
+    help
+fi
+
+if [[ -z "${AWS_PROFILE}" ]];
+then
+    printf "${BRIGHT}${RED}AWS Profile was not provided!${NORMAL}\n"
     help
 fi
 
@@ -96,8 +109,9 @@ _docker_run_it \
     ${MOUNT_POINT} \
     --extra-params " -v ${HOME}/.aws/:/root/.aws \
     -v WORKSPACE_DIR/.kube:/root/.kube \
+    --env AWS_PROFILE=${AWS_PROFILE} \
     --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
     --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
     --env AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN} \
     --env AWS_REGION=${AWS_REGION} \
-    --env EKS_CLUSTER=${CLUSTER_NAME}" 
+    --env EKS_CLUSTER=${CLUSTER_NAME}"
