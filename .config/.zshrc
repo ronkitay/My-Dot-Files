@@ -161,3 +161,5 @@ fi
 alias vi=nvim
 
 eval "$(starship init zsh)"
+
+. "$HOME/.cargo/env"
