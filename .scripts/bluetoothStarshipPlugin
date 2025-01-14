@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/opt/homebrew/bin/blueutil --connected --format json | jq -r '.[].name' | egrep 'Clam ELITE|Macally BTERGOKEY|OpenRun by Shokz|M720 Triathlon' |  sed 's|Clam ELITE|C|' | sed 's|Macally BTERGOKEY|K|' | sed 's|M720 Triathlon|M|' | sed 's|OpenRun by Shokz|Z|' | sort | tr -d '\n'
