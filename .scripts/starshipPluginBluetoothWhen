@@ -4,6 +4,10 @@ CACHE_DIR="${HOME}/.ron/"
 mkdir -p "${CACHE_DIR}"
 STATE_FILE="${CACHE_DIR}/.bluetooth-state"
 
+if [[ -f "${STATE_FILE}" ]] && [[ $(( $(date +%s) - $(stat -f %m ${STATE_FILE}) )) -lt 5 ]]; then
+  exit 0
+fi
+
 COMMAND=/opt/homebrew/bin/blueutil
 if [ -f /usr/local/bin/blueutil ]; then
     COMMAND=/usr/local/bin/blueutil
