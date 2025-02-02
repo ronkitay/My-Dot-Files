@@ -13,12 +13,12 @@ if [ -f /usr/local/bin/blueutil ]; then
     COMMAND=/usr/local/bin/blueutil
 fi
 
-CONNECTED_DEVICES=$(${COMMAND} --connected --format json | jq -r '.[].name' | egrep 'Clam ELITE|Macally BTERGOKEY|OpenRun by Shokz|M720 Triathlon' |  sed 's|Clam ELITE|C|' | sed 's|Macally BTERGOKEY|K|' | sed 's|M720 Triathlon|M|' | sed 's|OpenRun by Shokz|Z|' | sort | tr -d '\n')
+CONNECTED_DEVICES=$(${COMMAND} --connected --format json | jq -r '.[].name' | egrep 'Clam ELITE|Macally BTERGOKEY|OpenRun by Shokz|M720 Triathlon' |  sed 's|Clam ELITE|C|' | sed 's|Macally BTERGOKEY|K|' | sed 's|M720 Triathlon|M|' | sed 's|OpenRun by Shokz|Z|' | sort | tr -d '\n' | tr -d '\s')
 
 echo "${CONNECTED_DEVICES}" > "${STATE_FILE}"
 
-if [[ -n "${CONNECTED_DEVICES}" ]]; then
-  exit 0
-else
+if [[ "${CONNECTED_DEVICES}" == "" ]]; then
   exit 1
+else
+  exit 0
 fi

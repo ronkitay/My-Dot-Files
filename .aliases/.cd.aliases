@@ -52,12 +52,13 @@ function cdz() {
     else
         DIR_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}" | fzf +m --preview 'tree -L 2 -C {}')
     fi
-    rm "${TEMP_LIST_FILE}"
 
     if [[ $? -eq 0 ]];
     then
         cd $DIR_TO_SWITCH_TO;
     fi
+
+    rm "${TEMP_LIST_FILE}"
 }
 
 function cdzf() {

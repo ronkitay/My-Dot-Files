@@ -21,9 +21,15 @@ alias tcompleted='task completed'
 alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
-alias 3='clear && echo "" && task ready'
-alias 4='clear && echo "" && task active -BLOCKED'
-alias 5='clear && echo "" && rlshow'
+if [[ "${TERM_PROGRAM}" = "WarpTerminal" ]]; then
+    alias 3='task ready'
+    alias 4='task active -BLOCKED'
+    alias 5='rlshow'
+else
+    alias 3='clear && echo "" && task ready'
+    alias 4='clear && echo "" && task active -BLOCKED'
+    alias 5='clear && echo "" && rlshow'
+fi
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then
