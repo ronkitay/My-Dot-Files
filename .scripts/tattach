@@ -17,8 +17,8 @@ if [ ! -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-ATTACHMENT_ROOT_ABSOLUTE="${HOME}/Dropbox/taskwarrior/attachments"
-ATTACHMENT_ROOT_RELATIVE="~/Dropbox/taskwarrior/attachments"
+ATTACHMENT_ROOT_ABSOLUTE="${HOME}/.task-attachments"
+ATTACHMENT_ROOT_RELATIVE="~/.task-attachments"
 
 YYYY=$(date +%Y)
 MM=$(date +%m)

@@ -30,12 +30,12 @@ _fzf_comprun() {
 
 _____get_status_completion() {
 
-  modified_files=$(git status --short | egrep '^ M|^AM|^MM')
+  modified_files=$(git status --short | egrep '^ M|^AM|^AA|^MM')
   if [[ -n "${modified_files}" ]];
   then
     echo ${modified_files} | awk '{$1=""; print("\033[34mModified\033[0m\t"$0)}';
   fi
-  
+
   added_files=$(git status --short | grep '^??')
   if [[ -n "${added_files}" ]];
   then
@@ -53,8 +53,8 @@ _____get_status_completion() {
 _fzf_complete_grevert() {
   // TODO: Remove added files from list of revertible files
   ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
-  _fzf_complete --multi --reverse  --header "FILE"  --prompt="revert> " -- "$@" < <(_____get_status_completion) 
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"
+  _fzf_complete --multi --reverse  --header "FILE"  --prompt="revert> " -- "$@" < <(_____get_status_completion)
   FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
 
@@ -65,8 +65,8 @@ _fzf_complete_grevert_post() {
 
 _fzf_complete_gadd() {
   ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
-  _fzf_complete --multi --reverse  --header "FILE"  --prompt="add> " -- "$@" < <(_____get_status_completion) 
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"
+  _fzf_complete --multi --reverse  --header "FILE"  --prompt="add> " -- "$@" < <(_____get_status_completion)
   FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
 
@@ -76,7 +76,7 @@ _fzf_complete_gadd_post() {
 
 _fzf_complete_gdiff() {
   ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"
   _fzf_complete --multi --reverse --header "FILE"  --prompt="diff> " -- "$@" < <(_____get_status_completion)
   FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
@@ -87,7 +87,7 @@ _fzf_complete_gdiff_post() {
 
 _fzf_complete_gdifff() {
   ORIGINAL_FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
-  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"  
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --height 100% --preview '_fzf_preview_git_file {}'"
   _fzf_complete --multi --reverse --header "FILE"  --prompt="diff> " -- "$@" < <(_____get_status_completion)
   FZF_DEFAULT_OPTS="$ORIGINAL_FZF_DEFAULT_OPTS"
 }
