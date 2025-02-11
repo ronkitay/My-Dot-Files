@@ -90,7 +90,7 @@ function rladd() {
 
 function rlshow() {
     echo "Active"
-    task project:Read-List
+    task project:Read-List $*
     echo "Waiting"
-    task waiting project:Read-List
+    task waiting project:Read-List $*
 }
