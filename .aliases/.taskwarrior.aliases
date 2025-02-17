@@ -68,22 +68,24 @@ function tresume() {
 }
 
 function rladd() {
-    if [ $# -ne 3 ]; then
+    if [ $# -ne 4 ]; then
         echo "Expecting exactly 3 arguments";
         printf "Usage:\n"
-        printf "\t%s <item-name> <item-url> <item-source>\n" "rladd"
+        printf "\t%s <item-name> <item-url> <item-source> <estimated-reading-time-in-minutes>\n" "rladd"
         printf "\nExample:\n"
-        printf "\t%s 'How do monkeys procreate' 'https://www.monkey-love.com/how' 'Monkey business podcast'\n" "rladd"
+        printf "\t%s 'How do monkeys procreate' 'https://www.monkey-love.com/how' 'Monkey business podcast' '30'\n" "rladd"
         return;
     fi
     ITEM_NAME=$1;
     ITEM_URL=$2;
     ITEM_SOURCE=$3;
+    ITEM_READING_TIME=$4;
 
     task add project:Read-List priority:L description:"${ITEM_NAME}";
     TASK_ID=$(task +LATEST uuids);
     task ${TASK_ID} annotate "URL: ${ITEM_URL}";
     task ${TASK_ID} annotate "Source: ${ITEM_SOURCE}";
+    task ${TASK_ID} annotate "[Reading Time: ${ITEM_READING_TIME} min]";
 
     task ${TASK_ID}
 }
