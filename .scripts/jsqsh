@@ -1,8 +1,0 @@
-#!/bin/sh
-
-export WORKSPACE_NAME=jsqsh 
-
-_docker_run_it \
-    --image ${MY_DOCKER_IMAGES_REPO}/jsqsh:$(cat ${HOME}/.my-docker-images.release) \
-    --workspace-name "${WORKSPACE_NAME}" \
-    --extra-params "--env TERM=xterm-color"

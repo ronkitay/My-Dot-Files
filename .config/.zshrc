@@ -66,6 +66,10 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
     then
       BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.go.here
     fi
+    if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.scripts" ]];
+    then
+      BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.scripts
+    fi
   done
 
   CFI_HOME=${PERSONAL_CODE_ROOT}/code-for-israel
