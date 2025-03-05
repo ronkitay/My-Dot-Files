@@ -26,6 +26,8 @@ plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosugg
 
 source $ZSH/oh-my-zsh.sh
 
+export PAGER="bat -p"
+
 source ${HOME}/.aliases/.define.colors
 source ${HOME}/.aliases/.aws.aliases
 source ${HOME}/.aliases/.bat.aliases
