@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#DOC# Util;avro;Wrapper for the avro-tools utility
-
 function downloadLatestAvro() {
     LATEST_VERSION=$(curl https://repo1.maven.org/maven2/org/apache/avro/avro-tools/ | grep 'title="\d' | egrep -o '\d+\.\d+\.\d+' | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n 1)
     printf "${BRIGHT}${GREEN}Latest Avro tools version is ${WHITE}${LATEST_VERSION}${GREEN} - downloading it${NORMAL}".
@@ -11,16 +9,16 @@ function downloadLatestAvro() {
 
 AVRO_INSTALL_DIR=${HOME}/tools/avro-tools
 
-if [[ ! -d "${AVRO_INSTALL_DIR}" ]]; 
+if [[ ! -d "${AVRO_INSTALL_DIR}" ]];
 then
     printf "${BRIGHT}${BLUE}Avro tools is not installed under ${WHITE}${AVRO_INSTALL_DIR}${BLUE} - downloading${NORMAL}"
     downloadLatestAvro
 fi
 
-if [[ `find ${AVRO_INSTALL_DIR} -maxdepth 1 -type f -name "avro-tools-*.jar" 2>/dev/null | wc -l` -eq 0 ]]; 
+if [[ `find ${AVRO_INSTALL_DIR} -maxdepth 1 -type f -name "avro-tools-*.jar" 2>/dev/null | wc -l` -eq 0 ]];
 then
     printf "${BRIGHT}${BLUE}Cannot find an Avro tools JAR matching ${WHITE}${AVRO_INSTALL_DIR}/avro-tools-*.jar${BLUE} - downloading${NORMAL}"
     downloadLatestAvro
 fi
 
-java -jar ${AVRO_INSTALL_DIR}/avro-tools-*.jar $* 
+java -jar ${AVRO_INSTALL_DIR}/avro-tools-*.jar $*

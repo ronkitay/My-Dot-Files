@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#DOC# taskwarrior;tattach;Adds an attachment to a task
-
 if [ $# -ne 3 ]; then
     echo "Usage: $0 <task_id> <path_to_file> <attachment_name>"
     exit 1

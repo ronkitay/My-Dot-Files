@@ -1,0 +1,87 @@
+#DOC# AWS;s3;Shortcut for 'aws s3'
+#DOC# AWS;s3cat;Run 'cat' on a file in an S3 bucket
+#DOC# AWS;s3zcat;Run 'cat' on a gzipped file in an S3 bucket
+#DOC# Util;bathelp;Redirect help outputs to it to present nicely
+#DOC# Util;help;Runs --help on selected commands and formats it with bat
+#DOC# Navigation;cdfile;Changes dir to the directory a file is located in
+#DOC# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
+#DOC# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
+#DOC# Navigation;cdz;Fuzzy directory change
+#DOC# Navigation;cdzf;Fuzzy directory change to a file
+#DOC# Navigation;mcd;Make and Change directory
+#DOC# Navigation;p;Fuzzy jump to code project (in git repo)
+#DOC# Navigation;r;Fuzzy jump to git repository
+#DOC# Util;psu;Current User's processes
+#DOC# Util;clearformatting;Clears formatting of everything piped to it
+#DOC# Util;trimfile;Empties a file (good for truncating logs)
+#DOC# Util;dirsize;Calculates the size of the current directory
+#DOC# Util;sendfile;Send a file via eMail
+#DOC# Search;g;egrep
+#DOC# Search;gi;egrep (Case insensitive)
+#DOC# Search;xg;xargs egrep
+#DOC# Search;xg0;xargs egrep with null as the line delimited (-0 or -print0)
+#DOC# Search;xgi;xargs egrep (Case insensitive)
+#DOC# Search;xgi0;xargs egrep (Case insensitive) with null as the line delimited (-0 or -print0)
+#DOC# Search;fnf;Find files
+#DOC# Search;fnf0;Find files with null as the line delimited (-0 or -print0)
+#DOC# Search;fnsrc;Find Source Files
+#DOC# Search;fnsrc0;Find Source Files with null as the line delimited (-0 or -print0)
+#DOC# Search;fnd;Find directories
+#DOC# Search;fnd0;Find directories with null as the line delimited (-0 or -print0)
+#DOC# Search;fgrp;Find all files and grep on them
+#DOC# Search;fgrpi;Find all files and grep on them (Case insensitive)
+#DOC# Git;giturl;Opens file from a git repo in github/gitlab web UI
+#DOC# Git;gcm;Git Checkout Master
+#DOC# Git;gcheckout;Git Checkout ...
+#DOC# Git;gstatus;Git status
+#DOC# Git;glog;Git log (pretty)
+#DOC# Git;gadd;Git status
+#DOC# Git;gunstage;Unstages file(s) (git reset HEAD)
+#DOC# Git;grevert;Revert file(s) (git checkout --)
+#DOC# Git;stash;git stash save
+#DOC# Git;unstash;git stash pop
+#DOC# Git;stashlist;git stash list
+#DOC# Git;stashshow;git stash show
+#DOC# Git;stashedit;Edit Git stash with 'tig stash' (Only available if 'tig' is installed)
+#DOC# Git;gpull;git ~EMP~pull~NORM~ --rebase
+#DOC# Git;gcommit;git commit
+#DOC# Git;gpush;git push (branch only)
+#DOC# Navigation;cdroot;Jumps to Git Repo root
+#DOC# iTerm;1;Chose random Tab Color
+#DOC# iTerm;2;Restore default Profile
+#DOC# iTerm;badge;Set the badge
+#DOC# iTerm;tt;Set/Reset Tab Title
+#DOC# Java;look4j;Looks for classes in JAR files
+#DOC# Kubernetes;kgimg;Shows the images of all matching pods
+#DOC# Kubernetes;kactive;Shows the active color of all matching services
+#DOC# Maven;mcp;maven clean package
+#DOC# Maven;mci;maven clean install
+#DOC# Maven;mvndependencies;Shows maven dependency tree for the current project
+#DOC# Perforce;p4sync;perforce sync
+#DOC# Perforce;p4refresh;perforce sync -f
+#DOC# Perforce;p4def;shows the default changelist
+#DOC# Perforce;p4edit;p4 edit
+#DOC# Perforce;p4pend;shows the pending changes for the current user based on ${LOGNAME}
+#DOC# Perforce;p4view;shows the content of a file based on its depot path 
+#DOC# Taskwarrior;3;Show Ready Tasks
+#DOC# Taskwarrior;4;Show Active Tasks
+#DOC# Taskwarrior;5;Show Read List
+#DOC# Taskwarrior;t1hour;Snooze task for 1 hour
+#DOC# Taskwarrior;ttonight;Snooze task until tonight at 19
+#DOC# Taskwarrior;ttomorrow;Snooze task until tomorrow at 8
+#DOC# Taskwarrior;tweekend;Snooze task until Friday at 8
+#DOC# Taskwarrior;tcontext;Alias for `task context`
+#DOC# Taskwarrior;tactive;Filter only active tasks
+#DOC# Taskwarrior;tcompleted;Filter only completed tasks
+#DOC# Taskwarrior;tpending;Filter only pending tasks
+#DOC# Taskwarrior;twaiting;Filter only waiting tasks
+#DOC# Date;epoc;Converts dates from "epoch" format to human format
+#DOC# Date;depoc;Converts dates from human format to "epoch" format 
+#DOC# Date;ts;Displays epoc timestamps to human readable in output redirection
+#DOC# Util;convert;Converts any value between different measurement units
+#DOC# Util;highlight;Highlights text matching a regex while leaving the rest of the text
+#DOC# Util;avro;Wrapper for the avro-tools utility
+#DOC# taskwarrior;tattach;Adds an attachment to a task
+#DOC# taskwarrior;theb;Reverses hebrew characters to make them compatible with taskwarrior
+#DOC# taskwarrior;tnoteadd;Adds a note a task
+#DOC# taskwarrior;tnoteedit;Edits the note attached to a task

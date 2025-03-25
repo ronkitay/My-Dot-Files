@@ -1,8 +1,4 @@
 # Maven aliases
-#DOC# Maven;mcp;maven clean package
-#DOC# Maven;mci;maven clean install
-#DOC# Maven;mvndependencies;Shows maven dependency tree for the current project
-
 alias mcp='mvn clean package'
 alias mci='mvn clean install'
 alias cmcp='clear;mvn clean package'
@@ -15,7 +11,7 @@ function maven_clean_all() {
 
 function maven_clean_here() {
     context="$1"
-    for dir in `ls -d *  2> /dev/null`; do 
+    for dir in `ls -d *  2> /dev/null`; do
         if [[ -d ${dir} ]]; then
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
@@ -24,7 +20,7 @@ function maven_clean_here() {
                 context="$1"
             else
                 current_repo="$(tput setaf 7)$(basename `pwd`)"
-                printf "$(tput bold)"        
+                printf "$(tput bold)"
                 if [[ ${context} != "" ]]; then
                     printf "$(tput setaf 5)${context}"
                     context_length=${#context}
@@ -37,7 +33,7 @@ function maven_clean_here() {
             fi
             cd ..
         fi
-    done 
+    done
 }
 
 alias mdep='mvn dependency:tree -Dverbose'

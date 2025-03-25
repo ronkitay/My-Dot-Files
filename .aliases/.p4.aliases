@@ -1,11 +1,4 @@
 ## Perforce (P4) Aliases
-#DOC# Perforce;p4sync;perforce sync
-#DOC# Perforce;p4refresh;perforce sync -f
-#DOC# Perforce;p4def;shows the default changelist
-#DOC# Perforce;p4edit;p4 edit
-#DOC# Perforce;p4pend;shows the pending changes for the current user based on ${LOGNAME}
-#DOC# Perforce;p4view;shows the content of a file based on its depot path 
-
 alias listwritable='find . -type f -perm -u=w | egrep -v "/target/|/target$|\.DS_Store|/\.idea/|\.iml|\.perforce|afiedt.buf"'
 
 alias p4sync='p4 sync ./... '

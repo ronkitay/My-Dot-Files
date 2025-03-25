@@ -1,12 +1,3 @@
-#DOC# Navigation;cdfile;Changes dir to the directory a file is located in
-#DOC# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
-#DOC# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
-#DOC# Navigation;cdz;Fuzzy directory change
-#DOC# Navigation;cdzf;Fuzzy directory change to a file
-#DOC# Navigation;mcd;Make and Change directory
-#DOC# Navigation;p;Fuzzy jump to code project (in git repo)
-#DOC# Navigation;r;Fuzzy jump to git repository
-
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -30,12 +21,12 @@ function smart_change_dir_to_child() {
             MATCHING_DIR=`ls | egrep -i "${PATTERN}" | head -n 1`
             if [[ -z $MATCHING_DIR ]]; then
                 echo "${BRIGHT}${YELLOW}No subdirectories matching \"${RED}${PATTERN}${YELLOW}\""
-            else   
+            else
                 cd ${MATCHING_DIR}
             fi
         fi
     else
-        ls -la | egrep '^d' | awk '{print $NF}' | egrep -v '^\.$|^\.\.$' 
+        ls -la | egrep '^d' | awk '{print $NF}' | egrep -v '^\.$|^\.\.$'
     fi
 }
 
@@ -43,11 +34,11 @@ function cdz() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
 
     TEMP_LIST_FILE=$(mktemp)
-	
+
     fd -t d -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" > "${TEMP_LIST_FILE}"
 
-    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]]; 
-    then 
+    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]];
+    then
         DIR_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}")
     else
         DIR_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}" | fzf +m --preview 'tree -L 2 -C {}')
@@ -65,11 +56,11 @@ function cdzf() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
 
     TEMP_LIST_FILE=$(mktemp)
-	
+
     fd -t f -H . --exclude '.terraform' --exclude 'node_modules' --exclude '.git' | egrep -i "${PATTERN}" > "${TEMP_LIST_FILE}"
 
-    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]]; 
-    then 
+    if [[ "$(cat "${TEMP_LIST_FILE}" | wc -l)" -eq "1" ]];
+    then
         FILE_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}")
     else
         FILE_TO_SWITCH_TO=$(cat "${TEMP_LIST_FILE}" | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')

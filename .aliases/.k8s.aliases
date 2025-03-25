@@ -1,8 +1,5 @@
 ## Kubernetes (K8S) Aliases
 
-#DOC# Kubernetes;kgimg;Shows the images of all matching pods
-#DOC# Kubernetes;kactive;Shows the active color of all matching services
-
 alias k='kubectl'
 alias kns='kubens'
 alias kctx='kubectx'

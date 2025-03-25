@@ -1,27 +1,5 @@
 # Git stuff
 
-#DOC# Git;giturl;Opens file from a git repo in github/gitlab web UI
-
-#DOC# Git;gcm;Git Checkout Master
-#DOC# Git;gcheckout;Git Checkout ...
-#DOC# Git;gstatus;Git status
-#DOC# Git;glog;Git log (pretty)
-
-#DOC# Git;gadd;Git status
-#DOC# Git;gunstage;Unstages file(s) (git reset HEAD)
-#DOC# Git;grevert;Revert file(s) (git checkout --)
-#DOC# Git;stash;git stash save
-#DOC# Git;unstash;git stash pop
-#DOC# Git;stashlist;git stash list
-#DOC# Git;stashshow;git stash show
-#DOC# Git;gpull;git ~EMP~pull~NORM~ --rebase
-#DOC# Git;gcommit;git commit
-#DOC# Git;gpush;git push (branch only)
-
-#DOC# Navigation;cdroot;Jumps to Git Repo root
-
-
-
 function giturl {
     tree="/-/tree/"
     base_url=$(git remote -v | head -n 1 | awk '{print $2}'  | tr ':' '/'| sed 's|git@|https://|' | sed 's|.git$||')
@@ -76,7 +54,7 @@ function repobranches {
 
 function show_branches_here {
     context="$1"
-    for dir in `ls -d *  2> /dev/null`; do 
+    for dir in `ls -d *  2> /dev/null`; do
         if [[ -d ${dir} ]]; then
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
@@ -91,7 +69,7 @@ function show_branches_here {
                 else
                     current_branch="$(tput bold)$(tput setaf 4)${current_branch}$(tput sgr0)"
                 fi
-                printf "$(tput bold)"        
+                printf "$(tput bold)"
                 if [[ ${context} != "" ]]; then
                     printf "$(tput setaf 5)${context}"
                     context_length=${#context}
@@ -100,11 +78,11 @@ function show_branches_here {
                 else
                     printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${current_branch}"
                 fi
-                
+
             fi
             cd ..
         fi
-    done 
+    done
 }
 
 function repostatus {
@@ -113,7 +91,7 @@ function repostatus {
 
 function show_repostatus_here {
     context="$1"
-    for dir in `ls -d *  2> /dev/null`; do 
+    for dir in `ls -d *  2> /dev/null`; do
         if [[ -d ${dir} ]]; then
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
@@ -133,7 +111,7 @@ function show_repostatus_here {
                 else
                     repo_status="$(tput bold)${current_branch}: $(tput setaf 4)${repo_status}$(tput sgr0)"
                 fi
-                printf "$(tput bold)"        
+                printf "$(tput bold)"
                 if [[ ${context} != "" ]]; then
                     printf "$(tput setaf 5)${context}"
                     context_length=${#context}
@@ -142,11 +120,11 @@ function show_repostatus_here {
                 else
                     printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
                 fi
-                
+
             fi
             cd ..
         fi
-    done 
+    done
 }
 
 
@@ -156,7 +134,7 @@ function reposync {
 
 function syncrepos_here {
     context="$1"
-    for dir in `ls -d *  2> /dev/null`; do 
+    for dir in `ls -d *  2> /dev/null`; do
         if [[ -d ${dir} ]]; then
             cd $dir
             current_git_root=$(git rev-parse --show-toplevel > /dev/null 2>&1)
@@ -176,7 +154,7 @@ function syncrepos_here {
                 else
                     repo_status="$(tput bold)${current_branch}: $(tput setaf 4)${repo_status}$(tput sgr0)"
                 fi
-                printf "$(tput bold)"        
+                printf "$(tput bold)"
                 if [[ ${context} != "" ]]; then
                     printf "$(tput setaf 5)${context}"
                     context_length=${#context}
@@ -185,11 +163,11 @@ function syncrepos_here {
                 else
                     printf "%-45s $(tput sgr0) \t==> %s\n" ${current_repo} "${repo_status}"
                 fi
-                
+
             fi
             cd ..
         fi
-    done 
+    done
 }
 
 function git-branch-name {
@@ -214,6 +192,9 @@ function stash { printHeader Git Stash \($*\) ;git stash save "$*"; printFooter;
 alias unstash='printHeader Git Unstash ;git stash pop; printFooter'
 alias stashlist='printHeader Git stash list;git stash list; printFooter'
 alias stashshow='printHeader Git stash show;git stash show; printFooter'
+if $(command -v tig > /dev/null 2>&1); then
+    alias stashedit='tig stash'
+fi
 alias gpull='printHeader Git Pull \(rebase\)  ;git pull --rebase origin `git-branch-name`; printFooter'
 function gcommit { printHeader Git Commit \($*\) ;git commit -m "$*"; printFooter; }
 alias gpush='printHeader Git Push \(Branch only\) ;git push --tags origin HEAD; printFooter'
@@ -222,7 +203,7 @@ alias cdroot='cd $(git rev-parse --show-toplevel)'
 
 function cdrepo() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
-    
+
     DIR_TO_SWITCH_TO=$(/opt/homebrew/bin/fd '\.git$' --prune -u -t d --exclude '.terraform' --exclude 'node_modules' -x echo {//} | sed 's|\.\/||' | egrep -i "${PATTERN}" | sort | fzf --preview 'tree -L 2 -C {}')
     if [[ $? -eq 0 ]];
     then

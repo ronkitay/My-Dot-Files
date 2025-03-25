@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#DOC# taskwarrior;tnoteadd;Adds a note a task
-
 if [ $# -lt 2 ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
     echo "Usage: $0 <numeric_argument> <note_name>"
     exit 1

@@ -1,10 +1,4 @@
 
-#DOC# Date;epoc;Converts dates from "epoch" format to human format
-#DOC# Date;depoc;Converts dates from human format to "epoch" format 
-#DOC# Date;ts;Displays epoc timestamps to human readable in output redirection
-#DOC# Util;convert;Converts any value between different measurement units
-#DOC# Util;highlight;Highlights text matching a regex while leaving the rest of the text
-
 OS=$(uname -s)
 
 if [ "${OS}" = "Linux" ] ; then
