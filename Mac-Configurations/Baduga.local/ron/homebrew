@@ -10,3 +10,4 @@ Starship;https://starship.rs/;starship
 SwitchAudioSource;https://github.com/deweller/switchaudio-osx;switchaudio-osx
 ASDF Package Manager;https://asdf-vm.com/guide/getting-started.html;asdf
 PostgreSQL;https://wiki.postgresql.org/wiki/Homebrew;postgresql
+Helm;https://helm.sh/docs/intro/install/;helm

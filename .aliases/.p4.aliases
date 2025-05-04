@@ -8,3 +8,6 @@ alias p4def='p4 change -o'
 alias p4pend='p4 changes -u ${LOGNAME} -s pending ./...'
 
 function p4view { [[ $# != 1 ]] && printf "$(tput bold)$(tput setaf 1)Usage:$(tput sgr0) $(tput bold)p4view <depot-path>$(tput sgr0)\n" && return 1; p4 print $1 | less; }
+
+
+[[ -f "/Applications/p4merge.app/Contents/Resources/launchp4merge" ]] && alias p4merge='/Applications/p4merge.app/Contents/Resources/launchp4merge'

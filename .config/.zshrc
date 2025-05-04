@@ -169,3 +169,6 @@ alias vi=nvim
 eval "$(starship init zsh)"
 
 . "$HOME/.cargo/env"
+
+# Added by Windsurf
+export PATH="/Users/ron/.codeium/windsurf/bin:$PATH"
