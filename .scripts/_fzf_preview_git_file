@@ -9,13 +9,19 @@ file_to_preview=$(echo $* | awk '{$1=""; print $0}' | sed 's|^ ||g' | tr -d '"')
 
 git_status=$(echo $* | awk '{print $1}')
 
+if $(command -v bat > /dev/null 2>&1); then
+	NEW_FILE_COMMAND="bat -n --color=always"
+else
+	NEW_FILE_COMMAND="cat"
+fi
+
 if [[ "${git_status}" == "Added" ]]; 
 then
     if [[ -d $file_to_preview ]];
     then
         tree -L 2 -C "$file_to_preview"
     else
-        bat -n --color=always "$file_to_preview" 
+	    ${NEW_FILE_COMMAND} "$file_to_preview"
     fi
 fi
 
