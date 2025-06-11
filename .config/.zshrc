@@ -167,6 +167,7 @@ fi
 alias vi=nvim
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
 . "$HOME/.cargo/env"
 
