@@ -11,6 +11,7 @@ SwitchAudioSource;https://github.com/deweller/switchaudio-osx;switchaudio-osx
 ASDF Package Manager;https://asdf-vm.com/guide/getting-started.html;asdf
 Kubernetes CLI;https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos;kubectl
 Kubernetes Context Switcher;https://formulae.brew.sh/formula/kubectx;kubectx
+Postgres CLI;https://formulae.brew.sh/formula/postgresql@17;postgresql@17
 Stern;https://formulae.brew.sh/formula/stern;stern
 Helm;https://helm.sh/docs/intro/install/;helm
 Granted;https://docs.commonfate.io/granted/getting-started;granted;common-fate/granted
