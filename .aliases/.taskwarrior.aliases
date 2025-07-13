@@ -5,9 +5,9 @@ alias tcompleted='task completed'
 alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
-alias 3='tput clear && echo "" && task ready'
-alias 4='tput clear && echo "" && task active -BLOCKED'
-alias 5='tput clear && echo "" && rlshow'
+alias 2='tput clear && echo "" && task ready'
+alias 1='tput clear && echo "" && task active -BLOCKED'
+alias 3='tput clear && echo "" && rlshow'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then

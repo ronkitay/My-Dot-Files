@@ -15,8 +15,8 @@ alias tabgreen='rgb 115 199 88'
 alias tabblue='rgb 30 169 214'
 alias tabred='rgb 214 75 30'
 
-alias 1='tabrand'
-alias 2='it2profile -s Default'
+alias 5='tabrand'
+alias 4='it2profile -s Default'
 
 function tt {
      if [[ $# == 0 ]]; then
