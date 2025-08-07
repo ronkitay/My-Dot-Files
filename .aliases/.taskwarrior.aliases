@@ -5,9 +5,28 @@ alias tcompleted='task completed'
 alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
-alias 2='tput clear && echo "" && task ready'
 alias 1='tput clear && echo "" && task active -BLOCKED'
-alias 3='tput clear && echo "" && rlshow'
+alias 11='1 limit=1'
+alias 12='1 limit=2'
+alias 13='1 limit=3'
+alias 14='1 limit=4'
+alias 15='1 limit=5'
+
+alias 2='tput clear && echo "" && task ready -ACTIVE'
+alias 21='2 limit=1'
+alias 22='2 limit=2'
+alias 23='2 limit=3'
+alias 24='2 limit=4'
+alias 25='2 limit=5'
+
+alias 3='tput clear && echo "" && task waiting -ACTIVE project.not:Read-List'
+alias 31='3 limit=1'
+alias 32='3 limit=2'
+alias 33='3 limit=3'
+alias 34='3 limit=4'
+alias 35='3 limit=5'
+
+alias 4='tput clear && echo "" && rlshow'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then

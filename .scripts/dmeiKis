@@ -73,8 +73,8 @@ for ((i=0; i<12; i++)); do
     then
         NOAM=50
     fi    
-    echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h wait:${next_sunday}+8h description:\"50 םוכס - ${next_friday} - ךיראתל היאמל סיכ ימד\""
-    echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h wait:${next_sunday}+8h description:\"50 םוכס - ${next_friday} - ךיראתל רמועל סיכ ימד\""
+    # echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h wait:${next_sunday}+8h description:\"50 םוכס - ${next_friday} - ךיראתל היאמל סיכ ימד\""
+    # echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h wait:${next_sunday}+8h description:\"50 םוכס - ${next_friday} - ךיראתל רמועל סיכ ימד\""
     echo "t add +Personal +DmeiKis scheduled:${next_friday}+15h wait:${next_sunday}+8h description:\"$NOAM םוכס - ${next_friday} - ךיראתל םעונל סיכ ימד\""
 
     # Move to the next week

@@ -63,9 +63,10 @@
 #DOC# Perforce;p4edit;p4 edit
 #DOC# Perforce;p4pend;shows the pending changes for the current user based on ${LOGNAME}
 #DOC# Perforce;p4view;shows the content of a file based on its depot path 
-#DOC# Taskwarrior;3;Show Ready Tasks
-#DOC# Taskwarrior;4;Show Active Tasks
-#DOC# Taskwarrior;5;Show Read List
+#DOC# Taskwarrior;1;Show Active Tasks
+#DOC# Taskwarrior;2;Show Ready Tasks
+#DOC# Taskwarrior;3;Show Waiting Tasks
+#DOC# Taskwarrior;4;Show Read List
 #DOC# Taskwarrior;t1hour;Snooze task for 1 hour
 #DOC# Taskwarrior;ttonight;Snooze task until tonight at 19
 #DOC# Taskwarrior;ttomorrow;Snooze task until tomorrow at 8
