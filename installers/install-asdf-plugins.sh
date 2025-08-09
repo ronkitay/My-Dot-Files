@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CONFIG_DIR=${HOME}/.config/ron
 
@@ -47,7 +47,7 @@ function setGlobalVersion() {
   version=$2
 
   logStep "Setting $version as the Global version for $plugin"
-  asdf global $plugin $version
+  asdf set --home $plugin $version
 } 
 
 function validateConfiguration() {
