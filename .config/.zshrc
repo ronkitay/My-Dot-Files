@@ -4,6 +4,8 @@ if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
 export MY_DOCKER_IMAGES_REPO=ronkitay
 
 export EDITOR='vim'
@@ -26,7 +28,15 @@ plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosugg
 
 source $ZSH/oh-my-zsh.sh
 
-export PAGER="bat -p"
+if [[ "$(uname)" == "Linux" ]];
+then
+    alias bat='batcat'
+    alias fd='fdfind'
+    export PAGER="batcat -p"
+else
+    export PAGER="bat -p"
+fi
+
 
 source ${HOME}/.aliases/.define.colors
 source ${HOME}/.aliases/.aws.aliases
@@ -166,10 +176,17 @@ fi
 
 alias vi=nvim
 
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
-. "$HOME/.cargo/env"
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+if [[ -f "$HOME/.cargo/env" ]]; then
+  . "$HOME/.cargo/env"
+fi
 
 # Added by Windsurf
 export PATH="/Users/ron/.codeium/windsurf/bin:$PATH"
