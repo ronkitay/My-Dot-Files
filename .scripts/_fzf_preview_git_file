@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Input must be:
 # <Simplified Human Status> <Filename>

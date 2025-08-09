@@ -1,3 +1,5 @@
+#!/bin/bash
+
 UP_DAYS=$(uptime | egrep -o 'up \d+ days' | egrep -o '\d+')
 WARN_DAYS=7
 ALERT_DAYS=14
