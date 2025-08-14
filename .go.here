@@ -12,7 +12,7 @@ function godotfiles() {
 
 ALL_WORKSPACES_ROOT="${HOME}/.my-docker-envs"
 
-if [ -f ${ALL_WORKSPACES_ROOT} ]; 
+if [ -d ${ALL_WORKSPACES_ROOT} ]; 
 then
   complete -W "$(cd ${ALL_WORKSPACES_ROOT} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" godenvworkspace
   function godenvworkspace() {

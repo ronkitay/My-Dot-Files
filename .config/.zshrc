@@ -125,14 +125,6 @@ if [[ -d "${OPENSOURCE_CODE_ROOT}" ]]; then
   }
 fi
 
-NOTES_DIR="${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
-
-if [[ -d "${NOTES_DIR}" ]]; then
-  function gonotes() {
-      cd "${NOTES_DIR}"
-  }
-fi
-
 ${DOT_FILES_HOME}/.scripts/uptimeChecker
 
 if [[ -f ${HOME}/.zshrc.local ]]; then
