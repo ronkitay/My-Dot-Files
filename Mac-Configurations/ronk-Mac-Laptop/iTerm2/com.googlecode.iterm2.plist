@@ -9,9 +9,11 @@ The script should do this: \(ai.prompt)</string>
 	<key>Actions</key>
 	<array/>
 	<key>AiMaxTokens</key>
-	<integer>16384</integer>
+	<integer>128000</integer>
 	<key>AiModel</key>
-	<string>gpt-3.5-turbo</string>
+	<string>gpt-4o</string>
+	<key>AitermURL</key>
+	<string>https://api.openai.com/v1/completions</string>
 	<key>AlternateMouseScroll</key>
 	<true/>
 	<key>BracketedPasteMode</key>
@@ -769,6 +771,8 @@ The script should do this: \(ai.prompt)</string>
 			<string>100355B2-94B4-4A3B-82EF-252770441FF2</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
+			<key>Icon</key>
+			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Jobs to Ignore</key>
@@ -1709,6 +1713,8 @@ The script should do this: \(ai.prompt)</string>
 			<string>0EC683AD-E6AA-469D-BC34-750DFB92E768</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
+			<key>Icon</key>
+			<integer>0</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Jobs to Ignore</key>
@@ -4793,7 +4799,7 @@ The script should do this: \(ai.prompt)</string>
 	<key>SeparateStatusBarsPerPane</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
 	<key>Snippets</key>
