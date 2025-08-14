@@ -4,6 +4,8 @@ if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
@@ -147,7 +149,6 @@ fi
 [ -f  /opt/homebrew/bin/task ] && alias t='/opt/homebrew/bin/task'
 
 export PATH=${HOME}/tools:$PATH
-export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 source <(griffin shell-integration)
 
@@ -157,8 +158,8 @@ then
   TASK_DB="$HOME/.task/taskchampion.sqlite3"
   if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ];
   then
-    task count +READY +ACTIVE > "${STATE_FILE}"
-    task count +READY -ACTIVE >> "${STATE_FILE}"
+    task count +READY +ACTIVE > "${STATE_FILE}" 2> /dev/null
+    task count +READY -ACTIVE >> "${STATE_FILE}" 2> /dev/null
   fi
 
   ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")

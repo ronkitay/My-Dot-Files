@@ -8,6 +8,10 @@ if [ -f /usr/local/bin/task ]; then
     COMMAND=/usr/local/bin/task
 fi
 
+if [ -f /home/linuxbrew/.linuxbrew/bin/task ]; then
+    COMMAND=/home/linuxbrew/.linuxbrew/bin/task
+fi
+
 if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ]; then
     ${COMMAND} count +READY +ACTIVE > "${STATE_FILE}"
     ${COMMAND} count +READY -ACTIVE >> "${STATE_FILE}"
