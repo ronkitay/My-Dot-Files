@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR=$(dirname "$0")
 
@@ -13,7 +13,7 @@ function logStep() {
 
 function installOrUpdateHomebrew() {
     logStep "Installing/Updating Homebrew - https://brew.sh/"
-    if [ -f /usr/local/bin/brew ] || [ -f /opt/homebrew/bin/brew ] ; 
+    if [ -f /usr/local/bin/brew ] || [ -f /opt/homebrew/bin/brew ] || [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; 
     then
         brew update;
     else
