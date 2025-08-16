@@ -1,1 +1,5 @@
 rust;1.87
+golang;1.24.5
+python;3.13.7
+java;adoptopenjdk-21.0.7+6.0.LTS
+maven;3.9.11
