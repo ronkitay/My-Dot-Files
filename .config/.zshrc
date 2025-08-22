@@ -181,5 +181,10 @@ if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
 
+if [[ $(uname) == "Linux" ]]; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+
 # Added by Windsurf
 export PATH="/Users/ron/.codeium/windsurf/bin:$PATH"
