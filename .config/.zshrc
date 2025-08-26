@@ -1,21 +1,19 @@
-# Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+export EDITOR='vim'
+alias vi=nvim
+export LANG=en_US.UTF-8
+HIST_STAMPS="[%F] [%T]"
+SHARE_HISTORY=off
+
+if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
 
-export EDITOR='vim'
-HIST_STAMPS="[%F] [%T]"
-
-export LANG=en_US.UTF-8
-
 [ -f /opt/homebrew/bin/brew ] &&  eval "$(/opt/homebrew/bin/brew shellenv)"
+[ -f /home/linuxbrew/.linuxbrew/bin/brew ] &&  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
@@ -24,21 +22,9 @@ source ${HOME}/.man.settings
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
-SHARE_HISTORY=off
 plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosuggestions terraform taskwarrior)
-#ZSH_THEME="powerlevel10k/powerlevel10k"
 
 source $ZSH/oh-my-zsh.sh
-
-if [[ "$(uname)" == "Linux" ]];
-then
-    alias bat='batcat'
-    alias fd='fdfind'
-    export PAGER="batcat -p"
-else
-    export PAGER="bat -p"
-fi
-
 
 source ${HOME}/.aliases/.define.colors
 source ${HOME}/.aliases/.aws.aliases
@@ -133,20 +119,16 @@ if [[ -f ${HOME}/.zshrc.local ]]; then
   source ${HOME}/.zshrc.local
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 [ -f /opt/homebrew/bin/autojump  ] && . /opt/homebrew/Cellar/autojump/22.5.3_3/share/autojump/autojump.zsh
 
-[ -f  /opt/homebrew/bin/ranger ] && alias rr='/opt/homebrew/bin/ranger'
+if command -v ranger >/dev/null 2>&1; then
+  alias rr=$(command -v ranger)
+fi
 
-[ -f  /opt/homebrew/bin/task ] && alias t='/opt/homebrew/bin/task'
+if command -v task >/dev/null 2>&1; then
+  alias t=$(command -v task)
+fi
+
 
 export PATH=${HOME}/tools:$PATH
 
@@ -167,8 +149,6 @@ then
   echo "\n${BRIGHT}You are working on ${GREEN}${ACTIVE_TASKS}${WHITE} tasks and have another ${GREEN}${READY_TASKS}${WHITE} pending tasks to work on${NORMAL}\n"
 fi
 
-alias vi=nvim
-
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
@@ -181,9 +161,15 @@ if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
 
-if [[ $(uname) == "Linux" ]]; then
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
+if [[ "$(uname)" == "Linux" ]];
+then
+    alias bat='batcat'
+    export PAGER="batcat -p"
+    alias fd='fdfind'
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+else
+    export PAGER="bat -p"
 fi
 
 # Added by Windsurf
