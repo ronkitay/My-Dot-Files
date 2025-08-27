@@ -4,6 +4,17 @@ export LANG=en_US.UTF-8
 HIST_STAMPS="[%F] [%T]"
 SHARE_HISTORY=off
 
+if [[ "$(uname)" == "Linux" ]];
+then
+    alias bat='batcat'
+    export PAGER="batcat -p"
+    alias fd='fdfind'
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+else
+    export PAGER="bat -p"
+fi
+
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
@@ -159,17 +170,6 @@ fi
 
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
-fi
-
-if [[ "$(uname)" == "Linux" ]];
-then
-    alias bat='batcat'
-    export PAGER="batcat -p"
-    alias fd='fdfind'
-    alias pbcopy='xclip -selection clipboard'
-    alias pbpaste='xclip -selection clipboard -o'
-else
-    export PAGER="bat -p"
 fi
 
 # Added by Windsurf
