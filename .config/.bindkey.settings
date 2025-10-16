@@ -1,2 +1,7 @@
+# One of these work - I'm not sure when and why ...
+
 bindkey "[D" backward-word # Bind `Alt + Left Arrow` to move one word back
 bindkey "[C" forward-word # Bind `Alt + Right Arrow` to move one word forward
+
+bindkey "\e[1;3C" forward-word # Bind `Alt + Left Arrow` to move one word back
+bindkey "\e[1;3D" backward-word # Bind `Alt + Right Arrow` to move one word forward

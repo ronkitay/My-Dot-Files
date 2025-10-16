@@ -4,3 +4,4 @@ alias restartwifi='sudo networksetup -setv4off Wi-Fi; sudo networksetup -setdhcp
 
 alias tar='COPYFILE_DISABLE=1 \tar'
 
+alias fetchRemoteFiles='find . -type f -exec md5 {} \;'
