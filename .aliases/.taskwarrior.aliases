@@ -40,6 +40,10 @@ function _tsnooze_validate() {
     return 0;
 }
 
+function tsyncstatus() {
+    ls -la ~/.task/taskchampion.sqlite3 "$(cat ~/.taskrc| grep 'sync.local' | cut -d= -f2 | tr -d '\')/taskchampion-local-sync-server.sqlite3"
+}
+
 function t1hour() {
     _tsnooze_validate t1hour $* && task $1 modify wait:+1h
 }
