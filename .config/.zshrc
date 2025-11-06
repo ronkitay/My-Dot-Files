@@ -64,13 +64,6 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
   GO_BACK=$(pwd)
   cd ${PERSONAL_CODE_ROOT}
 
-  complete -W "$(ls ${PERSONAL_CODE_ROOT})" gopersonal
-  function gopersonal() {
-    rgb 158 100 180
-    cd ${PERSONAL_CODE_ROOT}
-    smart_change_dir_to_child $*
-  }
-
   for dir_name in `ls`;
   do
     if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.go.here" ]];
@@ -83,45 +76,7 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
     fi
   done
 
-  CFI_HOME=${PERSONAL_CODE_ROOT}/code-for-israel
-  if [[ -d "${CFI_HOME}" ]]; then
-    complete -W "$(ls ${CFI_HOME})" gocfi
-    function gocfi() {
-      rgb 88 10 120
-      cd ${CFI_HOME}
-      smart_change_dir_to_child $*
-    }
-
-    OVRIM_HOME=${CFI_HOME}/ovrim
-    if [[ -d "${OVRIM_HOME}" ]]; then
-      complete -W "$(ls ${OVRIM_HOME})" goovrim
-      function goovrim() {
-        rgb 88 10 120
-        cd ${OVRIM_HOME}
-        smart_change_dir_to_child $*
-      }
-    fi
-  fi
-
   cd ${GO_BACK}
-fi
-
-if [[ -d "${WORK_CODE_ROOT}" ]]; then
-  complete -W "$(cd ${WORK_CODE_ROOT} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" gowork
-  function gowork() {
-    rgb 255 0 255
-    cd ${WORK_CODE_ROOT}
-    smart_change_dir_to_child $*
-  }
-fi
-
-if [[ -d "${OPENSOURCE_CODE_ROOT}" ]]; then
-  complete -W "$(cd ${OPENSOURCE_CODE_ROOT} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" goopensource
-  function goopensource() {
-    rgb 20 90 20
-    cd ${OPENSOURCE_CODE_ROOT}
-    smart_change_dir_to_child $*
-  }
 fi
 
 ${DOT_FILES_HOME}/.scripts/uptimeChecker

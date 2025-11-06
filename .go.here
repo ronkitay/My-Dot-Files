@@ -2,14 +2,6 @@ DOT_FILES_HOME=${BASE_DIR}/My-Dot-Files
 
 PATH=${DOT_FILES_HOME}/.scripts:${PATH}
 
-complete -W "$(cd ${DOT_FILES_HOME} && fd --strip-cwd-prefix -t d -H --max-depth 1 -E .git)" godotfiles
-function godotfiles() {
-  rgb 58 200 180
-  cd ${DOT_FILES_HOME}
-  smart_change_dir_to_child $*
-}
-
-
 ALL_WORKSPACES_ROOT="${HOME}/.my-docker-envs"
 
 if [ -d ${ALL_WORKSPACES_ROOT} ]; 
