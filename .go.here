@@ -1,6 +1,6 @@
 DOT_FILES_HOME=${BASE_DIR}/My-Dot-Files
 
-PATH=${DOT_FILES_HOME}/.scripts:${PATH}
+PATH=${DOT_FILES_HOME}/scripts:${PATH}
 
 ALL_WORKSPACES_ROOT="${HOME}/.my-docker-envs"
 

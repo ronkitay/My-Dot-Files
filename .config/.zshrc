@@ -79,7 +79,7 @@ if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
   cd ${GO_BACK}
 fi
 
-${DOT_FILES_HOME}/.scripts/uptimeChecker
+${DOT_FILES_HOME}/scripts/uptimeChecker
 
 if [[ -f ${HOME}/.zshrc.local ]]; then
   source ${HOME}/.zshrc.local

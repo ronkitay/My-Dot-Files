@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+## To "install" - run the following command:
+## sudo ln -s ~/code/personal/My-Dot-Files/scripts/nerdctl_docker_wrapper /usr/local/bin/docker
+
+exec lima nerdctl "$@"
+
