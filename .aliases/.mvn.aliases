@@ -5,6 +5,58 @@ alias cmcp='clear;mvn clean package'
 alias mjet='mvn jetty:run'
 alias mvndependencies='mvn dependency:tree -Dverbose'
 
+function m() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: m [c][p][i][s][t]"
+        return 1
+    fi
+
+    local cmd=("mvn")
+    local skip_tests=0
+    local handled=0
+    local arg flag
+
+    for arg in "$@"; do
+        while IFS= read -r flag && [[ -n "${flag}" ]]; do
+            case "${flag}" in
+                c)
+                    cmd+=("clean")
+                    handled=1
+                    ;;
+                p)
+                    cmd+=("package")
+                    handled=1
+                    ;;
+                i)
+                    cmd+=("install")
+                    handled=1
+                    ;;
+                t)
+                    cmd+=("test")
+                    handled=1
+                    ;;
+                s)
+                    skip_tests=1
+                    ;;
+                *)
+                    echo "m: ignoring unknown flag '${flag}'" 1>&2
+                    ;;
+            esac
+        done < <(printf '%s\n' "${arg}" | fold -w1)
+    done
+
+    if [[ ${handled} -eq 0 && ${skip_tests} -eq 0 ]]; then
+        echo "m: no valid Maven goals supplied"
+        return 1
+    fi
+
+    if [[ ${skip_tests} -eq 1 ]]; then
+        cmd+=("-DskipTests")
+    fi
+
+    "${cmd[@]}"
+}
+
 function maven_clean_all() {
     maven_clean_here ""
 }
