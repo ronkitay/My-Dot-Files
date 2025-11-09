@@ -1,1 +1,6 @@
-docker exec -it $1 zsh
+#!/bin/bash
+
+NAMES=$(docker inspect $1 | jq -r '.[].Name' | sed 's|^/||' | tr '\n' ',' | sed 's|,$||' )
+printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n "${NAMES}" | base64)
+docker exec -it "$1" sh -c 'command -v zsh >/dev/null 2>&1 && exec zsh || exec bash'
+printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n "" | base64)
