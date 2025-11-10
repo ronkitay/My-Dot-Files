@@ -3,6 +3,8 @@
 #DOC# AWS;s3zcat;Run 'cat' on a gzipped file in an S3 bucket
 #DOC# Util;bathelp;Redirect help outputs to it to present nicely
 #DOC# Util;help;Runs --help on selected commands and formats it with bat
+#DOC# Docker;dattach;Attaches to a running docker container by name or ID using BASH or ZSH
+#DOC# Docker;dlogs;Shows the logs of a running docker container by name or ID. Allows following the logs as well.
 #DOC# Navigation;cdfile;Changes dir to the directory a file is located in
 #DOC# Navigation;cdd;Changes dir to the first directory in the tree which partially matches the name
 #DOC# Navigation;cdmod;Goes to the root of the current module (Where a pom.xml/build.gradle/build.gradle.kts/package.json/requirements.txt/go.mod can be found)
