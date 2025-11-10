@@ -23,7 +23,7 @@ _fzf_comprun() {
 
   case "$command" in
     cd)           fzf "$@" --preview '_fzf_smart_preview {}' ;;
-    dattach)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview 'docker ps | head -n 1 && docker ps | egrep {}' ;;
+    dattach)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview '_fzf_preview_docker_container {}' ;;
     *)            fzf "$@" ;;
   esac
 }

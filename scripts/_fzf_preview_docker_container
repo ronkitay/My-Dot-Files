@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker inspect $1 | jq -r '.[0] | "Container ID: \(.Id[:12])\nImage: \(.Config.Image)\nCommand: \(.Path) \(.Args | join(" "))\nCreated: \(.Created)\nStatus: \(.State.Status)\nPorts: \(if .NetworkSettings.Ports then (.NetworkSettings.Ports | to_entries | map(select(.value) | "\(.key) -> \(.value | map(.HostPort) | join(", "))") | join(", ")) else "none" end)\nNames: \(.Name[1:])"'
