@@ -41,7 +41,11 @@ function _tsnooze_validate() {
 }
 
 function tsyncstatus() {
-    ls -la ~/.task/taskchampion.sqlite3 "$(cat ~/.taskrc| grep 'sync.local' | cut -d= -f2 | tr -d '\')/taskchampion-local-sync-server.sqlite3"
+    printf "${BRIGHT}${BLUE}Local:  ${NORMAL}%s\n" "$(ls -la ~/.task/taskchampion.sqlite3)"
+    REMOTE_DIR=$(cat ~/.taskrc| grep 'sync.local' | cut -d= -f2 | tr -d '\')
+    REMOTE_FILE="${REMOTE_DIR}/taskchampion-local-sync-server.sqlite3"
+    printf "${BRIGHT}${RED}Remote: ${NORMAL}" 
+    ls -la "${REMOTE_FILE}"
 }
 
 function t1hour() {
