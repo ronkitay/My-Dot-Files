@@ -1,8 +1,8 @@
-export EDITOR='vim'
+export EDITOR='nvim'
 alias vi=nvim
 export LANG=en_US.UTF-8
 HIST_STAMPS="[%F] [%T]"
-SHARE_HISTORY=off
+unsetopt SHARE_HISTORY
 
 if [[ "$(uname)" == "Linux" ]];
 then
@@ -19,7 +19,12 @@ if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+path=(
+  "${HOME}/tools"
+  "${HOME}/.codeium/windsurf/bin"
+  "${HOME}/.antigravity/antigravity/bin"
+  $path
+)
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
 
@@ -30,7 +35,6 @@ source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
 source ${HOME}/.man.settings
 
-# Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
 plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosuggestions terraform taskwarrior)
@@ -60,23 +64,12 @@ export PERSONAL_CODE_ROOT="${CODE_ROOT}/personal"
 export OPENSOURCE_CODE_ROOT="${CODE_ROOT}/opensource"
 export WORK_CODE_ROOT="${CODE_ROOT}/work"
 
-if [[ -d "${PERSONAL_CODE_ROOT}" ]]; then
-  GO_BACK=$(pwd)
-  cd ${PERSONAL_CODE_ROOT}
 
-  for dir_name in `ls`;
-  do
-    if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.go.here" ]];
-    then
-      BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.go.here
-    fi
-    if [[ -f "${PERSONAL_CODE_ROOT}/${dir_name}/.scripts" ]];
-    then
-      BASE_DIR=${PERSONAL_CODE_ROOT} source ${PERSONAL_CODE_ROOT}/${dir_name}/.scripts
-    fi
+if [[ -d ${PERSONAL_CODE_ROOT:-} ]]; then
+  for file in "${PERSONAL_CODE_ROOT}"/*/{.go.here,.scripts}; do
+    [[ -f $file ]] || continue
+    BASE_DIR=$PERSONAL_CODE_ROOT source "$file"
   done
-
-  cd ${GO_BACK}
 fi
 
 ${DOT_FILES_HOME}/scripts/uptimeChecker
@@ -85,18 +78,8 @@ if [[ -f ${HOME}/.zshrc.local ]]; then
   source ${HOME}/.zshrc.local
 fi
 
-[ -f /opt/homebrew/bin/autojump  ] && . /opt/homebrew/Cellar/autojump/22.5.3_3/share/autojump/autojump.zsh
-
-if command -v ranger >/dev/null 2>&1; then
-  alias rr=$(command -v ranger)
-fi
-
-if command -v task >/dev/null 2>&1; then
-  alias t=$(command -v task)
-fi
-
-
-export PATH=${HOME}/tools:$PATH
+command -v ranger >/dev/null 2>&1 && alias rr='ranger'
+command -v task >/dev/null 2>&1 && alias t='task'
 
 source <(griffin shell-integration)
 
@@ -126,6 +109,3 @@ fi
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
-
-# Added by Windsurf
-export PATH="/Users/ron/.codeium/windsurf/bin:$PATH"
