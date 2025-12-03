@@ -1,14 +1,16 @@
-DISABLE_AUTO_UPDATE="true"
-DISABLE_MAGIC_FUNCTIONS="true"
-DISABLE_COMPFIX="true"
-
-autoload -Uz compinit
-if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
-    compinit
-else
-    compinit -C
+# ============================================================================
+# Zinit Setup
+# ============================================================================
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -d "$ZINIT_HOME" ]]; then
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
+source "${ZINIT_HOME}/zinit.zsh"
 
+# ============================================================================
+# Basic Settings
+# ============================================================================
 export EDITOR='nvim'
 alias vi=nvim
 export LANG=en_US.UTF-8
@@ -46,11 +48,52 @@ source ${HOME}/.bindkey.settings
 source ${HOME}/.fzf.settings
 source ${HOME}/.man.settings
 
-export ZSH="${HOME}/.oh-my-zsh"
+# ============================================================================
+# Zinit Plugins
+# ============================================================================
 
-plugins=(asdf fzf git kubectl kubectx virtualenv zsh-autosuggestions taskwarrior terraform)
+# Oh-My-Zsh libs (essential functionality)
+zinit snippet OMZL::completion.zsh
+zinit snippet OMZL::history.zsh
+zinit snippet OMZL::key-bindings.zsh
+zinit snippet OMZL::theme-and-appearance.zsh
 
-source $ZSH/oh-my-zsh.sh
+# Oh-My-Zsh plugins (loaded as snippets for speed)
+zinit snippet OMZP::asdf
+zinit snippet OMZP::git
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::virtualenv
+zinit snippet OMZP::taskwarrior
+zinit snippet OMZP::helm
+zinit snippet OMZP::fzf
+
+# Third-party plugins (turbo mode for faster startup)
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+
+# ============================================================================
+# Completion Setup (after plugins)
+# ============================================================================
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+zinit cdreplay -q
+
+# Terraform completions (must be after compinit)
+if (( $+commands[terraform] )); then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C terraform terraform
+fi
+
+# Terragrunt completions (must be after compinit)
+if (( $+commands[terragrunt] )); then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C terragrunt terragrunt
+fi
 
 source ${HOME}/.aliases/.define.colors
 source ${HOME}/.aliases/.aws.aliases
@@ -118,13 +161,4 @@ fi
 
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
-fi
-
-# Lazy-load helm (only initializes on first use)
-if (( $+commands[helm] )); then
-  helm() {
-    unfunction helm
-    source $ZSH/plugins/helm/helm.plugin.zsh
-    helm "$@"
-  }
 fi
