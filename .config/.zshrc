@@ -1,3 +1,14 @@
+DISABLE_AUTO_UPDATE="true"
+DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_COMPFIX="true"
+
+autoload -Uz compinit
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
+
 export EDITOR='nvim'
 alias vi=nvim
 export LANG=en_US.UTF-8
@@ -28,7 +39,7 @@ path=(
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
 
-[ -f /opt/homebrew/bin/brew ] &&  eval "$(/opt/homebrew/bin/brew shellenv)"
+[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] &&  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 source ${HOME}/.bindkey.settings
@@ -37,7 +48,7 @@ source ${HOME}/.man.settings
 
 export ZSH="${HOME}/.oh-my-zsh"
 
-plugins=(asdf fzf git golang gradle helm kubectl kubectx virtualenv zsh-autosuggestions terraform taskwarrior)
+plugins=(asdf fzf git kubectl kubectx virtualenv zsh-autosuggestions taskwarrior terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -64,7 +75,6 @@ export PERSONAL_CODE_ROOT="${CODE_ROOT}/personal"
 export OPENSOURCE_CODE_ROOT="${CODE_ROOT}/opensource"
 export WORK_CODE_ROOT="${CODE_ROOT}/work"
 
-
 if [[ -d ${PERSONAL_CODE_ROOT:-} ]]; then
   for file in "${PERSONAL_CODE_ROOT}"/*/{.go.here,.scripts}; do
     [[ -f $file ]] || continue
@@ -87,7 +97,7 @@ if [[ "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm
 then
   STATE_FILE="${HOME}/.task/.state"
   TASK_DB="$HOME/.task/taskchampion.sqlite3"
-  if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ];
+  if [ ! -f "$STATE_FILE" ]; # || [ "$STATE_FILE" -ot "$TASK_DB" ];
   then
     task count +READY +ACTIVE > "${STATE_FILE}" 2> /dev/null
     task count +READY -ACTIVE >> "${STATE_FILE}" 2> /dev/null
@@ -108,4 +118,13 @@ fi
 
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
+fi
+
+# Lazy-load helm (only initializes on first use)
+if (( $+commands[helm] )); then
+  helm() {
+    unfunction helm
+    source $ZSH/plugins/helm/helm.plugin.zsh
+    helm "$@"
+  }
 fi
