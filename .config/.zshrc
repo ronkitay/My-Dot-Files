@@ -83,6 +83,9 @@ else
 fi
 zinit cdreplay -q
 
+# Remove `mcd` autocompletion as it conflicts with mine and I do not use it .
+compdef -d mcd
+
 # Terraform completions (must be after compinit)
 if (( $+commands[terraform] )); then
   autoload -U +X bashcompinit && bashcompinit
