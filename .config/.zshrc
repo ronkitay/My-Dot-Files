@@ -142,12 +142,9 @@ source <(griffin shell-integration)
 if [[ "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" && "${TERM_PROGRAM}" != "vscode" ]];
 then
   STATE_FILE="${HOME}/.task/.state"
-  TASK_DB="$HOME/.task/taskchampion.sqlite3"
-  if [ ! -f "$STATE_FILE" ]; # || [ "$STATE_FILE" -ot "$TASK_DB" ];
-  then
-    task count +READY +ACTIVE > "${STATE_FILE}" 2> /dev/null
-    task count +READY -ACTIVE >> "${STATE_FILE}" 2> /dev/null
-  fi
+  
+  task count +READY +ACTIVE > "${STATE_FILE}" 2> /dev/null
+  task count +READY -ACTIVE >> "${STATE_FILE}" 2> /dev/null
 
   ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")
   READY_TASKS=$(tail -n 1 "${STATE_FILE}")
