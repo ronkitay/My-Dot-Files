@@ -1,7 +1,6 @@
 #!/bin/bash
 
 STATE_FILE="${HOME}/.task/.state"
-TASK_DB="$HOME/.task/taskchampion.sqlite3"
 
 COMMAND=/opt/homebrew/bin/task
 if [ -f /usr/local/bin/task ]; then
@@ -12,10 +11,8 @@ if [ -f /home/linuxbrew/.linuxbrew/bin/task ]; then
     COMMAND=/home/linuxbrew/.linuxbrew/bin/task
 fi
 
-if [ ! -f "$STATE_FILE" ] || [ "$STATE_FILE" -ot "$TASK_DB" ]; then
-    ${COMMAND} count +READY +ACTIVE > "${STATE_FILE}"
-    ${COMMAND} count +READY -ACTIVE >> "${STATE_FILE}"
-fi
+${COMMAND} count +READY +ACTIVE > "${STATE_FILE}"
+${COMMAND} count +READY -ACTIVE >> "${STATE_FILE}"
 
 ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")
 READY_TASKS=$(tail -n 1 "${STATE_FILE}")
