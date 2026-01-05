@@ -26,7 +26,7 @@ alias 33='3 limit=3'
 alias 34='3 limit=4'
 alias 35='3 limit=5'
 
-alias 4='tput clear && echo "" && rlshow'
+alias 4='tput clear && echo "" && rllist'
 
 function _tsnooze_validate() {
     if [ $# -ne 2 ]; then
@@ -74,7 +74,7 @@ function tresume() {
 
 function rladd() {
     if [ $# -ne 4 ]; then
-        echo "Expecting exactly 3 arguments";
+        echo "Expecting exactly 4 arguments";
         printf "Usage:\n"
         printf "\t%s <item-name> <item-url> <item-source> <estimated-reading-time-in-minutes>\n" "rladd"
         printf "\nExample:\n"
@@ -95,9 +95,37 @@ function rladd() {
     task ${TASK_ID}
 }
 
-function rlshow() {
+function rllist() {
     echo "Active"
     task project:Read-List $*
     echo "Waiting"
-    task waiting project:Read-List $*
+    task waiting project:Read-List limit=10 $*
+}
+
+function tvadd() {
+    if [ $# -ne 4 ]; then
+        echo "Expecting exactly 4 arguments";
+        printf "Usage:\n"
+        printf "\t%s <item-name> <item-source> <item-url> <wait-until>\n" "rladd"
+        printf "\nExample:\n"
+        printf "\t%s 'a great series' 'S03' 'https://imdb.com/greatseries=S03' 'someday'\n" "tvadd"
+        printf "\t%s 'a great series' 'S03' 'https://imdb.com/greatseries=S03' '2027-08-01+7h'\n" "tvadd"
+        return;
+    fi
+    ITEM_NAME=$1;
+    ITEM_SEASON=$2;
+    ITEM_URL=$3;
+    WAIT_TIME=$4;
+
+    task add project:TV priority:L wait:${WAIT_TIME} description:"${ITEM_NAME} - ${ITEM_SEASON} - ${ITEM_URL}";
+    TASK_ID=$(task +LATEST uuids);
+
+    task ${TASK_ID}
+}
+
+function tvlist() {
+    echo "Current"
+    task all rc.context=none -COMPLETED -DELETED project:TV +ACTIVE $*
+    echo "Future"
+    task all rc.context=none -COMPLETED -DELETED project:TV -ACTIVE $*
 }

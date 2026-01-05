@@ -78,6 +78,9 @@
 #DOC# Taskwarrior;tcompleted;Filter only completed tasks
 #DOC# Taskwarrior;tpending;Filter only pending tasks
 #DOC# Taskwarrior;twaiting;Filter only waiting tasks
+#DOC# Taskwarrior;rladd;Add an item to my read list
+#DOC# Taskwarrior;rllist;List my active read list
+#DOC# Taskwarrior;tvlist;List my TV watch list
 #DOC# Date;epoc;Converts dates from "epoch" format to human format
 #DOC# Date;depoc;Converts dates from human format to "epoch" format 
 #DOC# Date;ts;Displays epoc timestamps to human readable in output redirection
