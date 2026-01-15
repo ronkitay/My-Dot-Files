@@ -201,6 +201,8 @@ alias gpush='printHeader Git Push \(Branch only\) ;git push origin HEAD; printFo
 
 alias cdroot='cd $(git rev-parse --show-toplevel)'
 
+alias ccb='git_current_branch | pbcopy'
+
 function cdrepo() {
     PATTERN=$(echo $* | sed 's/ /\.\*/g');
 

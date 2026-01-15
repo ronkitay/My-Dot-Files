@@ -60,6 +60,7 @@ zinit snippet OMZL::theme-and-appearance.zsh
 
 # Oh-My-Zsh plugins (loaded as snippets for speed)
 zinit snippet OMZP::asdf
+zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx

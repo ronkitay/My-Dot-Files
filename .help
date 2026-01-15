@@ -32,6 +32,7 @@
 #DOC# Search;fnd0;Find directories with null as the line delimited (-0 or -print0)
 #DOC# Search;fgrp;Find all files and grep on them
 #DOC# Search;fgrpi;Find all files and grep on them (Case insensitive)
+#DOC# Git;ccb;Copies the current branch name to the clipboard
 #DOC# Git;giturl;Opens file from a git repo in github/gitlab web UI
 #DOC# Git;gcm;Git Checkout Master
 #DOC# Git;gcheckout;Git Checkout ...
