@@ -92,3 +92,4 @@
 #DOC# taskwarrior;theb;Reverses hebrew characters to make them compatible with taskwarrior
 #DOC# taskwarrior;tnoteadd;Adds a note a task
 #DOC# taskwarrior;tnoteedit;Edits the note attached to a task
+#DOC# Util;bctc;Beyond Compare Text Compare

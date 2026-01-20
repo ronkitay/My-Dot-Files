@@ -34,3 +34,10 @@ function highlight() {
     local pattern="$1"
     egrep "^|$pattern"
 }
+
+if command -v bcompare &>/dev/null; then
+    function bctc() {
+        local tmpdir=$(mktemp -d)
+        bcompare "${tmpdir}/1" "${tmpdir}/2"
+    }
+fi
