@@ -12,6 +12,12 @@ alias xg0='xargs -0 egrep --color'
 alias xgi='xargs egrep --color -i'
 alias xgi0='xargs -0 egrep --color -i'
 
+if [ -x "$(which rg 2> /dev/null)" ]; then
+    alias rgi='rg -i'
+    alias xrg='xargs rg'
+    alias xrgi='xargs rg -i'
+fi
+
 if [ -x "$(which fd  2> /dev/null)" ] || [ -x "$(which fdfind  2> /dev/null)" ]; then
     alias fnf='fd -t f -H -L . '
     alias fnf0='fd -t f -H -L . -0'
