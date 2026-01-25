@@ -41,3 +41,18 @@ if command -v bcompare &>/dev/null; then
         bcompare "${tmpdir}/1" "${tmpdir}/2"
     }
 fi
+
+function tmp() {
+    if [ $# -eq 0 ]; then
+        cd "$HOME/tmp"
+        return
+    fi
+
+    local target_path="$HOME/tmp"
+    local part
+    for part in "$@"; do
+        target_path="$target_path/$part"
+    done
+    mkdir -p "$target_path"
+    cd "$target_path"
+}
