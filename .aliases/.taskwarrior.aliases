@@ -96,10 +96,10 @@ function rladd() {
 }
 
 function rllist() {
-    echo "Active"
-    task project:Read-List $*
-    echo "Waiting"
-    task waiting project:Read-List limit=10 $*
+    echo "Current"
+    task all rc.context=none -COMPLETED -DELETED project:Read-List +ACTIVE $*
+    echo "Future"
+    task all rc.context=none -COMPLETED -DELETED project:Read-List -ACTIVE limit=10 $*
 }
 
 function tvadd() {
