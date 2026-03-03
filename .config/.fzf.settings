@@ -7,7 +7,8 @@ export FZF_BASE=/usr/local/bin/fzf
 
 export FZF_DEFAULT_COMMAND='fd'
 
-export FZF_DEFAULT_OPTS="-m --ansi --border --layout=reverse  --preview '_fzf_smart_preview {}' "
+export FZF_THEME_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
+export FZF_DEFAULT_OPTS="${FZF_THEME_OPTS} -m --ansi --border --style=full --layout=reverse  --preview '_fzf_smart_preview {}' "
 
 # CTRL-Y to copy the command into clipboard using pbcopy
 export FZF_CTRL_R_OPTS="
@@ -22,7 +23,7 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf "$@" --preview '_fzf_smart_preview {}' ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
     dattach)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview '_fzf_preview_docker_container {}' ;;
     dlogs)      docker ps | bat -p -r 2: | awk '{print $1}' | fzf --preview '_fzf_preview_docker_container {}' ;;
     *)            fzf "$@" ;;
