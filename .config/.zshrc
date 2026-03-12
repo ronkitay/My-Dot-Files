@@ -163,3 +163,11 @@ fi
 if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
+
+# vibe-kanban autocomplete
+_vibe_kanban() {
+    local -a commands
+    commands=(start stop status)
+    _describe 'command' commands
+}
+compdef _vibe_kanban vibe-kanban
