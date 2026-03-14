@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if command -v md5sum >/dev/null 2>&1; then
+    CMD="md5sum"
+elif command -v md5 >/dev/null 2>&1; then
+    CMD="md5"
+else
+    echo "Error: Neither md5sum nor md5 is available." >&2
+    exit 1
+fi
+
+find . -type f -exec $CMD {} +
