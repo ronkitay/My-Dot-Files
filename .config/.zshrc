@@ -37,6 +37,7 @@ path=(
   "${HOME}/.codeium/windsurf/bin"
   "${HOME}/.antigravity/antigravity/bin"
   $path
+  "/Applications/Obsidian.app/Contents/MacOS"
 )
 
 export MY_DOCKER_IMAGES_REPO=ronkitay
@@ -171,3 +172,4 @@ _vibe_kanban() {
     _describe 'command' commands
 }
 compdef _vibe_kanban vibe-kanban
+
