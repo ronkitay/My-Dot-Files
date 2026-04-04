@@ -5,6 +5,8 @@ alias tcompleted='task completed'
 alias tpending='task all -COMPLETED -DELETED'
 alias twaiting='task waiting'
 
+alias tui='taskwarrior-tui'
+
 alias 1='tput clear && echo "" && task active -BLOCKED'
 alias 11='1 limit=1'
 alias 12='1 limit=2'
