@@ -4,7 +4,7 @@ FILE_OR_DIR="$*"
 
 if [ -e "${FILE_OR_DIR}" ]; then
     if [ -f "${FILE_OR_DIR}" ]; then
-        bat --color always "${FILE_OR_DIR}"
+        bat --color always "./${FILE_OR_DIR}"
     else
         tree -C "${FILE_OR_DIR}" | head -200
     fi
