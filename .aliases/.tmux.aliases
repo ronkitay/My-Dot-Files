@@ -1,0 +1,7 @@
+tms() {
+  local session
+  session=$(tmux ls -F '#{session_name}' | fzf --preview '
+    echo "Windows:"; tmux list-windows -t {} -F "  #{window_index}: #{window_name} #{?window_active,(active),}"
+    echo "Panes:";   tmux list-panes   -t {} -F "  #{pane_index}: #{pane_current_command} @ #{pane_current_path}"
+  ') && tmux attach -t "$session"
+}

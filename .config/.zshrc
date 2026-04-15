@@ -116,6 +116,7 @@ source ${HOME}/.aliases/.mvn.aliases
 source ${HOME}/.aliases/.p4.aliases
 source ${HOME}/.aliases/.python.aliases
 source ${HOME}/.aliases/.taskwarrior.aliases
+source ${HOME}/.aliases/.tmux.aliases
 source ${HOME}/.aliases/.util.aliases
 
 export CODE_ROOT="${HOME}/code"
