@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 
 function link_it() {
     NAME=$1
