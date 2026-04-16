@@ -19,7 +19,7 @@ unsetopt SHARE_HISTORY
 
 if [[ "$(uname)" == "Linux" ]];
 then
-    alias bat='batcat'
+    command -v batcat >/dev/null 2>&1 && alias bat='batcat'
     export PAGER="batcat -p"
     alias fd='fdfind'
     alias pbcopy='xclip -selection clipboard'
