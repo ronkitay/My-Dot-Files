@@ -125,8 +125,7 @@ export OPENSOURCE_CODE_ROOT="${CODE_ROOT}/opensource"
 export WORK_CODE_ROOT="${CODE_ROOT}/work"
 
 if [[ -d ${PERSONAL_CODE_ROOT:-} ]]; then
-  for file in "${PERSONAL_CODE_ROOT}"/*/{.go.here,.scripts}; do
-    [[ -f $file ]] || continue
+  for file in "${PERSONAL_CODE_ROOT}"/*/{.go.here,.scripts}(N); do
     BASE_DIR=$PERSONAL_CODE_ROOT source "$file"
   done
 fi
@@ -142,7 +141,7 @@ command -v task >/dev/null 2>&1 && alias t='task'
 
 source <(griffin shell-integration)
 
-if [[ "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" && "${TERM_PROGRAM}" != "vscode" ]];
+if [[ "${PIPENV_ACTIVE}" != "1" && "${TERMINAL_EMULATOR}" != "JetBrains-JediTerm" && "${TERM_PROGRAM}" != "vscode" && -d "${HOME}/.task" ]];
 then
   STATE_FILE="${HOME}/.task/.state"
   
