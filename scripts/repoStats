@@ -1,0 +1,108 @@
+#!/bin/bash
+set -euo pipefail
+
+# repoStats - Generate repository health statistics
+# Based on: https://piechowski.io/post/git-commands-before-reading-code/
+
+DAYS=${1:-365}
+DAYS_TEXT="$DAYS days"
+if [ "$DAYS" -eq 365 ]; then
+  DAYS_TEXT="1 year"
+fi
+
+# Helper function for section headers
+print_header() {
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  $1"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+# Helper function for subsection headers
+print_subheader() {
+  echo ""
+  echo "  $1"
+  echo "  ─────────────────────────────────────────────────────────"
+}
+
+print_header "📊 REPOSITORY STATISTICS"
+echo "  Generated: $(date)"
+echo "  Repository: $(git rev-parse --show-toplevel)"
+echo "  Branch: $(git rev-parse --abbrev-ref HEAD)"
+
+# 1. Most changed files
+print_header "🔥 CHURN HOTSPOTS (Most Changed Files)"
+print_subheader "Top 20 files changed in the last $DAYS_TEXT"
+echo ""
+git log --format=format: --name-only --since="$DAYS days ago" \
+  | grep -v '^$' | sort | uniq -c | sort -nr | head -20 \
+  | awk '{print "  " $1 "x\t" $2}' || echo "  (No commits found in this period)"
+
+# 2. Contributors
+print_header "👥 CONTRIBUTORS"
+print_subheader "Ranked by commit count (all time)"
+echo ""
+git shortlog -sn --no-merges \
+  | awk '{print "  " $1 " commits\t" $0}' \
+  | sed 's/^  [0-9]* commits\t  /  /' || echo "  (No commits found)"
+
+print_subheader "Recent activity (last 6 months)"
+echo ""
+RECENT=$(git shortlog -sn --no-merges --since="6 months ago" | wc -l)
+TOP_RECENT=$(git shortlog -sn --no-merges --since="6 months ago" | head -1)
+if [ "$RECENT" -gt 0 ]; then
+  echo "  $RECENT contributors active"
+  echo "  $TOP_RECENT" | awk '{print "  Top: " $1 " commits by " substr($0, index($0,$2))}'
+else
+  echo "  (No commits in last 6 months)"
+fi
+
+# 3. Bug hotspots
+print_header "🐛 BUG HOTSPOTS"
+print_subheader "Files mentioned in fix/bug/broken commits (last $DAYS_TEXT)"
+echo ""
+git log -i -E --grep="fix|bug|broken" --name-only --format='' --since="$DAYS days ago" \
+  | grep -v '^$' | sort | uniq -c | sort -nr | head -20 \
+  | awk '{print "  " $1 "x\t" $2}' || echo "  (No bug-related commits found)"
+
+# 4. Project velocity
+print_header "📈 PROJECT VELOCITY"
+print_subheader "Commits per month (entire history)"
+echo ""
+
+# Get velocity data and calculate max for scaling
+VELOCITY=$(git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c | tail -24)
+MAX_COMMITS=$(echo "$VELOCITY" | awk '{print $1}' | sort -rn | head -1)
+
+if [ "$MAX_COMMITS" -gt 0 ]; then
+  echo "$VELOCITY" | awk -v max="$MAX_COMMITS" '{
+    month = $2
+    count = $1
+    bar_width = int((count / max) * 30)
+    bar = ""
+    for (i = 0; i < bar_width; i++) bar = bar "█"
+    printf "  %s: %2d %s\n", month, count, bar
+  }'
+else
+  echo "  (No commits found)"
+fi
+
+# 5. Crisis patterns
+print_header "🚨 CRISIS PATTERNS"
+print_subheader "Reverts, hotfixes, emergencies in the last $DAYS_TEXT"
+echo ""
+CRISIS_COUNT=$(git log --oneline --since="$DAYS days ago" \
+  | grep -iE 'revert|hotfix|emergency|rollback' | wc -l || true)
+if [ "$CRISIS_COUNT" -gt 0 ]; then
+  echo "  ⚠️  Found $CRISIS_COUNT crisis-related commits:"
+  echo ""
+  git log --oneline --since="$DAYS days ago" \
+    | grep -iE 'revert|hotfix|emergency|rollback' \
+    | awk '{print "  " $0}'
+else
+  echo "  ✓ No crisis patterns detected"
+fi
+
+print_header ""
+echo "  Analysis complete."
+echo ""
