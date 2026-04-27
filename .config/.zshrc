@@ -17,15 +17,15 @@ export LANG=en_US.UTF-8
 HIST_STAMPS="[%F] [%T]"
 unsetopt SHARE_HISTORY
 
+export PAGER="bat -p"
+
 if [[ "$(uname)" == "Linux" ]];
 then
     command -v batcat >/dev/null 2>&1 && alias bat='batcat'
-    export PAGER="batcat -p"
+    command -v batcat >/dev/null 2>&1 && export PAGER="batcat -p" 
     alias fd='fdfind'
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
-else
-    export PAGER="bat -p"
 fi
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
