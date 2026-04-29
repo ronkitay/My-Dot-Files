@@ -130,6 +130,8 @@ if [[ -d ${PERSONAL_CODE_ROOT:-} ]]; then
   done
 fi
 
+export PATH=$PATH:/Applications/Araxis\ Merge.app/Contents/Utilities
+
 ${DOT_FILES_HOME}/scripts/uptimeChecker
 
 if [[ -f ${HOME}/.zshrc.local ]]; then
