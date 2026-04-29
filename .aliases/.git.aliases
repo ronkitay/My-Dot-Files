@@ -201,6 +201,37 @@ alias gpush='printHeader Git Push \(Branch only\) ;git push origin HEAD; printFo
 
 alias cdroot='cd $(git rev-parse --show-toplevel)'
 
+function cdtoday() {
+    repo_root=$(git rev-parse --show-toplevel 2> /dev/null)
+    if [[ $? -ne 0 || -z "$repo_root" ]]; then
+        echo "cdtoday only works inside git repositories"
+        return 1
+    fi
+
+    todays_dir_script="${repo_root}/scripts/todays_dir"
+    if [[ ! -f "$todays_dir_script" ]]; then
+        echo "Missing script: ${todays_dir_script}"
+        return 1
+    fi
+
+    todays_dir="$("$todays_dir_script")"
+    if [[ $? -ne 0 ]]; then
+        echo "Failed to run ${todays_dir_script}"
+        return 1
+    fi
+
+    if [[ -z "$todays_dir" ]]; then
+        echo "Script returned an empty directory path"
+        return 1
+    fi
+
+    if [[ ! -d "$todays_dir" ]]; then
+        mkdir -p "$todays_dir" || return 1
+    fi
+
+    cd "$todays_dir"
+}
+
 alias ccb='git_current_branch | pbcopy'
 
 function cdrepo() {
