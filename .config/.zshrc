@@ -23,7 +23,7 @@ if [[ "$(uname)" == "Linux" ]];
 then
     command -v batcat >/dev/null 2>&1 && alias bat='batcat'
     command -v batcat >/dev/null 2>&1 && export PAGER="batcat -p" 
-    alias fd='fdfind'
+    command -v fdfind >/dev/null 2>&1 && alias fd='fdfind'
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
 fi
