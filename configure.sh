@@ -40,6 +40,7 @@ link_it 'Input RC' "${HOME}/.inputrc" "${BASE_DIR}/.inputrc"
 link_it 'VIM RC' "${HOME}/.vimrc" "${BASE_DIR}/.vimrc"
 link_it 'ZSH RC' "${HOME}/.zshrc" "${BASE_DIR}/.zshrc"
 link_it 'PSQL RC' "${HOME}/.psqlrc" "${BASE_DIR}/.psqlrc"
+link_it 'Tig Config' "${HOME}/.tigrc" "${BASE_DIR}/.tigrc"
 link_it 'Tmux Config' "${HOME}/.tmux.conf" "${BASE_DIR}/.tmux.conf"
 link_it 'My Docker Images Release' "${HOME}/.my-docker-images.release" "${HOME}/code/personal/docker-images/release"
 
