@@ -8,6 +8,10 @@ function s3zcat() {
    aws s3 cp $1 - | zcat
 }
 
+function s3size() { 
+    aw 3 | paste -sd+ - | bc | human
+}
+
 function sqsstate() {
     QUEUE_URL=$1
     REGION=$(echo ${QUEUE_URL} | cut -d'.' -f2)

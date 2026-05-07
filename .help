@@ -1,6 +1,7 @@
 #DOC# AWS;s3;Shortcut for 'aws s3'
 #DOC# AWS;s3cat;Run 'cat' on a file in an S3 bucket
 #DOC# AWS;s3zcat;Run 'cat' on a gzipped file in an S3 bucket
+#DOC# AWS;s3size;Summarize an s3 file list into it's size in human readable bytes
 #DOC# Util;bathelp;Redirect help outputs to it to present nicely
 #DOC# Util;help;Runs --help on selected commands and formats it with bat
 #DOC# Docker;dattach;Attaches to a running docker container by name or ID using BASH or ZSH
@@ -89,6 +90,8 @@
 #DOC# Util;convert;Converts any value between different measurement units
 #DOC# Util;highlight;Highlights text matching a regex while leaving the rest of the text
 #DOC# Util;avro;Wrapper for the avro-tools utility
+#DOC# Util;aw;Shorthand for awk '{print $X}'
+#DOC# Util;human;Turn a number in bytes to human readable
 #DOC# taskwarrior;tattach;Adds an attachment to a task
 #DOC# taskwarrior;theb;Reverses hebrew characters to make them compatible with taskwarrior
 #DOC# taskwarrior;tnoteadd;Adds a note a task

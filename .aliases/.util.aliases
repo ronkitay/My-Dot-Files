@@ -56,3 +56,9 @@ function tmp() {
     mkdir -p "$target_path"
     cd "$target_path"
 }
+
+aw() { awk -v c="$1" '{print $c}'; }
+
+human() { awk '{ split("B K M G T P", u); s=1; while ($1>=1024 && s<6) { $1/=1024; s++ } printf "%.1f%s\n", $1, u[s] }'; }
+
+
