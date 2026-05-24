@@ -129,5 +129,5 @@ function tvlist() {
     echo "Current"
     task all rc.context=none -COMPLETED -DELETED project:TV +ACTIVE $*
     echo "Future"
-    task all rc.context=none -COMPLETED -DELETED project:TV -ACTIVE $*
+    task rc.context=none rc.report.all.sort=wait+ all -COMPLETED -DELETED project:TV -ACTIVE $*
 }
