@@ -152,7 +152,13 @@ then
 
   ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")
   READY_TASKS=$(tail -n 1 "${STATE_FILE}")
-  echo "\n${BRIGHT}You are working on ${GREEN}${ACTIVE_TASKS}${WHITE} tasks and have another ${GREEN}${READY_TASKS}${WHITE} pending tasks to work on${NORMAL}\n"
+  READLIST_TASKS=$(task rc.context=none project:Read-List +ACTIVE +READY count 2>/dev/null || echo 0)
+  
+  if [[ "$READLIST_TASKS" -gt 0 ]]; then
+    echo "\n${BRIGHT}You are working on ${GREEN}${ACTIVE_TASKS}${WHITE} tasks, ${GREEN}${READLIST_TASKS}${WHITE} read list items and have another ${GREEN}${READY_TASKS}${WHITE} pending tasks to work on${NORMAL}\n"
+  else
+    echo "\n${BRIGHT}You are working on ${GREEN}${ACTIVE_TASKS}${WHITE} tasks and have another ${GREEN}${READY_TASKS}${WHITE} pending tasks to work on${NORMAL}\n"
+  fi
 fi
 
 if command -v starship >/dev/null 2>&1; then

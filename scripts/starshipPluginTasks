@@ -16,5 +16,6 @@ ${COMMAND} count +READY -ACTIVE >> "${STATE_FILE}"
 
 ACTIVE_TASKS=$(head -n 1 "${STATE_FILE}")
 READY_TASKS=$(tail -n 1 "${STATE_FILE}")
+READLIST_TASKS=$(${COMMAND} rc.context=none project:Read-List +ACTIVE +READY count 2>/dev/null || echo 0)
 
-echo "A: ${ACTIVE_TASKS} P: ${READY_TASKS}"
+echo "A: ${ACTIVE_TASKS} P: ${READY_TASKS} R: ${READLIST_TASKS}"
