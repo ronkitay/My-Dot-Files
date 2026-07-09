@@ -5,3 +5,7 @@ tms() {
     echo "Panes:";   tmux list-panes   -t {} -F "  #{pane_index}: #{pane_current_command} @ #{pane_current_path}"
   ') && tmux attach -t "$session"
 }
+
+pt() {
+  printf '\033]2;%s\033\\' "$1"
+}
