@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+# tmux-reorder: Reorder tmux windows easily
+# Usage:
+#   tmux-reorder move-left <window>      # Swap with window to the left
+#   tmux-reorder move-right <window>     # Swap with window to the right
+#   tmux-reorder swap <w1> <w2>          # Swap two windows
+#   tmux-reorder to <window> <position>  # Move window to specific position
+#   tmux-reorder order <w1> <w2> [...]   # Reorder by list (gaps preserved)
+
+set -euo pipefail
+
+usage() {
+  echo "Usage:"
+  echo "  tmux-reorder move-left <window>"
+  echo "  tmux-reorder move-right <window>"
+  echo "  tmux-reorder swap <w1> <w2>"
+  echo "  tmux-reorder to <window> <position>"
+  echo "  tmux-reorder order <w1> <w2> [...]"
+  echo "  tmux-reorder cleanup <window> <position>  # Recovery: move stuck high-index window to position"
+  exit 1
+}
+
+get_windows() {
+  tmux list-windows -t "${SESSION}" -F '#{window_index}' | sort -n
+}
+
+get_next_temp() {
+  # Find first unused index >= 1000
+  local temp=1000
+  while tmux list-windows -t "${SESSION}" -F '#{window_index}' | grep -q "^${temp}$"; do
+    ((temp++))
+  done
+  echo "$temp"
+}
+
+move_left() {
+  local win=$1
+  local prev=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 < w {p=$0} END {print p}')
+  [[ -z "$prev" ]] && { echo "Window $win is already leftmost"; exit 1; }
+
+  local temp=$(get_next_temp)
+  tmux move-window -s "$win" -t "$temp"
+  tmux move-window -s "$prev" -t "$win"
+  tmux move-window -s "$temp" -t "$prev"
+  echo "Swapped window $win ← → $prev"
+}
+
+move_right() {
+  local win=$1
+  local next=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 > w {print; exit}')
+  [[ -z "$next" ]] && { echo "Window $win is already rightmost"; exit 1; }
+
+  local temp=$(get_next_temp)
+  tmux move-window -s "$win" -t "$temp"
+  tmux move-window -s "$next" -t "$win"
+  tmux move-window -s "$temp" -t "$next"
+  echo "Swapped window $win ← → $next"
+}
+
+swap() {
+  local w1=$1 w2=$2
+  local temp=$(get_next_temp)
+  tmux move-window -s "$w1" -t "$temp"
+  tmux move-window -s "$w2" -t "$w1"
+  tmux move-window -s "$temp" -t "$w2"
+  echo "Swapped windows $w1 ← → $w2"
+}
+
+move_to() {
+  local win=$1 pos=$2
+
+  # If target position is occupied, displace it first
+  if tmux list-windows -t "${SESSION}" -F '#{window_index}' | grep -q "^${pos}$"; then
+    local occupant=$(tmux list-windows -t "${SESSION}" -F '#{window_index}:#{window_name}' | grep "^${pos}:" | cut -d: -f1)
+    # Find next available slot above pos
+    local displaced_pos=$((pos + 100))
+    while tmux list-windows -t "${SESSION}" -F '#{window_index}' | grep -q "^${displaced_pos}$"; do
+      ((displaced_pos++))
+    done
+    tmux move-window -s "$occupant" -t "$displaced_pos"
+    tmux move-window -s "$win" -t "$pos"
+    echo "Moved window $win to position $pos (displaced window to $displaced_pos)"
+  else
+    # Target position is free
+    tmux move-window -s "$win" -t "$pos"
+    echo "Moved window $win to position $pos"
+  fi
+}
+
+reorder() {
+  local -a new_order=("$@")
+  declare -A mapping
+
+  # Read current order
+  local -a current=($(get_windows))
+
+  # Validate new_order contains only existing windows
+  for w in "${new_order[@]}"; do
+    local found=0
+    for c in "${current[@]}"; do
+      [[ "$w" == "$c" ]] && found=1 && break
+    done
+    [[ $found -eq 0 ]] && { echo "Window $w not found"; exit 1; }
+  done
+
+  # Move all through temps first
+  local -a temps=()
+  for w in "${new_order[@]}"; do
+    local temp=$(get_next_temp)
+    temps+=("$temp")
+    tmux move-window -s "$w" -t "$temp"
+  done
+
+  # Move temps to final positions in order
+  for i in "${!new_order[@]}"; do
+    tmux move-window -s "${temps[$i]}" -t "${new_order[$i]}"
+  done
+
+  echo "Reordered windows: ${new_order[*]}"
+}
+
+cmd="${1:-}"
+[[ -z "$cmd" ]] && usage
+
+# Get session from $TMUX or $TMUX_SESSION
+SESSION="${TMUX_SESSION:-}"
+if [[ -z "$SESSION" ]]; then
+  SESSION=$(tmux display-message -p '#{session_name}' 2>/dev/null) || {
+    echo "Error: no active tmux session"; exit 1
+  }
+fi
+
+case "$cmd" in
+  move-left)   move_left "${2:-}" ;;
+  move-right)  move_right "${2:-}" ;;
+  swap)        swap "${2:-}" "${3:-}" ;;
+  to)          move_to "${2:-}" "${3:-}" ;;
+  order)       shift; reorder "$@" ;;
+  cleanup)     move_to "${2:-}" "${3:-}" ;;
+  *)           usage ;;
+esac

@@ -92,6 +92,7 @@
 #DOC# Util;avro;Wrapper for the avro-tools utility
 #DOC# Util;aw;Shorthand for awk '{print $X}'
 #DOC# Util;human;Turn a number in bytes to human readable
+#DOC# Util;tmux-order;Re-orders tmux windows
 #DOC# taskwarrior;tattach;Adds an attachment to a task
 #DOC# taskwarrior;theb;Reverses hebrew characters to make them compatible with taskwarrior
 #DOC# taskwarrior;tnoteadd;Adds a note a task
