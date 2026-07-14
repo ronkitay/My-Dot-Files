@@ -11,8 +11,8 @@ set -euo pipefail
 
 usage() {
   echo "Usage:"
-  echo "  tmux-reorder move-left <window>"
-  echo "  tmux-reorder move-right <window>"
+  echo "  tmux-reorder move-left <window> [steps]     # Move left by N steps (default 1)"
+  echo "  tmux-reorder move-right <window> [steps]    # Move right by N steps (default 1)"
   echo "  tmux-reorder swap <w1> <w2>"
   echo "  tmux-reorder to <window> <position>"
   echo "  tmux-reorder order <w1> <w2> [...]"
@@ -35,26 +35,84 @@ get_next_temp() {
 
 move_left() {
   local win=$1
-  local prev=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 < w {p=$0} END {print p}')
-  [[ -z "$prev" ]] && { echo "Window $win is already leftmost"; exit 1; }
+  local steps=${2:-1}
 
-  local temp=$(get_next_temp)
-  tmux move-window -s "$win" -t "$temp"
-  tmux move-window -s "$prev" -t "$win"
-  tmux move-window -s "$temp" -t "$prev"
-  echo "Swapped window $win ← → $prev"
+  # Validate window exists
+  tmux list-windows -t "${SESSION}" -F '#{window_index}' | grep -q "^${win}$" || {
+    echo "Error: window $win not found"
+    exit 1
+  }
+
+  # Validate steps parameter
+  if ! [[ "$steps" =~ ^[0-9]+$ ]] || [[ "$steps" -lt 1 ]]; then
+    echo "Error: steps must be a positive integer (got: $steps)"
+    exit 1
+  fi
+
+  # Perform the move step by step
+  for ((i = 0; i < steps; i++)); do
+    local prev=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 < w {p=$0} END {print p}')
+    [[ -z "$prev" ]] && {
+      if [[ $i -eq 0 ]]; then
+        echo "Error: window $win is already leftmost"
+      else
+        echo "Error: cannot move $steps steps left (hit leftmost boundary after $i steps)"
+      fi
+      exit 1
+    }
+
+    local temp=$(get_next_temp)
+    tmux move-window -s "$win" -t "$temp"
+    tmux move-window -s "$prev" -t "$win"
+    tmux move-window -s "$temp" -t "$prev"
+  done
+
+  if [[ $steps -eq 1 ]]; then
+    echo "Moved window $win left by 1 step"
+  else
+    echo "Moved window $win left by $steps steps"
+  fi
 }
 
 move_right() {
   local win=$1
-  local next=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 > w {print; exit}')
-  [[ -z "$next" ]] && { echo "Window $win is already rightmost"; exit 1; }
+  local steps=${2:-1}
 
-  local temp=$(get_next_temp)
-  tmux move-window -s "$win" -t "$temp"
-  tmux move-window -s "$next" -t "$win"
-  tmux move-window -s "$temp" -t "$next"
-  echo "Swapped window $win ← → $next"
+  # Validate window exists
+  tmux list-windows -t "${SESSION}" -F '#{window_index}' | grep -q "^${win}$" || {
+    echo "Error: window $win not found"
+    exit 1
+  }
+
+  # Validate steps parameter
+  if ! [[ "$steps" =~ ^[0-9]+$ ]] || [[ "$steps" -lt 1 ]]; then
+    echo "Error: steps must be a positive integer (got: $steps)"
+    exit 1
+  fi
+
+  # Perform the move step by step
+  for ((i = 0; i < steps; i++)); do
+    local next=$(tmux list-windows -t "${SESSION}" -F '#{window_index}' | awk -v w="$win" '$0 > w {print; exit}')
+    [[ -z "$next" ]] && {
+      if [[ $i -eq 0 ]]; then
+        echo "Error: window $win is already rightmost"
+      else
+        echo "Error: cannot move $steps steps right (hit rightmost boundary after $i steps)"
+      fi
+      exit 1
+    }
+
+    local temp=$(get_next_temp)
+    tmux move-window -s "$win" -t "$temp"
+    tmux move-window -s "$next" -t "$win"
+    tmux move-window -s "$temp" -t "$next"
+  done
+
+  if [[ $steps -eq 1 ]]; then
+    echo "Moved window $win right by 1 step"
+  else
+    echo "Moved window $win right by $steps steps"
+  fi
 }
 
 swap() {
@@ -131,8 +189,8 @@ if [[ -z "$SESSION" ]]; then
 fi
 
 case "$cmd" in
-  move-left)   move_left "${2:-}" ;;
-  move-right)  move_right "${2:-}" ;;
+  move-left)   move_left "${2:-}" "${3:-}" ;;
+  move-right)  move_right "${2:-}" "${3:-}" ;;
   swap)        swap "${2:-}" "${3:-}" ;;
   to)          move_to "${2:-}" "${3:-}" ;;
   order)       shift; reorder "$@" ;;
