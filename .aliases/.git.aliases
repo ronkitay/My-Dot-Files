@@ -183,7 +183,7 @@ alias gstatus='printHeader Git Status ;git status; printFooter'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 function gadd { printHeader Git Add ;git add $*; printFooter; }
 
-alias gdiff='git --no-pager diff'
+alias gdiff='git difftool'
 alias gdifff='GIT_PAGER=cat git diff --no-ext-diff'
 
 alias gunstage='git reset HEAD'
