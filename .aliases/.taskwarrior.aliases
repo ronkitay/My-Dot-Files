@@ -104,6 +104,23 @@ function rllist() {
     task all rc.context=none -COMPLETED -DELETED project:Read-List -ACTIVE limit=10 $*
 }
 
+function rltui() {
+    local SESSION="read-list"
+    local TUI="taskwarrior-tui --taskrc ${HOME}/.taskrc.readlist"
+
+    if ! tmux has-session -t "${SESSION}" 2>/dev/null; then
+        tmux new-session -d -s "${SESSION}" "${TUI} --report readlist"
+        tmux split-window -v -t "${SESSION}" "${TUI} --report readlist-pending"
+        tmux select-pane -t "${SESSION}:.{top}"
+    fi
+
+    if [ -n "${TMUX}" ]; then
+        tmux switch-client -t "${SESSION}"
+    else
+        tmux attach -t "${SESSION}"
+    fi
+}
+
 function tvadd() {
     if [ $# -ne 4 ]; then
         echo "Expecting exactly 4 arguments";
