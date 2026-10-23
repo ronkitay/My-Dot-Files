@@ -111,8 +111,11 @@ function rltui() {
     if ! tmux has-session -t "${SESSION}" 2>/dev/null; then
         tmux new-session -d -s "${SESSION}" "${TUI} --report readlist"
         tmux split-window -v -t "${SESSION}" "${TUI} --report readlist-pending"
-        tmux select-pane -t "${SESSION}:.{top}"
+        tmux select-pane -t "${SESSION}:.{bottom}" -T "Queue"
+        tmux select-pane -t "${SESSION}:.{top}" -T "Currently Reading"
     fi
+
+    tmux select-pane -t "${SESSION}:.{top}"
 
     if [ -n "${TMUX}" ]; then
         tmux switch-client -t "${SESSION}"
