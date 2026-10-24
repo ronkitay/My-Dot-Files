@@ -173,11 +173,6 @@ if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
 
-# vibe-kanban autocomplete
-_vibe_kanban() {
-    local -a commands
-    commands=(start stop status)
-    _describe 'command' commands
-}
-compdef _vibe_kanban vibe-kanban
 
+# Added by cua-driver-rs installer — see https://github.com/trycua/cua
+export PATH="/Users/ronk/.local/bin:$PATH"
