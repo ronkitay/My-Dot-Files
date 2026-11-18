@@ -120,7 +120,11 @@ source ${HOME}/.aliases/.tmux.aliases
 source ${HOME}/.aliases/.util.aliases
 
 export CODE_ROOT="${HOME}/code"
-export PERSONAL_CODE_ROOT="${CODE_ROOT}/personal"
+if [[ -d "${HOME}/Private/code" ]]; then
+        export PERSONAL_CODE_ROOT="${HOME}/Private/code/personal"
+else
+	export PERSONAL_CODE_ROOT="${CODE_ROOT}/personal"
+fi
 export OPENSOURCE_CODE_ROOT="${CODE_ROOT}/opensource"
 export WORK_CODE_ROOT="${CODE_ROOT}/work"
 
