@@ -179,4 +179,4 @@ fi
 
 
 # Added by cua-driver-rs installer — see https://github.com/trycua/cua
-export PATH="/Users/ronk/.local/bin:$PATH"
+export PATH="${HOME}/.local/bin:$PATH"
