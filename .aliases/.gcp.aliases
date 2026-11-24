@@ -3,3 +3,5 @@ if [ -f "${HOME}/tools/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/tools/g
 
 # The next line enables shell command completion for gcloud.
 if [ -f "${HOME}/tools/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/tools/google-cloud-sdk/completion.zsh.inc"; fi
+
+alias gcs='gcloud storage'
